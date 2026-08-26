@@ -1,0 +1,55 @@
+{
+  "files": [
+    {
+      "name": "money.json",
+      "sha256": "ed7bfed5d4383956f0944e01eb549d65fce33180f3a6789f3bf995374190c144"
+    },
+    {
+      "name": "loop_report.json",
+      "sha256": "d76cd36c63a9540efe77fcdf523f14437b65531a35185b0716eb4512dfe50842"
+    },
+    {
+      "name": "metrics_issuer.json",
+      "sha256": "d86663874718dd9f3960ccf4a4f1e275ab6b68b02a71f7f4e9b4a144080aea4b"
+    },
+    {
+      "name": "archive_report.json",
+      "sha256": "44075f63e1b10b81e9e840649df88da7937ec9247f752bc619f977798c053c15"
+    },
+    {
+      "name": "fidelity.json",
+      "sha256": "2f8f8dbcf41dc0f97e727d676429252442ba588c9a11985125837b656e93334e"
+    },
+    {
+      "name": "fidelity.html",
+      "sha256": "1c961b55a0d5083ebbd3739edf061ebea6c5ed2285a9805b1205820a87c8bdd4"
+    },
+    {
+      "name": "grammar_census.json",
+      "sha256": "ea34c58bbcf649481c64e9a1d5509ce3210f2dbcd68b8e27f2d9fe72e3d00195"
+    },
+    {
+      "name": "bench.json",
+      "sha256": "5ad5d1cd7a5dd55504d73c0ac970a08295173d5e9a33d5a720a75eae8af0ae9f"
+    },
+    {
+      "name": "verify_register.json",
+      "sha256": "749d3afcb9ce1957209db873736ad5d8935e152104afd2a07b42e89ef26261c4"
+    },
+    {
+      "name": "duallog.json",
+      "sha256": "590992cdfcfdff1a278cfe1a4270982900bc3a3545847d41c400fb9e054f4767"
+    },
+    {
+      "name": "report.md",
+      "sha256": "74b1fcb874febe30d042f2fad0593958ae93670df3817a260642ac3b0b31831d"
+    },
+    {
+      "name": "dual_use_reject_log.json",
+      "sha256": "14cc11160a970c83da4564a1810faff7d38a6832d7d2a7955f24e3bb7dd9eb02"
+    }
+  ],
+  "missing": [],
+  "n_files": 12,
+  "note": "The OFFLINE replay bundle: the primary demo artifact. The UI serves these committed files with no network access and no model training, so a venue with no wifi still works. Any live run is a bonus with a visible REPLAY badge."
+}

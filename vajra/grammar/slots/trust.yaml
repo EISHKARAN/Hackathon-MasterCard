@@ -1,0 +1,83 @@
+# TRUST — which trust envelope the attack inherits.
+#
+# This slot is behaviour-relevant but CELL-PRESERVING: it is not one of the four archive
+# axes, so a TRUST mutation always produces a same-cell sibling. That makes it part of the
+# EASY tier of sibling-transfer recall, and `make archive-report` prints the per-slot
+# observable-delta so a slot that moves nothing is visibly credited with nothing.
+#
+# The reason TRUST exists at all is that trust inheritance is the mechanism by which
+# GenAI-era attacks convert a *detected-shaped* transaction into a *trusted-shaped* one.
+# Successful frictionless-path gaming carries authenticated indicators, so downstream models
+# trust it and liability shifts to the issuer -- the attacker is optimising against the
+# liability grammar, not against the cryptography.
+
+slot: TRUST
+count: 7
+
+values:
+  - id: tokenised
+    label: Network or card-on-file token
+    description: >
+      The transaction rides a network token or a merchant card-on-file token. Tokenised
+      traffic is treated as higher trust and is merchant-scoped, so PAN-level rules stay
+      silent unless the observer holds the token-to-PAN map.
+    inherited_signal: token_assurance_level
+    observer_requirement: >
+      PAN-canonical aggregation requires the token-to-PAN map, which an acquirer or payee
+      PSP does not hold. This is a first-class entry in the visibility ablation.
+
+  - id: threeds-authenticated
+    label: 3DS-authenticated, liability shifted
+    description: >
+      An EMV 3DS authentication completed (frictionless or challenged) and the resulting
+      indicator shifts liability to the issuer. The envelope is the point: a synthesised but
+      internally consistent device/behaviour bundle that scores frictionless produces a
+      transaction downstream models are structurally predisposed to trust.
+    inherited_signal: threeds_authentication_result
+    observer_requirement: GATE-I sees its own ACS results; frictionless SHARE per merchant/ACS pair needs a network view.
+
+  - id: mandated
+    label: Standing mandate or e-mandate
+    description: >
+      A stored mandate object authorises recurring or merchant-initiated debits. Each
+      authorisation is individually valid; violation is visible only against the mandate
+      object, which fraud scorers usually never see.
+    inherited_signal: mandate_id
+    observer_requirement: The mandate object must be in the scoring view. GATE-I has it; a network-side scorer does not.
+
+  - id: cdcvm
+    label: Consumer-device CVM
+    description: >
+      A device-bound cardholder verification method (biometric or device passcode) was
+      performed. Requires a consumer device in the loop, which is what makes it
+      incompatible with keyed CNP and with any rail that has no consumer device.
+    inherited_signal: cvm_result
+    observer_requirement: GATE-I.
+
+  - id: agent-attested
+    label: Agent attestation or mandate signature
+    description: >
+      An agentic-commerce attestation or mandate signature accompanies the instruction.
+      "Bot-like" was historically a fraud prior and is now inverted; no agent-identity
+      reputation bureau exists and attribution across protocol hops is unsettled [VERIFY].
+    inherited_signal: agent_attestation_status
+    provenance_note: Field naming is ILLUSTRATIVE, declared so in the schema and in the UI [VERIFY agentic field naming and protocol status as of 2026].
+
+  - id: kyc-passed
+    label: Freshly KYC-cleared account
+    description: >
+      The account cleared KYC or V-CIP individually. Passing a supervised session is treated
+      as strong evidence, which is exactly why only POPULATION-level statistics reveal an
+      onboarding cohort.
+    inherited_signal: kyc_tier
+    observer_requirement: GATE-B. This envelope is invisible to any payer-side view.
+
+  - id: aged-account
+    label: Account aged to look established
+    description: >
+      The entity has accumulated enough age and low-value history that age-based and
+      velocity-baseline features score it as established. Velocity-ratio features score a
+      fresh entity as low risk BY CONSTRUCTION; this morpheme is the attack on the opposite
+      end of that same feature family.
+    inherited_signal: entity_age_days
+    observer_requirement: Any view, but the meaning differs per view -- an acquirer's "age" is MID age, not cardholder age.

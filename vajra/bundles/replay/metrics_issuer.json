@@ -1,0 +1,990 @@
+{
+  "abstention_price": {
+    "attack_abstention_rate": 0.05263157894736842,
+    "benign_abstention_rate_hard_benign_12": 0.0519252276721521,
+    "benign_abstention_rate_hard_benign_b": 0.007924528301886792,
+    "benign_abstention_rate_ordinary": 0.01558974358974359,
+    "benign_abstention_rate_overall": 0.03061520603598375,
+    "benign_abstention_rate_per_rail": {
+      "a2a-credit-transfer": 0.008236615499812805,
+      "aeps-microatm": 0.0,
+      "agentic-commerce": 0.0,
+      "card-clearing-dispute": 0.1599625818521983,
+      "card-cnp-3ds": 0.020689655172413793,
+      "card-cnp-keyed": 0.051490514905149054,
+      "card-cp-emv": 0.01038961038961039,
+      "card-token-provisioning": 0.14962962962962964,
+      "upi-autopay-mandate": 0.0,
+      "upi-collect": 0.01329022988505747,
+      "upi-lite-offline": 0.0,
+      "upi-pay": 0.011369645690111053
+    },
+    "note": "ABSTENTION IS PRICED, NOT FREE. These rates are reported next to every 'caught' number, because a system that abstains on everything has caught nothing."
+  },
+  "action_bands": {
+    "approve": {
+      "count_in_population": 13659,
+      "scaled_daily_count": 9841487,
+      "share": 0.9841487138842856
+    },
+    "auto_decline": {
+      "count_in_population": 18,
+      "scaled_daily_count": 12969,
+      "share": 0.001296923409467541
+    },
+    "friction": {
+      "count_in_population": 202,
+      "scaled_daily_count": 145544,
+      "share": 0.014554362706246847
+    },
+    "n_population": 13879,
+    "reference_volume_per_day": 10000000,
+    "review": {
+      "count_in_population": 0,
+      "scaled_daily_count": 0,
+      "share": 0.0
+    }
+  },
+  "approval_rate_delta": {
+    "approval_rate_delta_pp": -9.820592261690319,
+    "bps_match_gap": 0.057215027976461386,
+    "gate_approval_rate": 0.7642481446790115,
+    "guardrail_floor_pp": -0.05,
+    "incumbent_approval_rate": 0.8624540672959147,
+    "note": "Held at CONSTANT realised fraud basis points. Any detector can win by declining more; this is the comparison that removes that option.",
+    "realised_gate_fraud_bps": 16.86062788349583,
+    "target_fraud_bps": 16.91784291147229
+  },
+  "band_distinctness": {
+    "any_collapsed": true,
+    "collapsed": [
+      "card-token-provisioning: review == friction",
+      "card-token-provisioning: decline == review"
+    ],
+    "note": "A collapsed band empties part of the three-band decomposition. Reported rather than silently tolerated."
+  },
+  "baseline_replica": {
+    "contaminated_metrics_on_our_test_set": {
+      "contamination_share": 0.7511348079832841,
+      "evaluated_on": "our time-forward test window, INCLUDING rows the replica trained on",
+      "pr_auc": 0.8585635702591989,
+      "roc_auc": 0.9662146191378524,
+      "why_reported": "This is what a naive comparison would print, and it is INFLATED: a random split spans the whole timeline, so this share of our test window was in the replica's own training set. Reported so the inflation is visible rather than inherited."
+    },
+    "contamination_share_of_our_test_window": 0.7511348079832841,
+    "honest_metrics_on_our_test_set": {
+      "at_round_quantile_threshold": {
+        "accuracy": 0.9855240301100173,
+        "accuracy_caveat": "At this base rate a model that approves everything scores near-perfect accuracy. Accuracy is reported for completeness and is never a headline.",
+        "f1": 0.13793103448275862,
+        "fn": 19,
+        "fp": 31,
+        "fpr": 0.009035266686097347,
+        "precision": 0.11428571428571428,
+        "precision_ci": [
+          0.04535179333097357,
+          0.2595146864621381
+        ],
+        "recall": 0.17391304347826086,
+        "recall_ci": [
+          0.06978653563062565,
+          0.3713764764022614
+        ],
+        "threshold": 0.05913410303160191,
+        "tn": 3400,
+        "tp": 4
+      },
+      "evaluated_on": "OUR time-forward test window, minus the replica's own training rows",
+      "n_clean_rows": 3454,
+      "note": "Same model, same features, same library. The only differences are the six methodology choices, and this is what they cost.",
+      "pr_auc": 0.1861390424617174,
+      "precision_at_k": {
+        "ci_hi": 1.0,
+        "ci_lo": 0.4385029682449546,
+        "hits": 3,
+        "k_effective": 3,
+        "k_provenance": "derived from config/ops.yaml staffing (analysts x cases x shifts), scaled to this test population \u2014 the same k GATE is scored at",
+        "k_requested": 3,
+        "note": "k is DERIVED from staffing in config/ops.yaml, never chosen to flatter a curve. Alerts above review capacity are not alerts, they are a backlog.",
+        "precision_at_k": 1.0
+      },
+      "recall_at_0_1pct_fpr": {
+        "n_neg": 3431,
+        "n_pos": 23,
+        "note": "Realised FPR is reported next to the target because a mass point in the score distribution can make the exact target unreachable.",
+        "realised_fpr": 0.0008743806470416788,
+        "recall": 0.13043478260869565,
+        "target_fpr": 0.001,
+        "threshold": 0.36877745760667185
+      },
+      "reportable": true,
+      "roc_auc": 0.8381255306476753
+    },
+    "methodology": {
+      "detector_stack": "G1 only \u2014 no G0 guards, no G2 abstention, no GATE-B",
+      "labels": "FULLY MATURED, resolved at the end of all time (future-label leak)",
+      "reject_inference": "NONE (approved traffic treated as a random sample)",
+      "split": "RANDOM STRATIFIED (not time-forward)",
+      "threshold": "round quantile, not a cost matrix under a capacity constraint",
+      "unlabelled_rows": "TREATED AS NEGATIVE (no PU correction)"
+    },
+    "n_test_clean": 3454,
+    "n_test_random": 12851,
+    "n_train": 38554,
+    "not_handicapped": {
+      "features": "IDENTICAL feature matrix",
+      "hyperparameters": "IDENTICAL",
+      "library": "IDENTICAL library (LightGBM)",
+      "why": "Using a weaker library or fewer features would confound methodology with capability and make the comparison worthless. The only differences are the six methodology choices above, which is what makes the delta attributable."
+    },
+    "self_reported_headline": {
+      "accuracy_at_0_5": 0.991362539880165,
+      "note": "THIS is the headline a random-split submission puts on a slide. It is computed on a split where the same entities appear on both sides and against fully matured labels.",
+      "roc_auc": 0.8266603037295671,
+      "split": "random stratified"
+    },
+    "the_argument": "Three numbers from ONE model, one feature matrix and one library. (1) `self_reported_headline.roc_auc`: what a random-split submission puts on a slide. (2) `contaminated_metrics_on_our_test_set`: the same model on our time-forward test window WITHOUT removing the rows it already trained on -- this is what happens if you evaluate a random-split model on a temporal holdout naively, and it is inflated because a share of that window was in its own training set. (3) `honest_metrics_on_our_test_set`: the same model on the rows it genuinely never saw. The gap between (2) and (3) is a DIRECT MEASUREMENT of what a random split buys you, and the gap between (1) and (3) is what the whole protocol buys."
+  },
+  "controlled_comparison": {
+    "absolute": {
+      "baseline_replica": 0.4421052631578947,
+      "gate": 0.0,
+      "modelled_incumbent": 0.0
+    },
+    "baseline_arm_caveat": "The baseline arm is CONTAMINATED by construction: its random split spans the whole timeline, so 75.1% of this test window was in its own training set. That inflates the baseline arm and therefore makes the delta-vs-baseline CONSERVATIVE in our favour's opposite direction -- it understates our advantage rather than overstating it. Stated so the direction of the bias is unambiguous.",
+    "baseline_arm_contamination_share": 0.7511348079832841,
+    "delta_vs_baseline": {
+      "ci_hi": -0.328288770053476,
+      "ci_lo": -0.5574562455046751,
+      "is_delta": true,
+      "n": 13879,
+      "name": "recall_at_fixed_fpr: delta vs baseline-equivalent replica",
+      "note": "",
+      "reported_as": "-0.4421 (95% CI [-0.5575, -0.3283], n=13879)",
+      "spans_zero": false,
+      "value": -0.4421052631578947
+    },
+    "delta_vs_incumbent": {
+      "ci_hi": 0.0,
+      "ci_lo": 0.0,
+      "is_delta": true,
+      "n": 13879,
+      "name": "recall_at_fixed_fpr: delta vs modelled incumbent",
+      "note": "",
+      "reported_as": "no measured effect (point +0, 95% CI [+0, +0], n=13879)",
+      "spans_zero": true,
+      "value": 0.0
+    },
+    "metric": "recall_at_fixed_fpr",
+    "reporting_rule": "ANY DELTA WHOSE CI INCLUDES ZERO IS REPORTED AS 'NO MEASURED EFFECT', NOT AS A PASS. Absolute numbers appear only alongside both deltas.",
+    "target_fpr": 0.001
+  },
+  "headline": {
+    "pr_auc_average_precision": 0.015687185879541935,
+    "precision_at_k": {
+      "ci_hi": 0.5614970317550454,
+      "ci_lo": 5.551115123125783e-17,
+      "hits": 0,
+      "k_effective": 3,
+      "k_provenance": "derived from config/ops.yaml: 40 analysts x 60 cases x 1 shifts = 2400/day = 0.02400% of a 10,000,000-authorisation reference portfolio, scaled to this test population (13,879 rows)",
+      "k_requested": 3,
+      "note": "k is DERIVED from staffing in config/ops.yaml, never chosen to flatter a curve. Alerts above review capacity are not alerts, they are a backlog.",
+      "precision_at_k": 0.0
+    },
+    "precision_at_k_stable": {
+      "ci_hi": 0.06196311999474526,
+      "ci_lo": 0.007420393841889743,
+      "hits": 3,
+      "k_effective": 138,
+      "k_provenance": "STABILITY COMPANION at k=138. The capacity-derived k is 3 at this population size, and a precision estimated from 3 rows has an interval too wide to read. This is NOT the operational k; it is reported so the ranking quality is measurable at demo scale. The capacity k above governs.",
+      "k_requested": 138,
+      "note": "k is DERIVED from staffing in config/ops.yaml, never chosen to flatter a curve. Alerts above review capacity are not alerts, they are a backlog.",
+      "precision_at_k": 0.021739130434782608
+    },
+    "precision_recall_f1_at_operating_threshold": {
+      "accuracy": 0.9921464082426688,
+      "accuracy_caveat": "At this base rate a model that approves everything scores near-perfect accuracy. Accuracy is reported for completeness and is never a headline.",
+      "f1": 0.0,
+      "fn": 95,
+      "fp": 14,
+      "fpr": 0.0010156703424260012,
+      "precision": 0.0,
+      "precision_ci": [
+        1.3877787807814457e-17,
+        0.2153108027376358
+      ],
+      "recall": 0.0,
+      "recall_ci": [
+        0.0,
+        0.038864853539472964
+      ],
+      "threshold": 1.0,
+      "tn": 13770,
+      "tp": 0
+    },
+    "recall_at_fixed_fpr": {
+      "n_neg": 13784,
+      "n_pos": 95,
+      "note": "Realised FPR is reported next to the target because a mass point in the score distribution can make the exact target unreachable.",
+      "realised_fpr": 0.0010156703424260012,
+      "recall": 0.0,
+      "target_fpr": 0.001,
+      "threshold": 1.0
+    },
+    "roc_auc": {
+      "value": 0.7329027552921771,
+      "why_not_headline": "At a 0.1-0.5% positive rate ROC-AUC is dominated by the true-negative mass and is near-1 for any competent model, which is why every submission reports 0.99 and none of the numbers are comparable. Computed because refusing to compute a number a judge asks for reads as evasion."
+    },
+    "value_detection_rate": {
+      "attempted_inr": 1812104.34,
+      "caught_inr": 0.0,
+      "count_recall": 0.0,
+      "divergence_note": "VDR and count-recall diverge whenever the attack mix spans amount scales. Both are reported because the divergence is the informative part.",
+      "vdr": 0.0
+    }
+  },
+  "headline_label_channel_agreement": {
+    "n_positives": 139,
+    "n_positives_that_are_not_attacks": 44,
+    "n_positives_that_are_oracle_attacks": 95,
+    "pr_auc_average_precision": 0.02146594455649397,
+    "precision_recall_f1_at_operating_threshold": {
+      "accuracy": 0.9889761510195259,
+      "accuracy_caveat": "At this base rate a model that approves everything scores near-perfect accuracy. Accuracy is reported for completeness and is never a headline.",
+      "f1": 0.0,
+      "fn": 139,
+      "fp": 14,
+      "fpr": 0.0010189228529839884,
+      "precision": 0.0,
+      "precision_ci": [
+        1.3877787807814457e-17,
+        0.2153108027376358
+      ],
+      "recall": 0.0,
+      "recall_ci": [
+        0.0,
+        0.026893164298442428
+      ],
+      "threshold": 1.0,
+      "tn": 13726,
+      "tp": 0
+    },
+    "recall_at_fixed_fpr": {
+      "n_neg": 13740,
+      "n_pos": 139,
+      "note": "Realised FPR is reported next to the target because a mass point in the score distribution can make the exact target unreachable.",
+      "realised_fpr": 0.0010189228529839884,
+      "recall": 0.0,
+      "target_fpr": 0.001,
+      "threshold": 1.0
+    },
+    "roc_auc": 0.7336697454263663,
+    "what_this_measures": "Agreement with the REALISED LABEL CHANNEL: oracle attacks UNION rows the label engine actually marked positive by the end of the test window. This is the honest answer to 'how well would you have matched the operations floor', and it is NOT the attack-detection headline, because a third of its positives are not attacks -- they are false complaints on benign traffic, analyst wrong-disposition, and friendly fraud. Reported so that both quantities are visible and neither is smuggled into the other."
+  },
+  "leakage": {
+    "findings": [
+      {
+        "control": "commit_order_audit",
+        "detail": "not a git repository, so commit order cannot be verified. This is reported as a SKIP rather than a PASS: the sealing claim rests on `git log`, and without a repo there is no evidence either way.",
+        "evidence": {
+          "how_to_make_it_real": "git init; git add grammar/ config/ docs/ sim/schema.py; git commit -m 'grammar + sealed manifest, before any modelling'; then git add features/ gate/ and commit separately. See README section 'Making the seal real'."
+        },
+        "level": "simulator",
+        "status": "SKIPPED-UNVERIFIABLE"
+      },
+      {
+        "control": "rng_stream_audit",
+        "detail": "all 24 families derive distinct KDF-derived RNG streams",
+        "evidence": {
+          "n_distinct_seeds": 24,
+          "n_families": 24,
+          "why": "Separate streams are what make adding a training campaign unable to shift a held-out family's draws. With one global generator, 'held out' would silently become 'generated from a state the training data determined'."
+        },
+        "level": "simulator",
+        "status": "PASS"
+      },
+      {
+        "control": "label_time_audit",
+        "detail": "every resolved label arrived within the window and after its own event",
+        "evidence": {
+          "max_as_of_ts": 1773927977.1990378,
+          "n_backwards_labels": 0,
+          "n_future_labels": 0,
+          "n_resolved": 2619,
+          "n_rows": 51405,
+          "window_end_ts": 1773940498.164273
+        },
+        "level": "label",
+        "status": "PASS"
+      },
+      {
+        "control": "entity_audit",
+        "detail": "no entity id is shared between training rows and holdout-family rows",
+        "evidence": {
+          "keys_checked": [
+            "beneficiary_id",
+            "campaign_id",
+            "cardholder_id",
+            "device_fingerprint_id"
+          ],
+          "n_holdout_rows": 9204,
+          "n_train_rows": 23205,
+          "shared_sample": {},
+          "why_it_matters": "Withholding the label while training on the same device node is not a holdout. The aggregate carries the information even when no row crosses the boundary."
+        },
+        "level": "aggregate",
+        "status": "PASS"
+      },
+      {
+        "control": "statistic_fit_audit",
+        "detail": "cohort baselines, quantile edges and cold-start priors were fitted causally on the training window with holdout-family rows excluded",
+        "evidence": {
+          "exclusions_note": "The features listed above are structural graph or modal-comparison properties rather than time series. They are NOT strictly point-in-time, and the exclusion is listed here so it is auditable rather than discovered.",
+          "reference_stats": {
+            "causality_note": "Fitted on the TRAINING WINDOW ONLY with holdout-family rows excluded, then frozen and applied forward. eval/leakage/statistic_fit.py asserts it.",
+            "fitted_on_n_rows": 23205,
+            "fitted_window_end_ts": 1773068681.1967127,
+            "global_prior_rate": 0.10621062106210621,
+            "holdout_rows_excluded": 5068,
+            "modal_inter_arrival_log": 7.709836776923596,
+            "n_bin_priors": 8,
+            "n_cohort_priors": 15,
+            "n_geo_priors": 6,
+            "n_mcc_medians": 24
+          },
+          "strict_causality_exclusions": {
+            "acceptor_descriptor_mismatch": "compares against the acceptor's MODAL descriptor over its history",
+            "sketch_address_node_density": "structural graph property, not a time series",
+            "sketch_device_shared_entity_count": "structural graph property, not a time series",
+            "sketch_fingerprint_collision_degree": "structural graph property, not a time series",
+            "traffic_geo_vs_registered_geo": "compares against the acceptor's MODAL geo cell over its history",
+            "txn_note_template_score": "compares against the payee's MODAL transaction note"
+          },
+          "train_boundary_ts": 1773068682.8427646
+        },
+        "level": "statistic",
+        "status": "PASS"
+      },
+      {
+        "control": "leakage_linter",
+        "detail": "no feature name, detector config or rule string references a held-out family id",
+        "evidence": {
+          "hits": [],
+          "n_features_scanned": 388,
+          "tokens_checked": [
+            "SEALED-01",
+            "SEALED-02",
+            "SEALED-03",
+            "SEALED-04",
+            "SEALED-05",
+            "SEALED-06",
+            "SEALED-07",
+            "SEALED-08",
+            "SEALED-09",
+            "SEALED-10",
+            "SEALED-11",
+            "SEALED-12",
+            "low-visibility-rail"
+          ]
+        },
+        "level": "feature",
+        "status": "PASS"
+      }
+    ],
+    "n_controls": 6,
+    "n_failed": 0,
+    "n_skipped_unverifiable": 1,
+    "passed": true,
+    "policy": "Any FAIL fails the build. A SKIPPED-UNVERIFIABLE is reported as a skip and never counted as a pass \u2014 a pass we did not earn would be the most misleading line in the whole report."
+  },
+  "population": {
+    "base_rate_configured": 0.005,
+    "base_rate_realised_oracle": 0.006844873549967577,
+    "label_maturity": {
+      "median_days_to_label": 0.2562164284109517,
+      "n_rows": 13879,
+      "n_unlabelled": 13211,
+      "n_visible_positives": 90,
+      "note": "Reported with EVERY window. Recall against 30% matured labels and recall against 100% are not the same metric; the unlabelled share is what the nnPU / Elkan-Noto correction is applied to, because absence of a label is not evidence of legitimacy.",
+      "share_unlabelled": 0.951869731248649,
+      "share_with_any_visible_label": 0.048130268751350964,
+      "window_end_ts": 1773940498.164273
+    },
+    "n_positives_oracle": 95,
+    "n_positives_pointintime": 90,
+    "n_test_rows": 13879,
+    "row_cap_applied": 0
+  },
+  "queue_ceiling": {
+    "alert_budget_share": 0.00024,
+    "base_rate": 0.005,
+    "implied_frauds_per_day": 50000,
+    "note": "The review band alone cannot exceed this recall BEFORE precision is even discussed. Reported at every swept base rate, because the ceiling moves with the base rate.",
+    "reference_volume_per_day": 10000000,
+    "review_band_recall_ceiling": 0.048,
+    "staffed_alert_budget_per_day": 2400,
+    "staffing": {
+      "analysts": 40,
+      "cases_per_analyst_per_shift": 60,
+      "shifts_per_day": 1
+    }
+  },
+  "reportable": {
+    "is_reportable": false,
+    "minimum_for_headline": 100,
+    "n_positives_in_test_window": 95,
+    "note": "A headline metric computed from a handful of positives is not a result. When this is false the numbers are WIRING EVIDENCE and must not be quoted."
+  },
+  "sealed_holdout_recall": {
+    "at_operating_threshold": 1.0,
+    "generalisation_gap": 0.0,
+    "per_sealed_family_recall": {
+      "ATK-C3": {
+        "n_attacks": 8,
+        "recall": 0.0
+      },
+      "ATK-D3": {
+        "n_attacks": 3,
+        "recall": 0.0
+      },
+      "ATK-M2": {
+        "n_attacks": 11,
+        "recall": 0.0
+      },
+      "ATK-T3": {
+        "n_attacks": 12,
+        "recall": 0.0
+      }
+    },
+    "sealed_compositions": {
+      "n_attacks": 34,
+      "recall": 0.0
+    },
+    "sealed_manifest_sha256": "950d31c9fd74e4ebaf2eead7320e0f7f69f2a0457cdb053e5078f4138c9bc48e",
+    "trainable_compositions": {
+      "n_attacks": 61,
+      "recall": 0.0
+    },
+    "what_this_measures": "Recall on attack COMPOSITIONS that were never trained on, against compositions that were. The sealed set is the manifest's families plus a leave-one-morpheme-out arm (EVASION=low-visibility-rail). A gap here is the honest cost of generalisation; no gap would suggest the holdout is not actually held out.",
+    "withheld_evasion_morpheme": "low-visibility-rail"
+  },
+  "stratified": {
+    "cohort_false_positive_rates": {
+      "authorship": "These cohorts are OUR construction, not a validated public benchmark. The claim is 'we tested the twelve hardest benign cases we could specify', not 'we tested the industry's'.",
+      "hard_benign_12": {
+        "fpr": 0.0022367790381850137,
+        "n": 6259,
+        "per_cohort": {
+          "hb12_bereavement": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 314,
+            "realised_mde_pp": 0.7067,
+            "wilson_ci": [
+              0.0,
+              0.012086084788772732
+            ]
+          },
+          "hb12_festival_travel": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 327,
+            "realised_mde_pp": 0.6925,
+            "wilson_ci": [
+              0.0,
+              0.01161117725205074
+            ]
+          },
+          "hb12_first_high_ticket": {
+            "false_positives": 1,
+            "fpr": 0.0032258064516129032,
+            "n": 310,
+            "realised_mde_pp": 0.7112,
+            "wilson_ci": [
+              0.0005696611854932691,
+              0.018043108595288
+            ]
+          },
+          "hb12_gig_fanin": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 629,
+            "realised_mde_pp": 0.4993,
+            "wilson_ci": [
+              0.0,
+              0.006070175661140658
+            ]
+          },
+          "hb12_joint_account": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 326,
+            "realised_mde_pp": 0.6936,
+            "wilson_ci": [
+              0.0,
+              0.011646379549826056
+            ]
+          },
+          "hb12_medical_fd_liquidation": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 675,
+            "realised_mde_pp": 0.482,
+            "wilson_ci": [
+              4.336808689942018e-19,
+              0.0056588453324103605
+            ]
+          },
+          "hb12_new_phone_reprovision": {
+            "false_positives": 12,
+            "fpr": 0.0169971671388102,
+            "n": 706,
+            "realised_mde_pp": 0.4713,
+            "wilson_ci": [
+              0.009749363274613695,
+              0.029472717198044174
+            ]
+          },
+          "hb12_nri_remittance": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 878,
+            "realised_mde_pp": 0.4226,
+            "wilson_ci": [
+              0.0,
+              0.004356178519698306
+            ]
+          },
+          "hb12_relocation": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 397,
+            "realised_mde_pp": 0.6285,
+            "wilson_ci": [
+              0.0,
+              0.009583486778029367
+            ]
+          },
+          "hb12_seasonal_merchant_ramp": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 700,
+            "realised_mde_pp": 0.4733,
+            "wilson_ci": [
+              0.0,
+              0.005457846753060833
+            ]
+          },
+          "hb12_student_fee": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 676,
+            "realised_mde_pp": 0.4816,
+            "wilson_ci": [
+              0.0,
+              0.0056505215603617626
+            ]
+          },
+          "hb12_wedding": {
+            "false_positives": 1,
+            "fpr": 0.003115264797507788,
+            "n": 321,
+            "realised_mde_pp": 0.699,
+            "wilson_ci": [
+              0.0005501325629956571,
+              0.017432359086626235
+            ]
+          }
+        },
+        "realised_mde_pp": 0.1583,
+        "wilson_ci": [
+          0.0013329086200433553,
+          0.003751278650232834
+        ]
+      },
+      "hard_benign_b": {
+        "fpr": 0.0,
+        "n": 2650,
+        "per_cohort": {
+          "hbb_community_chit_collection": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 400,
+            "realised_mde_pp": 0.6261,
+            "wilson_ci": [
+              8.673617379884035e-19,
+              0.009512294334296508
+            ]
+          },
+          "hbb_festival_street_vendor": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 365,
+            "realised_mde_pp": 0.6555,
+            "wilson_ci": [
+              0.0,
+              0.010414932293610691
+            ]
+          },
+          "hbb_freelancer_foreign_inbound": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 538,
+            "realised_mde_pp": 0.5399,
+            "wilson_ci": [
+              0.0,
+              0.007089636199221401
+            ]
+          },
+          "hbb_new_gig_aggregator_payee": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 360,
+            "realised_mde_pp": 0.66,
+            "wilson_ci": [
+              0.0,
+              0.010558056888693507
+            ]
+          },
+          "hbb_school_fee_collection": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 522,
+            "realised_mde_pp": 0.5481,
+            "wilson_ci": [
+              0.0,
+              0.007305355552050563
+            ]
+          },
+          "hbb_week_old_small_merchant": {
+            "false_positives": 0,
+            "fpr": 0.0,
+            "n": 465,
+            "realised_mde_pp": 0.5807,
+            "wilson_ci": [
+              0.0,
+              0.008193513496773056
+            ]
+          }
+        },
+        "realised_mde_pp": 0.2433,
+        "wilson_ci": [
+          1.0842021724855044e-19,
+          0.0014475087831362695
+        ]
+      },
+      "n_required_for_0_05pp_mde": 78390,
+      "ordinary_benign": {
+        "fpr": 0.0,
+        "n": 4875
+      },
+      "restated_guardrail": "The design's +-0.05pp guardrail needs ~1e5-1e6 rows per cohort per arm. What we assert is: UPPER BOUND OF THE BOOTSTRAP 95% CI ON FP MOVEMENT <= +0.25pp, with the realised MDE printed beside every cohort.",
+      "threshold": 1.0
+    },
+    "per_family_recall": {
+      "families": {
+        "ATK-A1": {
+          "caught": 0,
+          "interval_width": 0.4898908364545973,
+          "n_positives": 4,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            0.0,
+            0.4898908364545973
+          ]
+        },
+        "ATK-C3": {
+          "caught": 0,
+          "interval_width": 0.32440756488388023,
+          "n_positives": 8,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            0.0,
+            0.32440756488388023
+          ]
+        },
+        "ATK-D1": {
+          "caught": 0,
+          "interval_width": 0.13319225093904846,
+          "n_positives": 25,
+          "recall": 0.0,
+          "underpowered": false,
+          "wilson_ci": [
+            1.3877787807814457e-17,
+            0.13319225093904846
+          ]
+        },
+        "ATK-D3": {
+          "caught": 0,
+          "interval_width": 0.5614970317550454,
+          "n_positives": 3,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            5.551115123125783e-17,
+            0.5614970317550454
+          ]
+        },
+        "ATK-M1": {
+          "caught": 0,
+          "interval_width": 0.1936076805344365,
+          "n_positives": 16,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            0.0,
+            0.1936076805344365
+          ]
+        },
+        "ATK-M2": {
+          "caught": 0,
+          "interval_width": 0.2588329669680317,
+          "n_positives": 11,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            0.0,
+            0.2588329669680317
+          ]
+        },
+        "ATK-M3": {
+          "caught": 0,
+          "interval_width": 0.43448246478317476,
+          "n_positives": 5,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            0.0,
+            0.43448246478317476
+          ]
+        },
+        "ATK-S1": {
+          "caught": 0,
+          "interval_width": 0.32440756488388023,
+          "n_positives": 8,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            0.0,
+            0.32440756488388023
+          ]
+        },
+        "ATK-T3": {
+          "caught": 0,
+          "interval_width": 0.24249400665524082,
+          "n_positives": 12,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            2.7755575615628914e-17,
+            0.24249400665524085
+          ]
+        },
+        "ATK-T4": {
+          "caught": 0,
+          "interval_width": 0.5614970317550454,
+          "n_positives": 3,
+          "recall": 0.0,
+          "underpowered": true,
+          "wilson_ci": [
+            5.551115123125783e-17,
+            0.5614970317550454
+          ]
+        }
+      },
+      "families_at_zero_recall": [
+        "ATK-A1",
+        "ATK-C3",
+        "ATK-D1",
+        "ATK-D3",
+        "ATK-M1",
+        "ATK-M2",
+        "ATK-M3",
+        "ATK-S1",
+        "ATK-T3",
+        "ATK-T4"
+      ],
+      "n_families": 10,
+      "policy": "No aggregation and NO MINIMUM TARGET. Families at zero recall are NAMED, because a pooled number would hide exactly the families that matter most.",
+      "threshold": 1.0
+    },
+    "per_rail": {
+      "a2a-credit-transfer": {
+        "n": 2671,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      },
+      "aeps-microatm": {
+        "n": 80,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      },
+      "agentic-commerce": {
+        "n": 26,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      },
+      "card-clearing-dispute": {
+        "n": 1098,
+        "n_positives": 29,
+        "pr_auc": 0.05941401738072448,
+        "recall_at_fpr": {
+          "n_neg": 1069,
+          "n_pos": 29,
+          "note": "Realised FPR is reported next to the target because a mass point in the score distribution can make the exact target unreachable.",
+          "realised_fpr": 0.0009354536950420954,
+          "recall": 0.0,
+          "target_fpr": 0.001,
+          "threshold": 0.07380169212917863
+        },
+        "reportable": true,
+        "roc_auc": 0.5959646463017322
+      },
+      "card-cnp-3ds": {
+        "n": 1025,
+        "n_positives": 10,
+        "pr_auc": 0.009759434130766645,
+        "recall_at_fpr": {
+          "n_neg": 1015,
+          "n_pos": 10,
+          "note": "Realised FPR is reported next to the target because a mass point in the score distribution can make the exact target unreachable.",
+          "realised_fpr": 0.0019704433497536944,
+          "recall": 0.0,
+          "target_fpr": 0.001,
+          "threshold": 1.0
+        },
+        "reportable": true,
+        "roc_auc": 0.4348768472906404
+      },
+      "card-cnp-keyed": {
+        "n": 409,
+        "n_positives": 40,
+        "pr_auc": 0.13166227817129253,
+        "recall_at_fpr": {
+          "n_neg": 369,
+          "n_pos": 40,
+          "note": "Realised FPR is reported next to the target because a mass point in the score distribution can make the exact target unreachable.",
+          "realised_fpr": 0.0,
+          "recall": 0.0,
+          "target_fpr": 0.001,
+          "threshold": 0.8894912788180064
+        },
+        "reportable": true,
+        "roc_auc": 0.5369579945799458
+      },
+      "card-cp-emv": {
+        "n": 770,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      },
+      "card-token-provisioning": {
+        "n": 675,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      },
+      "upi-autopay-mandate": {
+        "n": 291,
+        "n_positives": 16,
+        "pr_auc": 0.2956501400514194,
+        "recall_at_fpr": {
+          "n_neg": 275,
+          "n_pos": 16,
+          "note": "Realised FPR is reported next to the target because a mass point in the score distribution can make the exact target unreachable.",
+          "realised_fpr": 0.0,
+          "recall": 0.0,
+          "target_fpr": 0.001,
+          "threshold": 0.07086577501826627
+        },
+        "reportable": true,
+        "roc_auc": 0.6498863636363637
+      },
+      "upi-collect": {
+        "n": 2784,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      },
+      "upi-lite-offline": {
+        "n": 268,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      },
+      "upi-pay": {
+        "n": 3782,
+        "n_positives": 0,
+        "reportable": false,
+        "why": "no positives or no negatives on this rail in this window"
+      }
+    },
+    "recall_by_entity_age": {
+      "cold_start_note": "The 0-1d bucket is reported WITHOUT EXCUSE. A model that only works on aged entities is a model that only works on the fraud you already stopped.",
+      "strata": {
+        "0-1d": {
+          "caught": 0,
+          "n_positives": 2,
+          "recall": 0.0,
+          "wilson_ci": [
+            0.0,
+            0.6576197724933469
+          ]
+        },
+        "1-7d": {
+          "caught": 0,
+          "n_positives": 8,
+          "recall": 0.0,
+          "wilson_ci": [
+            0.0,
+            0.32440756488388023
+          ]
+        },
+        "30d+": {
+          "caught": 0,
+          "n_positives": 76,
+          "recall": 0.0,
+          "wilson_ci": [
+            0.0,
+            0.048113585065137326
+          ]
+        },
+        "7-30d": {
+          "caught": 0,
+          "n_positives": 1,
+          "recall": 0.0,
+          "wilson_ci": [
+            0.0,
+            0.7934506856227626
+          ]
+        },
+        "unknown": {
+          "caught": 0,
+          "n_positives": 8,
+          "recall": 0.0,
+          "wilson_ci": [
+            0.0,
+            0.32440756488388023
+          ]
+        }
+      },
+      "threshold": 1.0
+    }
+  },
+  "visibility_ablation": {
+    "full_feature_recall": 0.0,
+    "no_floor_set": "We expect recall materially lower at the acquirer and payee-PSP views and set NO FLOOR there. An acquirer cannot construct PAN-canonical aggregation because it does not hold the token-to-PAN map; the features are ABSENT, not zeroed.",
+    "per_view": {
+      "issuer": {
+        "delta_vs_full": 0.0,
+        "recall": 0.0,
+        "share_of_full": NaN
+      }
+    }
+  }
+}

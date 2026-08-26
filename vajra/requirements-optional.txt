@@ -1,0 +1,20 @@
+# VAJRA — optional dependencies.
+#
+# Every consumer of these imports lazily and records a visible SKIP in the report
+# when the import fails. `make all` is green and honest without any of them; what
+# changes is that the corresponding result reads SKIPPED-DEPENDENCY-ABSENT instead
+# of carrying a number. Nothing in this file is on the inline scoring path.
+#
+#   torch     -> gate/g3_sequence (GRU) and gate/g4_graph (RGCN).  Cut-list items 2-3.
+#   treelite  -> gate/g1_tabular Treelite .so export.  Without it the scorer uses the
+#               LightGBM predictor directly, which is slower; bench/ reports which
+#               predictor produced the measured p99 rather than claiming the fast one.
+#   ctgan     -> fidelity/f2_discriminator CTGAN control arm.  Without it the F2 table
+#               reports the CTGAN row as absent instead of fabricating it.
+#
+# Install with:  pip install -r requirements-optional.txt
+
+torch>=2.4
+treelite>=4.3
+tl2cgen>=1.0
+ctgan>=0.10

@@ -1,0 +1,303 @@
+# Semantic <-> exact field mapping. SWAPPABLE DATA, NEVER LOGIC.
+#
+# ============================== WHY THIS FILE IS SEPARATE ================================
+# Exact ISO 8583 / ISO 20022 / EMV 3DS / NPCI element identifiers appear ONLY here. They never
+# reach a screen, a slide, or a spoken sentence. One wrong subelement number stated confidently
+# to a payments judge costs the room, and the protection has to be structural rather than a
+# reminder: the UI reads sim/schema.py's semantic names, and `make sim` asserts that no
+# `verified: false` exact identifier is reachable from any UI-facing surface.
+#
+# `verified: false` means WE HAVE NOT CHECKED IT AGAINST A PRIMARY SPEC. Almost every entry is
+# false, and that is the honest state after three weeks with no spec licences. The count of
+# false entries is printed by `make verify` and appears in VERIFY_REGISTER.md.
+#
+# Nothing in the pipeline BRANCHES on an exact identifier. They exist so that an institution
+# mapping its own fields onto ours has a starting point, and so that the claim "our schema is
+# grounded in real message structure" is checkable rather than atmospheric.
+# ========================================================================================
+
+spec_versions_assumed:
+  iso8583: "1987/1993 dual-message, network-profile dependent"
+  iso20022: "pacs.008.001.xx / pacs.002.001.xx"
+  emv_3ds: "EMV 3-D Secure 2.x"
+  upi: "NPCI UPI API, version unstated"
+  note: >
+    All four are [VERIFY]. Networks and PSOs carry their own profiles and subelement
+    assignments, and a version difference changes numbering. We do not name a version we have
+    not read.
+
+mappings:
+
+  # ---- authorisation core ------------------------------------------------------------
+  - semantic: amount_inr
+    spec: iso8583
+    exact: "DE4 (transaction amount), minor units"
+    verified: false
+  - semantic: pan_canonical
+    spec: iso8583
+    exact: "DE2 (primary account number)"
+    verified: false
+    note: >
+      In our schema this is the ISSUER-ONLY canonical key. An acquirer or payee PSP holds no
+      token-to-PAN map and therefore cannot construct it -- a first-class entry in the
+      visibility ablation, not a footnote.
+  - semantic: pos_entry_mode
+    spec: iso8583
+    exact: "DE22 (point of service entry mode), positions 1-2"
+    verified: false
+    note: >
+      Our values are SEMANTIC ("chip", "contactless_no_cvm", "magstripe_fallback"). We do not
+      publish the numeric mode codes because we have not verified the per-network table.
+  - semantic: mcc
+    spec: iso8583
+    exact: "DE18 (merchant category code)"
+    verified: false
+  - semantic: acceptor_descriptor
+    spec: iso8583
+    exact: "DE43 (card acceptor name/location)"
+    verified: false
+  - semantic: terminal_id
+    spec: iso8583
+    exact: "DE41 (card acceptor terminal identification)"
+    verified: false
+  - semantic: merchant_id
+    spec: iso8583
+    exact: "DE42 (card acceptor identification code)"
+    verified: false
+  - semantic: response_code
+    spec: iso8583
+    exact: "DE39 (response code)"
+    verified: false
+    note: >
+      Our values are SEMANTIC ("declined_cvv2_mismatch"). Reason-code semantics differ per
+      network and spec version, which is itself an ATK-C1 observable -- the attacker reads the
+      differences. We model the differences as semantic classes, not as codes.
+  - semantic: rrn
+    spec: iso8583
+    exact: "DE37 (retrieval reference number)"
+    verified: false
+  - semantic: trace_number
+    spec: iso8583
+    exact: "DE11 (system trace audit number)"
+    verified: false
+  - semantic: cvm_result
+    spec: emv
+    exact: "CVM Results (tag 9F34)"
+    verified: false
+  - semantic: terminal_verification_result
+    spec: emv
+    exact: "Terminal Verification Results (tag 95)"
+    verified: false
+    note: Our value is a SEMANTIC SUMMARY string. Raw TVR bits never appear on any surface.
+  - semantic: avs_result
+    spec: iso8583
+    exact: "address verification result, network-specific private-use field"
+    verified: false
+  - semantic: cvv2_result
+    spec: iso8583
+    exact: "card verification result, network-specific private-use field"
+    verified: false
+  - semantic: exemption_flag
+    spec: iso8583
+    exact: "SCA exemption indicator, network-specific"
+    verified: false
+    note: Exemption scope and threshold values per jurisdiction are [VERIFY].
+
+  # ---- EMV cryptogram block ----------------------------------------------------------
+  - semantic: emv_cryptogram_present
+    spec: emv
+    exact: "Application Cryptogram (tag 9F26) present"
+    verified: false
+  - semantic: emv_cryptogram_atc
+    spec: emv
+    exact: "Application Transaction Counter (tag 9F36)"
+    verified: false
+    note: ATC monotonicity per card is an F1 invariant that FAILS THE BUILD, and a G0 guard.
+  - semantic: emv_unpredictable_number
+    spec: emv
+    exact: "Unpredictable Number (tag 9F37)"
+    verified: false
+  - semantic: issuer_application_data_consistent
+    spec: emv
+    exact: "Issuer Application Data (tag 9F10) consistency with card profile"
+    verified: false
+    note: >
+      A DERIVED BOOLEAN, not a field. Real IAD is issuer-proprietary and we do not model its
+      internals; what we model is whether it is consistent with the card profile.
+
+  # ---- 3DS authentication block ------------------------------------------------------
+  - semantic: threeds_authentication_result
+    spec: emv_3ds
+    exact: "transStatus in ARes/RReq"
+    verified: false
+  - semantic: threeds_eci
+    spec: emv_3ds
+    exact: "eci (electronic commerce indicator), network-specific value set"
+    verified: false
+    note: >
+      Our values are SEMANTIC BANDS ("authenticated", "attempted", "not_authenticated") because
+      ECI value sets differ per network and we have not verified either table.
+  - semantic: threeds_acs_id
+    spec: emv_3ds
+    exact: "acsOperatorID / acsReferenceNumber"
+    verified: false
+  - semantic: threeds_device_channel
+    spec: emv_3ds
+    exact: "deviceChannel"
+    verified: false
+  - semantic: threeds_screen_wh
+    spec: emv_3ds
+    exact: "browserScreenWidth / browserScreenHeight"
+    verified: false
+  - semantic: threeds_ua_family
+    spec: emv_3ds
+    exact: "browserUserAgent (family only; we never emit a full UA string)"
+    verified: false
+  - semantic: threeds_timezone_offset_min
+    spec: emv_3ds
+    exact: "browserTZ"
+    verified: false
+  - semantic: threeds_language
+    spec: emv_3ds
+    exact: "browserLanguage"
+    verified: false
+  - semantic: threeds_ip_asn
+    spec: emv_3ds
+    exact: "browserIP, resolved to ASN"
+    verified: false
+    note: We store the ASN, never an IP address. No PII, ever.
+  - semantic: threeds_field_population_score
+    spec: derived
+    exact: "share of optional 3DS request fields populated"
+    verified: false
+    note: >
+      DERIVED, not a spec field. It is the load-bearing ATK-C4 observable: a synthesised
+      authentication telemetry bundle is internally IMPLAUSIBLE before it is anomalous.
+
+  # ---- tokenisation ------------------------------------------------------------------
+  - semantic: token_id
+    spec: network_token
+    exact: "payment token / DPAN"
+    verified: false
+  - semantic: token_requestor_id
+    spec: network_token
+    exact: "token requestor identifier"
+    verified: false
+  - semantic: token_assurance_level
+    spec: network_token
+    exact: "token assurance level / ID&V outcome band"
+    verified: false
+
+  # ---- clearing and dispute ----------------------------------------------------------
+  - semantic: settlement_amount_inr
+    spec: iso8583
+    exact: "DE5 (settlement amount) / clearing presentment amount"
+    verified: false
+  - semantic: dispute_reason_code
+    spec: network_dispute
+    exact: "chargeback reason code, network-specific"
+    verified: false
+    note: >
+      Our values are SEMANTIC CLASSES. Network reporting semantics, deadlines,
+      compelling-evidence rule versions and monitoring-programme thresholds are all [VERIFY],
+      and the label engine's timings are SWEPT PARAMETERS rather than asserted deadlines.
+
+  # ---- ISO 20022 A2A -----------------------------------------------------------------
+  - semantic: pacs_end_to_end_id
+    spec: iso20022
+    exact: "PmtId/EndToEndId in pacs.008"
+    verified: false
+  - semantic: pacs_status_code
+    spec: iso20022
+    exact: "TxInfAndSts/TxSts in pacs.002"
+    verified: false
+  - semantic: creditor_name_string
+    spec: iso20022
+    exact: "Cdtr/Nm"
+    verified: false
+  - semantic: remittance_info
+    spec: iso20022
+    exact: "RmtInf/Ustrd"
+    verified: false
+  - semantic: creditor_name_match_score
+    spec: derived
+    exact: "confirmation-of-payee name-match outcome"
+    verified: false
+    note: >
+      DERIVED. Whether a confirmation-of-payee equivalent exists on a given rail, and what it
+      returns, is [VERIFY]. Our message shape is SHAPED, not conformant, and we call it that.
+
+  # ---- UPI ----------------------------------------------------------------------------
+  - semantic: upi_initiation_mode
+    spec: upi
+    exact: "initiation mode code"
+    verified: false
+    note: >
+      The NPCI initiation-mode code table is [VERIFY]. Our values are semantic ("intent",
+      "qr_static", "collect") and no numeric code appears anywhere in the repo.
+  - semantic: vpa
+    spec: upi
+    exact: "payer virtual payment address"
+    verified: false
+    note: All VPAs are synthetic and drawn from a reserved handle space. No real VPA, ever.
+  - semantic: payee_vpa
+    spec: upi
+    exact: "payee virtual payment address"
+    verified: false
+  - semantic: collect_request_id
+    spec: upi
+    exact: "collect request transaction identifier"
+    verified: false
+    note: UPI COLLECT caps, restrictions and current status are [VERIFY].
+  - semantic: mandate_id
+    spec: upi
+    exact: "UMN (unique mandate number) / e-mandate registration reference"
+    verified: false
+  - semantic: mandate_max_amount_inr
+    spec: upi
+    exact: "mandate maximum amount"
+    verified: false
+    note: The e-mandate AFA-exempt threshold is [VERIFY] and is a SWEPT CONFIG PARAMETER here.
+  - semantic: pre_debit_notification_sent
+    spec: upi
+    exact: "pre-debit notification event"
+    verified: false
+
+  # ---- agentic commerce: ILLUSTRATIVE, declared so in the schema and the UI ------------
+  - semantic: agent_attestation_status
+    spec: agentic
+    exact: "ILLUSTRATIVE — no standard field is asserted"
+    verified: false
+    illustrative: true
+    note: >
+      Agentic-commerce field naming, mandate and attestation object shape, and protocol status
+      as of 2026 are all [VERIFY]. These names are OUR INVENTION for modelling purposes and the
+      UI badges them illustrative. Presenting them as standard would be the exact failure mode
+      this file exists to prevent.
+  - semantic: agent_mandate_signature_valid
+    spec: agentic
+    exact: "ILLUSTRATIVE"
+    verified: false
+    illustrative: true
+  - semantic: agent_quoted_amount_inr
+    spec: agentic
+    exact: "ILLUSTRATIVE — quoted vs authorised amount divergence"
+    verified: false
+    illustrative: true
+  - semantic: agentic_indicator
+    spec: agentic
+    exact: "ILLUSTRATIVE — agent-initiated transaction indicator"
+    verified: false
+    illustrative: true
+    note: >
+      There is no message field for "the instruction was poisoned". That absence is the whole
+      ATK-X1 detection problem and we state it rather than inventing a field for it.
+
+  # ---- the score we would return -----------------------------------------------------
+  - semantic: gate_score_return
+    spec: iso8583
+    exact: "a private-use field, ASSIGNMENT PER NETWORK"
+    verified: false
+    note: >
+      We deliberately do NOT name a specific field. Naming one we have not verified is exactly
+      the risk-register tripwire "any exact field number appearing on a slide or screen".

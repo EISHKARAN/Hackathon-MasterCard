@@ -1,0 +1,191 @@
+# THE FIXED REASON-CODE VOCABULARY.
+#
+# Free-text explanations are NOT ACCEPTABLE IN A REVIEW QUEUE. A fixed vocabulary is what makes
+# disposition consistent across analysts and auditable after the fact — two analysts looking at
+# the same code must reach the same conclusion, and a dispute six months later must be able to
+# reconstruct why the decision was made.
+#
+# Every code carries:
+#   text        what the reviewer reads
+#   source      G0 (an invariant guard fired) | G1 (SHAP-derived) | G2 (abstention) | GATE-B | POLICY
+#   family      the feature family or guard group it derives from
+#   actionable  what a reviewer should DO with it. A code a reviewer cannot act on is noise.
+#
+# The count is machine-counted by governance/reason_codes.py; the design's "~40" is a budget.
+# CI asserts that every code a Decision emits exists here, so a typo is a build failure rather
+# than an unreadable queue entry.
+
+version: 1
+
+codes:
+  # ---- G0: invariant guards. Structural, zero ML, fully explainable. ------------------
+  - {id: G0_CRYPTOGRAM_ON_KEYED, source: G0, family: card_structure,
+     text: "EMV cryptogram present on a keyed/CNP authorisation",
+     actionable: "Structurally impossible. Refuse and raise with the acquirer — this is a message-construction fault or a replay."}
+  - {id: G0_MIT_WITHOUT_ORIGINAL, source: G0, family: mandate,
+     text: "Merchant-initiated transaction with no original-transaction reference",
+     actionable: "Refuse. An MIT must cite the cardholder-initiated transaction that authorised it."}
+  - {id: G0_MANDATE_SCOPE_VIOLATION, source: G0, family: mandate,
+     text: "Debit exceeds the stored mandate envelope",
+     actionable: "Refuse. Compare against the mandate object; if the cap changed, the mandate was re-created."}
+  - {id: G0_ATC_REGRESSION, source: G0, family: card_structure,
+     text: "Application transaction counter regressed or duplicated for this card",
+     actionable: "Refuse. Indicates cryptogram replay; check the terminal estate."}
+  - {id: G0_CRYPTOGRAM_UNVERIFIED, source: G0, family: card_structure,
+     text: "Cryptogram present but failed verification",
+     actionable: "Refuse. Do not approve an unverified cryptogram regardless of risk score."}
+  - {id: G0_REFUND_NO_ORIGINAL, source: G0, family: post_auth,
+     text: "Refund or credit with no matching retrieval reference",
+     actionable: "Refuse and route to the acceptor's servicing team. This is the ATK-V2 shape."}
+  - {id: G0_REFUND_EXCEEDS_ORIGINAL, source: G0, family: post_auth,
+     text: "Cumulative refunds exceed the original authorisation",
+     actionable: "Refuse the excess. Check for partial-refund double-processing."}
+  - {id: G0_COLLECT_FANOUT, source: G0, family: upi,
+     text: "Collect request fanned from one payee to many unrelated payers",
+     actionable: "Suppress the request at the payer PSP. Escalate the payee to the receiving PSP."}
+  - {id: G0_THREEDS_ON_NON_CNP, source: G0, family: card_structure,
+     text: "3DS authentication block present on a rail that cannot carry one",
+     actionable: "Refuse. Message-construction fault."}
+  - {id: G0_AGENT_OVER_MANDATE, source: G0, family: agentic,
+     text: "Agent-initiated amount exceeds the quoted or mandated amount",
+     actionable: "Refuse and demand human confirmation. This is the ATK-X1 mandate-vs-execution mismatch."}
+
+  # ---- G1: SHAP-derived, one code per feature family ---------------------------------
+  - {id: G1_VELOCITY_SELF_SPIKE, source: G1, family: velocity_panel,
+     text: "Transaction velocity far above this entity's own trailing baseline",
+     actionable: "Check the entity's last 24h. A genuine cause (wedding, relocation) will be visible in the basket."}
+  - {id: G1_VELOCITY_COHORT_OUTLIER, source: G1, family: velocity_panel,
+     text: "Transaction velocity in the top percentile of the peer cohort",
+     actionable: "Compare against the cohort, not the customer. High-volume customers are not anomalies."}
+  - {id: G1_PER_KEY_SUBTHRESHOLD, source: G1, family: velocity_panel,
+     text: "Every per-key counter sub-threshold while the aggregate is not",
+     actionable: "Aggregate across keys before deciding. This is the velocity-splitting signature."}
+  - {id: G1_FANOUT_DEGREE, source: G1, family: graph_sketches,
+     text: "Unusual counterparty fan-out or fan-in degree",
+     actionable: "Inspect the evidence subgraph attached to this decision."}
+  - {id: G1_TEMPORAL_UNIFORMITY, source: G1, family: temporal,
+     text: "Human-implausible regularity in timing or dwell",
+     actionable: "Machine-normal, human-impossible. Check for automation rather than for value."}
+  - {id: G1_NIGHT_CLUSTER, source: G1, family: temporal,
+     text: "Night-hours cluster inconsistent with this entity's diurnal habit",
+     actionable: "Compare against the entity's own hour distribution, not a global night rule."}
+  - {id: G1_RETRY_CHAIN, source: G1, family: sequence_artefacts,
+     text: "Single-field-delta retry chain detected",
+     actionable: "Treat as probing. Block the sequence, not the individual attempt."}
+  - {id: G1_DECLINE_ORACLE, source: G1, family: sequence_artefacts,
+     text: "Response-code entropy consistent with oracle probing",
+     actionable: "Consider degrading reason-code specificity for this entity."}
+  - {id: G1_AVS_TRAJECTORY, source: G1, family: sequence_artefacts,
+     text: "AVS result trajectory progressing toward a match across attempts",
+     actionable: "Address-verification harvesting. Block on the trajectory."}
+  - {id: G1_TRUST_TELEMETRY_IMPLAUSIBLE, source: G1, family: trust_envelope,
+     text: "Authentication telemetry bundle internally implausible",
+     actionable: "The bundle is well-populated but self-contradictory. Do NOT treat the authenticated indicator as evidence."}
+  - {id: G1_TOKEN_ASSURANCE_VS_DEVICE_AGE, source: G1, family: trust_envelope,
+     text: "Low token assurance on a device with near-zero age",
+     actionable: "Check the provisioning event. A new-phone reprovisioning looks identical and is legitimate."}
+  - {id: G1_PROVISION_TO_SPEND, source: G1, family: trust_envelope,
+     text: "First tokenised spend within minutes of provisioning",
+     actionable: "Verify the provisioning identification-and-verification path, not the transaction."}
+  - {id: G1_FALLBACK_DOWNGRADE, source: G1, family: sequence_artefacts,
+     text: "Entry-mode downgrade to fallback or no-CVM",
+     actionable: "Check the terminal, not the card. Fallback exists for genuine terminal faults."}
+  - {id: G1_MANDATE_HEADROOM, source: G1, family: mandate_deltas,
+     text: "Debit amount pinned immediately below the mandate cap",
+     actionable: "Compare the debit series against the mandate object over its whole life."}
+  - {id: G1_MANDATE_MCC_DRIFT, source: G1, family: mandate_deltas,
+     text: "Debit category outside the mandate's permitted scope",
+     actionable: "Individually valid, collectively out of scope. Refuse against the mandate."}
+  - {id: G1_THRESHOLD_HUGGING, source: G1, family: threshold_geometry,
+     text: "Amount placed immediately below a policy threshold, repeatedly",
+     actionable: "Look at the run length, not the single amount."}
+  - {id: G1_EXEMPTION_ROUTING, source: G1, family: trust_envelope,
+     text: "Exemption use uncorrelated with genuine acceptor capability",
+     actionable: "Check the acceptor's exemption rate against its MCC cohort."}
+  - {id: G1_CLEARING_DIVERGENCE, source: G1, family: cross_message,
+     text: "Authorisation-to-clearing amount divergence outside the MCC norm",
+     actionable: "Tip, fuel and hotel incremental divergence is legitimate. Compare to the MCC median."}
+  - {id: G1_COLD_ENTITY_PRIOR, source: G1, family: entity_age,
+     text: "Fresh entity with an elevated cohort or BIN prior",
+     actionable: "Velocity features score a fresh entity as low risk by construction. Use the prior."}
+  - {id: G1_HABIT_DEVIATION, source: G1, family: habit_deviation,
+     text: "Amount, category or geography far outside this entity's own habit",
+     actionable: "The twelve HARD-BENIGN cohorts trip this deliberately. Look for the life event."}
+  - {id: G1_MERCHANT_RAMP, source: G1, family: merchant_side,
+     text: "Acceptor volume or ticket ramp inconsistent with its own baseline",
+     actionable: "Bust-out and seasonal ramps have the same shape. Check the acceptor's category."}
+  - {id: G1_DESCRIPTOR_MISMATCH, source: G1, family: merchant_side,
+     text: "Acceptor descriptor or MCC inconsistent with observed commerce",
+     actionable: "Underwriting mismatch. Route to the acquirer, not to the cardholder."}
+  - {id: G1_IDENTITY_TRANSITION, source: G1, family: device_session,
+     text: "Device rebinding, PIN reset or profile change shortly before value movement",
+     actionable: "The transition is the detection window, not the transaction."}
+  - {id: G1_FINGERPRINT_COLLISION, source: G1, family: graph_sketches,
+     text: "Device fingerprint shared across implausibly many entities",
+     actionable: "Entity-resolution error. A false merge grants inherited trust silently."}
+  - {id: G1_ONBOARDING_COHORT, source: G1, family: onboarding_cohort,
+     text: "Onboarding batch statistics consistent with a manufactured cohort",
+     actionable: "Score the BATCH, not the application. Each application clears KYC individually."}
+  - {id: G1_AGENT_ATTESTATION_WEAK, source: G1, family: trust_envelope,
+     text: "Agent attestation absent, self-asserted, or endpoint newly stood up",
+     actionable: "No agent-identity reputation bureau exists. Demand human confirmation."}
+  - {id: G1_INCUMBENT_AGREES, source: G1, family: channel_context,
+     text: "The legacy rule engine also scored this highly",
+     actionable: "Context only. Included so a reviewer can see where the two disagree."}
+
+  # ---- G2: abstention and novelty ----------------------------------------------------
+  - {id: G2_CONFORMAL_NOVEL, source: G2, family: conformal,
+     text: "Unlike anything in the calibration set for this channel, MCC band and region",
+     actionable: "This is NOT a fraud score. It means the model has no basis for an opinion. Escalate, never silently approve."}
+  - {id: G2_ABSTAIN_UNATTRIBUTED, source: G2, family: conformal,
+     text: "Abstained, but neither the conformal nor the density channel explains it",
+     actionable: "Review manually and report it: an abstention we cannot attribute is a defect in the explanation path, not a finding about the payment."}
+  - {id: G2_DENSITY_OUTLIER, source: G2, family: density,
+     text: "Feature vector in a low-density region of the training distribution",
+     actionable: "Unsupervised signal, no label required. Carries the load where labels have not matured."}
+  - {id: G2_THIN_CALIBRATION_STRATUM, source: G2, family: conformal,
+     text: "Conformal stratum has too few calibration points for a reliable p-value",
+     actionable: "The stratum was merged. Treat the p-value as weaker evidence and say so in the disposition."}
+
+  # ---- GATE-B: beneficiary side -------------------------------------------------------
+  - {id: GB_IN_OUT_SKEW, source: GATE-B, family: beneficiary_side,
+     text: "Inbound and outbound value nearly conserved net of a small skim",
+     actionable: "Mule pass-through signature. ALSO the exact shape of a chit collection or a gig payout."}
+  - {id: GB_SHORT_DWELL, source: GATE-B, family: beneficiary_side,
+     text: "Funds moved onward within minutes of arrival",
+     actionable: "Hold, do not freeze, unless a second signal agrees. Bounded hold with auto-release."}
+  - {id: GB_PAYER_FANIN, source: GATE-B, family: beneficiary_side,
+     text: "Many unrelated payers into one young receiving account",
+     actionable: "Check the payer set for a plausible commercial relationship before acting."}
+  - {id: GB_YOUNG_BENEFICIARY, source: GATE-B, family: beneficiary_side,
+     text: "Receiving account age below the new-payee floor",
+     actionable: "A legitimate new business looks identical. Age alone must not trigger a freeze."}
+  - {id: GB_FIRST_CREDIT_CONCENTRATION, source: GATE-B, family: beneficiary_side,
+     text: "First-credit sources highly concentrated across the onboarding cohort",
+     actionable: "Population-level signal. Act on the cohort, not the single account."}
+  - {id: GB_NAME_MISMATCH, source: GATE-B, family: beneficiary_side,
+     text: "Creditor name does not match the receiving account name",
+     actionable: "Confirmation-of-payee failure. Warn the payer before debit where the rail allows it."}
+  - {id: GB_ONWARD_BLOCKED, source: GATE-B, family: policy,
+     text: "Onward send blocked by an active hold on this account",
+     actionable: "State the bounded hold duration and the auto-release time to the customer."}
+  - {id: GB_EXCHANGE_PRIOR, source: GATE-B, family: beneficiary_side,
+     text: "Beneficiary carries a mule prior from the cross-institution exchange",
+     actionable: "STUB: the exchange's availability and regulatory permissibility are unverified. Never the sole basis for an action."}
+
+  # ---- POLICY: why this action and not another ---------------------------------------
+  - {id: POLICY_ALERT_BUDGET, source: POLICY, family: policy,
+     text: "Score above threshold but the review budget for this period is exhausted",
+     actionable: "Not a risk statement. Alerts above capacity are a backlog, not alerts."}
+  - {id: POLICY_FRICTION_CAP, source: POLICY, family: policy,
+     text: "Friction cap for this rail reached",
+     actionable: "Per-rail cap. On UPI, added friction is bounded and the PIN already is the second factor."}
+  - {id: POLICY_RAIL_LADDER, source: POLICY, family: policy,
+     text: "Action chosen from this rail's response ladder rather than a generic step-up",
+     actionable: "Step-up is not universal. Read the rail's ladder in gate/policy."}
+  - {id: POLICY_KILL_SWITCH_G0_ONLY, source: POLICY, family: policy,
+     text: "All ML layers disabled; decision made by invariant guards alone",
+     actionable: "Degraded mode. G0 refuses the impossible and approves everything else."}
+  - {id: POLICY_FEATURE_STORE_DEGRADED, source: POLICY, family: policy,
+     text: "Feature-store timeout; scored on the reduced feature vector",
+     actionable: "State the degradation in the disposition. Recall is lower in this mode and measurably so."}

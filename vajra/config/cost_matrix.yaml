@@ -1,0 +1,66 @@
+# Cost matrix used to select thresholds, and the attacker's cost constants.
+#
+# TWO REFUSALS, stated here so they travel with the numbers:
+#  1. These are ASSUMED parameters, not sourced market prices. Their absolute level is
+#     unknown. What we defend is their RELATIVE ordering (a mule account is cheaper
+#     than a stolen credential, which is cheaper than a merchant onboarding).
+#  2. `make sensitivity` re-runs the archive at 0.33x / 1x / 3x mule_burn and reports
+#     coverage and elite composition AS A RANGE, because these constants shape the
+#     archive and a point estimate would be a false precision.
+#
+# All amounts in INR unless stated.
+
+defender:
+  # Loss when a fraudulent transaction is approved: the debited value plus handling.
+  fraud_loss_multiplier: 1.0
+  fraud_handling_cost: 350
+
+  # Revenue forgone on a wrongly declined good transaction: interchange/fee on this
+  # transaction PLUS the lifetime cost of the churn event. The lifetime term is the one
+  # most models omit and the one an issuer cares about most; it is swept because we
+  # cannot source it.
+  interchange_bps: 90
+  false_decline_lifetime_cost: 4200
+  false_decline_lifetime_cost_sweep: [1400, 4200, 12600]
+
+  # Friction is not free either: an abandoned 3DS challenge is a lost sale.
+  friction_abandonment_rate: 0.11
+  friction_cost_per_event: 45
+
+  # Manual review: analyst minutes priced.
+  review_cost_per_case: 180
+
+  # A wrong beneficiary-side hold on a legitimate receiver. Deliberately expensive:
+  # a frozen legitimate receiver is a worse harm than a declined payer.
+  false_hold_cost: 6500
+  false_freeze_cost: 24000
+
+attacker:
+  # P&L:  R = value_extracted - (probe_cost*probes + mule_burn*mules
+  #                              + credential_cost*credentials + lambda*elapsed_steps)
+  # value_extracted is NOT gross debits: it is funds still in attacker control at t+H
+  # after auto-release and clawback, with H below in sim hours. Crediting gross debits
+  # would reward money GATE-B already took back while the bandit simultaneously
+  # observes `account-frozen`, which is incoherent.
+  value_horizon_hours: 72
+  probe_cost: 3.5
+  mule_burn: 900
+  credential_cost: 2600
+  merchant_onboarding_cost: 42000
+  synthetic_identity_cost: 5400
+  agent_mandate_cost: 1200
+  lambda_step_cost: 12.0
+  # Sensitivity sweep multipliers applied to mule_burn by `make sensitivity`.
+  mule_cost_sweep: [0.33, 1.0, 3.0]
+  # Ruin: a named observable event, not the word "detected". At a 0.1% base rate any
+  # multi-transaction campaign draws some declines, so a decline-based trigger fires
+  # either always or never.
+  ruin_triggers:
+    - beneficiary_freeze
+    - analyst_confirmed_fraud
+  # Ruin is a FITNESS PENALTY plus a boolean flag, never a deletion. Killing the elite
+  # would make coverage a discontinuous function of cost constants we admit are
+  # guessed: cells whose only viable attacks are expensive would stay permanently
+  # empty and the headline diversity integer would move for an economic reason dressed
+  # up as a diversity result.
+  ruin_penalty_multiplier: 1.5

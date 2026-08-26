@@ -1,0 +1,478 @@
+# The slot-compatibility matrix.
+#
+# The raw string space is 8 x 7 x 12 x 8 x 7 x 5 = 188,160. THAT NUMBER IS NOT A CLAIM ABOUT
+# ATTACK DIVERSITY AND WE NEVER PRESENT IT AS ONE: it is the size of a Cartesian product, most
+# of which is nonsense. This file rejects the incoherent joins.
+#
+# What comes out is the size of the TYPE-LEGAL STRING SPACE and nothing more. It is
+# deliberately NOT our headline diversity number, and the reason is stated before a judge
+# states it: distinctness is tested at CELL level, and some slots barely move an observable
+# (MONETISATION most of all), so thousands of strings differing only in a behaviour-inert slot
+# would inflate a "diversity" claim the distinctness test never sees. The headline is the
+# post-merge occupied-cell/elite integer.
+#
+# `make grammar` prints the exact machine-counted integer. Our pre-build expectation is the
+# 9,000-15,000 range. IF IT PRINTS 4,000, 4,000 GOES IN THE DECK.
+#
+# Every constraint carries a `reason`. That is not documentation courtesy: the ARCHIVE screen
+# renders the reason when a judge's Author-an-Attack composition is rejected, so a rejection is
+# an explanation rather than a red cross. A constraint without a defensible mechanical reason
+# should not be here.
+#
+# SEMANTICS
+#   kind: requires  ->  if `when` matches, the composition MUST have then.slot in then.values
+#   kind: forbids   ->  if `when` matches, the composition MUST NOT have then.slot in then.values
+# Constraints are evaluated over the whole composition; order is irrelevant and the checker
+# asserts that (tests/test_typecheck.py permutes the constraint list and requires an identical
+# verdict set).
+
+slot_order: [ACCESS, TRUST, RAIL, EVASION, MONETISATION, LABEL]
+
+constraints:
+
+  # ---------------------------------------------------------------------------------
+  # TRUST x RAIL -- a trust envelope cannot be inherited on a rail that cannot carry it.
+  # ---------------------------------------------------------------------------------
+  - id: TY-T01
+    kind: requires
+    when: {slot: TRUST, value: cdcvm}
+    then:
+      slot: RAIL
+      values: [card-cp-emv, card-token-provisioning, card-cnp-3ds, upi-pay, upi-lite-offline]
+    reason: >
+      A device cardholder-verification method requires a consumer device in the loop to produce
+      it. Keyed CNP, clearing, collect, mandate debits, A2A, AePS and agent-to-agent rails have
+      no consumer device at the point of the message, so there is nothing to produce a CVM.
+
+  - id: TY-T02
+    kind: requires
+    when: {slot: TRUST, value: threeds-authenticated}
+    then: {slot: RAIL, values: [card-cnp-3ds, card-token-provisioning, card-clearing-dispute]}
+    reason: >
+      EMV 3DS exists only on card CNP. card-cnp-keyed is BY DEFINITION the non-authenticated
+      path, so pairing it with a 3DS envelope is a contradiction in the rail's own definition.
+      Clearing and token provisioning inherit the indicator from the authorisation they resolve to.
+
+  - id: TY-T03
+    kind: requires
+    when: {slot: TRUST, value: mandated}
+    then:
+      slot: RAIL
+      values: [upi-autopay-mandate, card-cnp-3ds, card-cnp-keyed, card-clearing-dispute,
+               agentic-commerce, a2a-credit-transfer]
+    reason: >
+      A stored mandate object exists on e-mandate/AutoPay, on card-on-file merchant-initiated
+      transactions, on agentic mandate objects and on corporate standing instructions. It does
+      not exist on card-present, on token provisioning, on UPI PAY/COLLECT one-offs, on UPI Lite
+      or on AePS.
+
+  - id: TY-T04
+    kind: requires
+    when: {slot: TRUST, value: agent-attested}
+    then: {slot: RAIL, values: [agentic-commerce, card-cnp-3ds, card-cnp-keyed, upi-pay]}
+    reason: >
+      An agent attestation accompanies an agent-initiated instruction. An agent pays over card
+      CNP or UPI PAY in practice; it does not present a card at a terminal, provision a wallet
+      token, initiate a collect request or operate an AePS terminal.
+
+  - id: TY-T05
+    kind: requires
+    when: {slot: TRUST, value: tokenised}
+    then:
+      slot: RAIL
+      values: [card-cnp-3ds, card-cnp-keyed, card-cp-emv, card-token-provisioning,
+               card-clearing-dispute, agentic-commerce]
+    reason: >
+      Network and card-on-file tokens are card constructs. UPI, A2A, Lite and AePS carry VPAs
+      and account identifiers, not card tokens, so "tokenised" would be a category error there.
+
+  - id: TY-T06
+    kind: requires
+    when: {slot: TRUST, value: kyc-passed}
+    then:
+      slot: RAIL
+      values: [upi-pay, upi-collect, upi-autopay-mandate, a2a-credit-transfer,
+               upi-lite-offline, aeps-microatm, card-token-provisioning]
+    reason: >
+      A freshly-KYC-cleared envelope is an ACCOUNT-level trust construct and it matters on
+      account rails and at wallet/token enrolment. On a card authorisation the relevant envelope
+      is the card's own authentication state, not the account's KYC tier.
+
+  - id: TY-T07
+    kind: requires
+    when: {slot: TRUST, value: mandated}
+    then:
+      slot: MONETISATION
+      values: [merchant-settlement, credit-line-drawdown, biller-giftcard-resale, goods-resale]
+    reason: >
+      A mandate debits a payer on a schedule to a NAMED payee of record. Mule-chain layering,
+      refund recovery and a crypto off-ramp all require the attacker to choose the destination
+      per event, which a mandate's fixed payee forecloses.
+
+  # ---------------------------------------------------------------------------------
+  # ACCESS x RAIL -- how control was obtained bounds where it can be exercised.
+  # ---------------------------------------------------------------------------------
+  - id: TY-A01
+    kind: requires
+    when: {slot: ACCESS, value: merchant-onboarding-fraud}
+    then:
+      slot: RAIL
+      values: [card-cnp-keyed, card-cnp-3ds, card-cp-emv, card-clearing-dispute,
+               upi-collect, upi-pay, upi-autopay-mandate, a2a-credit-transfer,
+               agentic-commerce]
+    reason: >
+      When the attacker is the acceptor, the rails available are the ones an acceptor can
+      accept on. An acceptor does not provision consumer wallet tokens, does not operate the
+      consumer's UPI Lite ledger, and is not an AePS agent in this model. agentic-commerce IS
+      included: a spoofed or malicious MERCHANT agent (ATK-X2) is an acceptor that onboarded
+      fraudulently, so excluding it would have made a real attack inexpressible.
+
+  - id: TY-A02
+    kind: requires
+    when: {slot: ACCESS, value: authorised-but-deceived-payer}
+    then:
+      slot: RAIL
+      values: [upi-pay, upi-collect, upi-autopay-mandate, a2a-credit-transfer,
+               upi-lite-offline, card-cnp-3ds, card-cnp-keyed, agentic-commerce, aeps-microatm]
+    reason: >
+      A deceived payer acts on a rail they can drive themselves. Card-present at a terminal and
+      clearing/dispute messages are not payer-driven instruments, and token provisioning is
+      modelled under account-takeover or stolen-credential access instead.
+
+  - id: TY-A03
+    kind: requires
+    when: {slot: ACCESS, value: first-party-misuse}
+    then:
+      slot: RAIL
+      values: [card-cnp-3ds, card-cnp-keyed, card-cp-emv, card-clearing-dispute,
+               upi-pay, agentic-commerce]
+    reason: >
+      The genuine holder transacts then repudiates, so the composition needs a rail with a
+      dispute or repudiation channel. UPI COLLECT, mandates, Lite and AePS have no equivalent
+      first-party repudiation path in this model.
+
+  - id: TY-A04
+    kind: requires
+    when: {slot: ACCESS, value: enumerated-credential}
+    then:
+      slot: RAIL
+      values: [card-cnp-keyed, card-cnp-3ds, card-cp-emv, upi-collect, a2a-credit-transfer]
+    reason: >
+      Enumeration needs a per-attempt response oracle. Clearing is batch, token provisioning is
+      a one-shot enrolment, mandate debits are scheduled, Lite posts on-device and AePS requires
+      a biometric present -- none of them return a usable per-attempt signal.
+
+  - id: TY-A05
+    kind: requires
+    when: {slot: ACCESS, value: delegated-agent-mandate}
+    then: {slot: RAIL, values: [agentic-commerce, card-cnp-3ds, card-cnp-keyed, upi-autopay-mandate]}
+    reason: >
+      A delegated agent mandate is exercised through the agentic rail or through the card/UPI
+      mandate instruments the agent holds. It does not reach card-present, clearing, collect,
+      Lite or AePS.
+
+  # ---------------------------------------------------------------------------------
+  # ACCESS x TRUST -- you cannot inherit an envelope your access route never obtained.
+  # ---------------------------------------------------------------------------------
+  - id: TY-A06
+    kind: forbids
+    when: {slot: ACCESS, value: first-party-misuse}
+    then: {slot: TRUST, values: [kyc-passed]}
+    reason: >
+      A freshly-KYC-cleared envelope is the opposite of the first-party case, whose whole
+      premise is an established genuine relationship the holder later repudiates.
+
+  - id: TY-A07
+    kind: forbids
+    when: {slot: ACCESS, value: enumerated-credential}
+    then: {slot: TRUST, values: [cdcvm, agent-attested, mandated, threeds-authenticated]}
+    reason: >
+      A credential discovered by probing carries no envelope the attacker did not have to earn
+      separately. There is no device to produce a CVM, no attestation, no mandate object of
+      record, and no completed 3DS authentication for a card the attacker has only guessed.
+
+  - id: TY-A08
+    kind: requires
+    when: {slot: ACCESS, value: merchant-onboarding-fraud}
+    then: {slot: TRUST, values: [kyc-passed, aged-account, mandated]}
+    reason: >
+      The attacker's trust here is its own onboarding: a documentary KYC pass, an aged MID, or a
+      mandate it holds over its customers. Payer-side envelopes -- tokens, 3DS results, device
+      CVM, agent attestations -- belong to the payer, not the acceptor.
+
+  - id: TY-A09
+    kind: requires
+    when: {slot: ACCESS, value: delegated-agent-mandate}
+    then: {slot: TRUST, values: [agent-attested, mandated, tokenised]}
+    reason: >
+      The agent acts under an attestation, a mandate, or a token it was delegated. It has no
+      device CVM of its own, no 3DS session, and no KYC tier distinct from its principal's.
+
+  - id: TY-A10
+    kind: forbids
+    when: {slot: ACCESS, value: account-takeover}
+    then: {slot: TRUST, values: [kyc-passed]}
+    reason: >
+      A takeover inherits an EXISTING account's envelope -- its age, its device binding, its
+      established history. A fresh-KYC envelope would describe an account the attacker opened,
+      which is the synthetic-identity route instead.
+
+  - id: TY-A11
+    kind: forbids
+    when: {slot: ACCESS, value: stolen-credential}
+    then: {slot: TRUST, values: [kyc-passed, agent-attested]}
+    reason: >
+      Possession of a stolen credential confers neither the victim's account-opening KYC event
+      nor an agent attestation. Both would have to be separately obtained, which is a different
+      ACCESS morpheme.
+
+  - id: TY-A12
+    kind: forbids
+    when: {slot: ACCESS, value: authorised-but-deceived-payer}
+    then: {slot: TRUST, values: [agent-attested]}
+    reason: >
+      In the deceived-payer case the human authorises directly. If an attested agent is in the
+      loop instead, the composition is a delegated-agent-mandate attack, not a deceived-payer one.
+
+  # ---------------------------------------------------------------------------------
+  # ACCESS x LABEL -- the label channel follows from whether a victim exists and complains.
+  # ---------------------------------------------------------------------------------
+  - id: TY-A13
+    kind: requires
+    when: {slot: ACCESS, value: synthetic-identity}
+    then: {slot: LABEL, values: [never-labelled, label-delayed, label-poisoned]}
+    reason: >
+      There is no real person to complain, so `victim-complains` and `victim-blames-self` are
+      both incoherent: neither presupposes a victim who exists. This is the mechanism that makes
+      the synthetic-identity families invisible to any model trained on fraud tags.
+
+  - id: TY-A14
+    kind: requires
+    when: {slot: ACCESS, value: first-party-misuse}
+    then: {slot: LABEL, values: [label-poisoned, victim-complains]}
+    reason: >
+      The "victim" IS the perpetrator and files the dispute. So a label does arrive -- and it is
+      either a genuine-looking complaint or an active corruption of the label channel. Never
+      unreported, never absent.
+
+  - id: TY-A15
+    kind: forbids
+    when: {slot: ACCESS, value: stolen-credential}
+    then: {slot: LABEL, values: [never-labelled]}
+    reason: >
+      A victim whose credential was stolen eventually notices and a label arrives on some
+      channel. `never-labelled` requires that no victim exists at all.
+
+  - id: TY-A16
+    kind: forbids
+    when: {slot: ACCESS, value: account-takeover}
+    then: {slot: LABEL, values: [never-labelled]}
+    reason: >
+      Same mechanism as TY-A15: the dispossessed account holder is a real person who will
+      eventually discover the loss.
+
+  - id: TY-A17
+    kind: forbids
+    when: {slot: ACCESS, value: enumerated-credential}
+    then: {slot: LABEL, values: [never-labelled]}
+    reason: >
+      The enumerated credential belongs to someone. Probing may go unnoticed, but the
+      monetisation that follows lands on a real account holder's statement.
+
+  # ---------------------------------------------------------------------------------
+  # TRUST x LABEL -- an envelope that belongs to a real cardholder produces a complainant.
+  # ---------------------------------------------------------------------------------
+  - id: TY-T08
+    kind: requires
+    when: {slot: LABEL, value: never-labelled}
+    then: {slot: TRUST, values: [kyc-passed, aged-account, mandated]}
+    reason: >
+      `never-labelled` means NO REAL PERSON EXISTS to complain -- the loss books as credit loss.
+      That is only coherent when the trust envelope is one the attacker cultivated for itself: a
+      KYC pass it obtained, an account it aged, or a mandate it holds. A device CVM, a completed
+      3DS authentication, a network token or an agent attestation all belong to a real
+      cardholder or a real principal, who eventually notices and produces a label on some
+      channel.
+
+  # ---------------------------------------------------------------------------------
+  # ACCESS x MONETISATION -- who you are bounds how you can take the money out.
+  # ---------------------------------------------------------------------------------
+  - id: TY-A18
+    kind: requires
+    when: {slot: ACCESS, value: first-party-misuse}
+    then: {slot: MONETISATION, values: [goods-resale, refund-chargeback-recovery, credit-line-drawdown]}
+    reason: >
+      The first-party actor keeps the goods, recovers the money through the dispute channel, or
+      draws down credit they will not repay. They do not run a mule chain against their own
+      account, become their own merchant of record, or off-ramp to crypto under their own name.
+
+  - id: TY-A19
+    kind: requires
+    when: {slot: ACCESS, value: merchant-onboarding-fraud}
+    then: {slot: MONETISATION, values: [merchant-settlement, biller-giftcard-resale, crypto-offramp, mule-chain-cashout]}
+    reason: >
+      A fraudulent acceptor is paid by settlement, and then converts. It has no credit line to
+      draw, no dispute to win as claimant, and no goods to resell -- the "goods" were never real.
+
+  - id: TY-A20
+    kind: requires
+    when: {slot: ACCESS, value: synthetic-identity}
+    then:
+      slot: MONETISATION
+      values: [credit-line-drawdown, goods-resale, mule-chain-cashout, merchant-settlement,
+               biller-giftcard-resale]
+    reason: >
+      A manufactured identity's cash-out paths are the ones that do not require a real
+      counterparty relationship or a dispute standing. Refund/chargeback recovery requires a
+      credible claimant history and a crypto off-ramp under a fabricated identity is modelled
+      under the mule-chain path instead.
+
+  # ---------------------------------------------------------------------------------
+  # RAIL x EVASION -- the mechanism must have something on that rail to act on.
+  # ---------------------------------------------------------------------------------
+  - id: TY-E01
+    kind: requires
+    when: {slot: EVASION, value: low-visibility-rail}
+    then:
+      slot: RAIL
+      values: [upi-lite-offline, aeps-microatm, upi-collect, agentic-commerce, a2a-credit-transfer]
+    reason: >
+      The morpheme names a move to WEAKER central visibility. Card authorisation, 3DS,
+      clearing, token provisioning and UPI PAY are the highest-visibility surfaces in this
+      model; routing onto them is the opposite of the mechanism.
+
+  - id: TY-E02
+    kind: requires
+    when: {slot: EVASION, value: trust-inheritance}
+    then:
+      slot: RAIL
+      values: [card-cnp-3ds, card-token-provisioning, card-cp-emv, upi-autopay-mandate,
+               agentic-commerce, card-clearing-dispute, a2a-credit-transfer]
+    reason: >
+      There must be an envelope on the rail to inherit -- an authentication result, a token
+      assurance level, a device CVM, a mandate object or an attestation. Keyed CNP, UPI PAY,
+      COLLECT, Lite and AePS carry no such envelope in this model.
+
+  - id: TY-E03
+    kind: requires
+    when: {slot: EVASION, value: label-attack}
+    then:
+      slot: RAIL
+      values: [card-clearing-dispute, card-cnp-3ds, card-cnp-keyed, upi-pay,
+               a2a-credit-transfer, upi-autopay-mandate]
+    reason: >
+      Attacking the label channel needs a label channel to attack: a dispute rail, a
+      complaint-generating debit, or a review queue that receives alerts from this rail.
+      Card-present, token provisioning, Lite, AePS and agentic rails do not feed the
+      dispute/complaint machinery in this model.
+
+  - id: TY-E04
+    kind: requires
+    when: {slot: EVASION, value: oracle-probing}
+    then:
+      slot: RAIL
+      values: [card-cnp-keyed, card-cnp-3ds, card-cp-emv, upi-collect,
+               a2a-credit-transfer, agentic-commerce]
+    reason: >
+      Probing needs a per-attempt response to read. Same mechanism as TY-A04, applied to the
+      evasion mechanism rather than the access route.
+
+  - id: TY-E05
+    kind: requires
+    when: {slot: EVASION, value: graph-camouflage}
+    then:
+      slot: RAIL
+      values: [upi-pay, a2a-credit-transfer, upi-collect, upi-lite-offline,
+               card-token-provisioning, aeps-microatm]
+    reason: >
+      Camouflaging a subgraph requires a beneficiary/receiving structure to shape, or a
+      token-requestor fan-out that plays the same role. A card authorisation on its own has no
+      counterparty graph to camouflage.
+
+  - id: TY-E06
+    kind: requires
+    when: {slot: EVASION, value: label-attack}
+    then: {slot: LABEL, values: [label-poisoned, never-labelled, label-delayed]}
+    reason: >
+      If the mechanism is an attack on supervision, the LABEL slot must record a degraded label
+      outcome. `victim-complains` with an intact fast channel would mean the attack on the label
+      channel did nothing, which is not a composition -- it is a failed one.
+
+  # ---------------------------------------------------------------------------------
+  # MONETISATION x RAIL -- the cash-out path must be reachable from the rail.
+  # ---------------------------------------------------------------------------------
+  - id: TY-M01
+    kind: requires
+    when: {slot: MONETISATION, value: merchant-settlement}
+    then:
+      slot: RAIL
+      values: [card-cnp-keyed, card-cnp-3ds, card-cp-emv, card-clearing-dispute,
+               upi-collect, upi-pay, upi-autopay-mandate, agentic-commerce]
+    reason: >
+      Settlement to an acceptor requires an acquiring or payee-merchant relationship on that
+      rail. Token provisioning produces no settlement, and Lite/AePS have no acceptor
+      settlement leg in this model.
+
+  - id: TY-M02
+    kind: requires
+    when: {slot: MONETISATION, value: credit-line-drawdown}
+    then:
+      slot: RAIL
+      values: [card-cnp-3ds, card-cnp-keyed, card-cp-emv, card-clearing-dispute,
+               card-token-provisioning, upi-pay, upi-autopay-mandate]
+    reason: >
+      Drawing a credit line requires a credit instrument: a credit card, or a credit line on
+      UPI. COLLECT, plain A2A, Lite, AePS and agent-to-agent rails do not draw credit in this
+      model.
+
+  - id: TY-M03
+    kind: requires
+    when: {slot: MONETISATION, value: refund-chargeback-recovery}
+    then:
+      slot: RAIL
+      values: [card-clearing-dispute, card-cnp-3ds, card-cnp-keyed, upi-pay, a2a-credit-transfer]
+    reason: >
+      Recovery through the post-authorisation channel requires a refund/credit or dispute
+      mechanism on the rail. Card-present alone, token provisioning, mandates, COLLECT, Lite,
+      AePS and agentic rails have no such recovery path here.
+
+  - id: TY-M04
+    kind: requires
+    when: {slot: MONETISATION, value: mule-chain-cashout}
+    then:
+      slot: RAIL
+      values: [upi-pay, upi-collect, a2a-credit-transfer, upi-lite-offline, aeps-microatm,
+               card-token-provisioning, card-cnp-keyed, card-cnp-3ds]
+    reason: >
+      Layering needs a receiving-account leg, either natively (UPI/A2A/Lite/AePS) or via a
+      wallet-load / quasi-cash card authorisation that funds the first mule. Clearing, mandate
+      debits and agent-to-agent purchases do not open a chain.
+
+  - id: TY-M05
+    kind: forbids
+    when: {slot: MONETISATION, value: biller-giftcard-resale}
+    then: {slot: RAIL, values: [aeps-microatm, card-clearing-dispute]}
+    reason: >
+      AePS terminates in physical cash, which is already the cash-out -- converting it to biller
+      credit afterwards is a separate campaign. Clearing is a settlement message and buys
+      nothing.
+
+  - id: TY-M06
+    kind: requires
+    when: {slot: MONETISATION, value: goods-resale}
+    then:
+      slot: RAIL
+      values: [card-cnp-3ds, card-cnp-keyed, card-cp-emv, card-token-provisioning,
+               upi-pay, upi-collect, agentic-commerce, card-clearing-dispute]
+    reason: >
+      Buying goods requires a purchase rail with a merchant on the other side. A2A credit
+      transfer, mandate debits, Lite and AePS are not purchase instruments in this model.
+
+  - id: TY-M07
+    kind: requires
+    when: {slot: MONETISATION, value: crypto-offramp}
+    then: {slot: RAIL, values: [upi-pay, a2a-credit-transfer, card-cnp-keyed, card-cnp-3ds, upi-collect]}
+    reason: >
+      An off-ramp is funded by a push transfer or a card purchase of the on-ramp. Card-present,
+      clearing, token provisioning, mandates, Lite, AePS and agent-to-agent rails do not fund it
+      directly here.

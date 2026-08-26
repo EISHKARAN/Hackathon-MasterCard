@@ -1,0 +1,159 @@
+# RAIL — execution rail plus message family.
+#
+# This slot projects many-to-one onto RAIL-CLASS (12 -> 6), so a RAIL mutation is
+# CONDITIONALLY cell-preserving or cell-crossing depending on whether it stays inside its
+# class. `make archive-report` prints that split per pair rather than asserting it.
+#
+# TIER is a fidelity claim, not a scope note. Tier A is emitted at MESSAGE level with
+# hand-written invariants. Tier B carries attack compositions and observable signatures --
+# they appear in the archive and the attack table -- but they make NO claim of message-level
+# fidelity, and the UI shows a "thin emitter" badge on the card. That is a scope decision
+# stated as a limitation rather than hidden as an omission.
+
+slot: RAIL
+count: 12
+
+values:
+  - id: card-cnp-3ds
+    label: Card CNP with EMV 3DS
+    rail_class: card-auth
+    tier: A
+    message_family: authorisation + 3DS authentication block
+    has_beneficiary_leg: false
+    response_ladder: threeds_challenge
+    description: E-commerce authorisation carrying a 3DS authentication block.
+
+  - id: card-cnp-keyed
+    label: Card CNP keyed / no authentication
+    rail_class: card-auth
+    tier: A
+    message_family: authorisation
+    has_beneficiary_leg: false
+    response_ladder: decline_or_refer
+    description: >
+      Keyed or e-commerce authorisation with no 3DS authentication block. By definition
+      cannot carry a 3DS-authenticated trust envelope, and cannot carry an EMV cryptogram --
+      both are G0 invariant guards, not statistical features.
+
+  - id: card-cp-emv
+    label: Card present, EMV / contactless
+    rail_class: card-auth
+    tier: A
+    message_family: authorisation + EMV cryptogram block
+    has_beneficiary_leg: false
+    response_ladder: decline_or_refer
+    description: >
+      Card-present authorisation carrying an EMV cryptogram block with an application
+      transaction counter. ATC monotonicity per card is an F1 invariant and a G0 guard.
+
+  - id: card-clearing-dispute
+    label: Clearing, presentment and dispute
+    rail_class: card-post-auth
+    tier: A
+    message_family: presentment + chargeback + representment
+    has_beneficiary_leg: false
+    response_ladder: post_auth_recovery
+    description: >
+      The batch half of the card lifecycle. Most fraud stacks score authorisation only and
+      treat clearing as an analytics afterthought, which is precisely what the ATK-S family
+      exploits. Every presentment must resolve to an authorisation (F1), so this rail is
+      never sampled independently -- it is derived from the lifecycle.
+
+  - id: card-token-provisioning
+    label: Token provisioning and first use
+    rail_class: card-token
+    tier: A
+    message_family: provisioning request + token first authorisation
+    has_beneficiary_leg: false
+    response_ladder: threeds_challenge
+    description: >
+      Wallet or card-on-file token provisioning followed by first tokenised spend.
+      Provisioning-to-first-use latency is the load-bearing observable and it is a two-stage
+      construct by nature, which is why depth 1 is infeasible for this rail class.
+
+  - id: upi-pay
+    label: UPI PAY (push)
+    rail_class: upi-realtime
+    tier: A
+    message_family: UPI initiation (PAY) + beneficiary credit
+    has_beneficiary_leg: true
+    response_ladder: interstitial_cooling_hold
+    description: >
+      Payer-initiated real-time push. In an authorised push payment every payer-side signal
+      is genuine, so the enforceable control point is the beneficiary account. Added friction
+      is bounded by NPCI UX rules [VERIFY scope] -- our response is an interstitial, a cooling
+      delay or a hold, NEVER a second auth factor, because the PIN already is one.
+
+  - id: upi-collect
+    label: UPI COLLECT (pull)
+    rail_class: upi-realtime
+    tier: A
+    message_family: collect request + payer approve/decline
+    has_beneficiary_leg: true
+    response_ladder: collect_suppress
+    description: >
+      Payee-initiated request. Payee-side fan-out to hundreds of unrelated payers is
+      invisible to any single payer PSP, so this rail is a canonical cross-institution
+      visibility case [VERIFY current collect caps and restrictions].
+
+  - id: upi-autopay-mandate
+    label: UPI AutoPay / e-mandate
+    rail_class: mandate-recurring
+    tier: A
+    message_family: mandate creation + pre-debit notification + debit
+    has_beneficiary_leg: true
+    response_ladder: mandate_refuse
+    description: >
+      Mandate creation then scheduled debits. A mandate attack requires creation then debit,
+      so depth 1 is infeasible for this rail class. Debits pinned just under the AFA-exempt
+      band are the threshold-hugging observable [VERIFY current AFA threshold].
+
+  - id: a2a-credit-transfer
+    label: A2A credit transfer (pacs.008/pacs.002 shaped)
+    rail_class: a2a-assisted
+    tier: A
+    message_family: pacs.008 credit transfer + pacs.002 status report
+    has_beneficiary_leg: true
+    response_ladder: name_mismatch_hold_freeze
+    description: >
+      Account-to-account credit transfer shaped as ISO 20022 pacs.008/pacs.002, standing in
+      for IMPS/NEFT/RTGS and corporate transfers. Creditor-name versus account mismatch
+      (confirmation-of-payee failure) is the load-bearing observable. Message shape is
+      SHAPED, not conformant, and we call it that [VERIFY].
+
+  - id: upi-lite-offline
+    label: UPI Lite / 123Pay (low-visibility)
+    rail_class: upi-realtime
+    tier: B
+    message_family: on-device ledger debit (thin emitter)
+    has_beneficiary_leg: true
+    response_ladder: interstitial_cooling_hold
+    description: >
+      Designed to bypass per-transaction PIN and central checks; each debit sits beneath most
+      rule floors. THIN EMITTER -- no message-level fidelity claim. ATK-U6 is framed as
+      "weakened central velocity visibility" WITHOUT asserting posting mechanics
+      [VERIFY UPI Lite posting behaviour and limits].
+
+  - id: aeps-microatm
+    label: AePS / Aadhaar micro-ATM (assisted)
+    rail_class: a2a-assisted
+    tier: B
+    message_family: assisted withdrawal / balance enquiry (thin emitter)
+    has_beneficiary_leg: false
+    response_ladder: decline_or_refer
+    description: >
+      Agent-assisted cash-out. No PIN or OTP to challenge, biometrics treated as strong auth,
+      and victims complain late. THIN EMITTER [VERIFY current Aadhaar-lock and onboarding rules].
+
+  - id: agentic-commerce
+    label: Agentic commerce mandate objects
+    rail_class: mandate-recurring
+    tier: B
+    message_family: agent mandate object + agent-initiated authorisation (thin emitter)
+    has_beneficiary_leg: false
+    response_ladder: mandate_refuse
+    description: >
+      Agent-to-agent and agent-to-merchant payment with a mandate object and an attestation.
+      There is no message field for "the instruction was poisoned", which is the whole
+      detection problem. Field naming is ILLUSTRATIVE and declared so in the schema and the
+      UI. THIN EMITTER [VERIFY agentic field naming and protocol status as of 2026].

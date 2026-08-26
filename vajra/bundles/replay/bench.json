@@ -1,0 +1,33 @@
+{
+  "extrapolation_refusal": "We do NOT extrapolate to network scale. This is a laptop-class p99 and we say so [VERIFY on real hardware]. The predictor is named because claiming the Treelite fast path while running the LightGBM predictor would be exactly the latency fiction this harness exists to prevent.",
+  "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14",
+  "latency_ms": {
+    "mean": 6.024157998908777,
+    "p50": 5.321520962752402,
+    "p95": 9.921739902347325,
+    "p99": 16.774158187909045
+  },
+  "meets_target": true,
+  "n_calls": 800,
+  "online_store_fetch": {
+    "batched_ms_per_call": 0.014176165917888284,
+    "note": "the SINGLE BATCHED MULTI-KEY FETCH is what makes the target reachable; lose the batch and Y collapses",
+    "speedup": 7.986997391805025,
+    "unbatched_ms_per_call": 0.11322500021196902
+  },
+  "predictor": "LightGBM predictor (treelite absent)",
+  "sizing_arithmetic": {
+    "assumptions": [
+      "feature-store latency at the measured value",
+      "no extra network hop",
+      "single region"
+    ],
+    "calls_per_core_per_second": 165.99830219943453,
+    "cores_to_carry_reference": 1.7431012728324007,
+    "measured_cpu_ms_per_call": 6.024157998908777,
+    "note": "arithmetic from measured CPU-ms, NOT a benchmark. An issuer's capacity planner can check it line by line.",
+    "peak_to_mean_ratio": 2.5,
+    "reference_volume_per_day": 10000000
+  },
+  "target_p99_ms": 25.0
+}

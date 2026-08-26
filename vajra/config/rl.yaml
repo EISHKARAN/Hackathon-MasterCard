@@ -1,0 +1,77 @@
+# Reinforcement-learning hyper-parameters for the ARENA attacker.
+# Formal specification: docs/RL_LOOP.md.  Literature grounding: docs/RESEARCH.md section 7.
+#
+# These are SWEPT, not tuned against a reported number. Tuning the attacker's learning rate
+# against sibling-transfer recall would be optimising the metric we built to falsify
+# ourselves, so `make sensitivity` varies them and reports the spread instead.
+
+campaign_mdp:
+  # Watkins Q(lambda). Tabular: |S| = 4 stages x 8 outcomes x 3 budget buckets x 3 heat
+  # levels = 288 states, |A| = 11 tactics -> 3168 floats. Chosen tabular deliberately:
+  # it converges inside the execution budget we actually have and the LOOP screen can
+  # render the learned policy as a readable table.
+  alpha: 0.15
+  gamma: 0.92          # finite horizon; the real bound is the budget, so gamma<1 is only
+                       # a mild preference for earlier extraction
+  trace_lambda: 0.70
+  epsilon_start: 0.35
+  epsilon_end: 0.05
+  epsilon_decay_ticks: 12
+  optimistic_init: 0.0 # NOT optimistic: optimistic init would make the agent probe every
+                       # tactic once regardless of cost, which is free in a gridworld and
+                       # expensive under a P&L budget
+  # Experience replay across the archive. Without it each cell's agent learns only from
+  # its own handful of episodes and the >=25-evaluations-per-cell budget is not enough.
+  replay_capacity: 200_000
+  replay_batch_per_tick: 2_000
+  # Reward shaping from defender internals is FORBIDDEN, not configurable. There is no key
+  # for it here on purpose: adding one would smuggle defender-internal information into the
+  # attacker through the reward channel.
+
+bandit:
+  # Thompson sampling with discounted counts. The discount is what makes the bandit TRACK a
+  # retrained defender rather than average over its whole history -- without it, the
+  # posterior is dominated by the pre-retrain regime and the bandit stops adapting, which
+  # looks like the defender winning when it is the bandit's memory failing.
+  discount_rho: 0.97
+  prior_alpha: 1.0
+  prior_beta: 1.0
+  # Continuous amount dimension: linear-Gaussian posterior.
+  amount_prior_variance: 4.0
+  amount_noise_variance: 1.0
+  min_pulls_before_exploit: 3
+
+arms:
+  # The bandit's action space, observed only through attacker-visible feedback.
+  amount_band: [micro, low, mid, high, very_high]
+  entry_mode: [ecommerce, keyed, contactless, chip, intent, collect, secure_intent, agent]
+  hour_bucket: [night, morning, midday, evening, late]
+  fan_out: [1, 3, 8, 15, 30]
+  # MCC and acquirer supports are drawn from the simulator's realised populations rather
+  # than listed here, so the arm set cannot drift from the world.
+
+curriculum:
+  # MAP-Elites selection pressure. Not RL: this is unsupervised environment design -- an
+  # automatic curriculum generator over an INTERPRETABLE axis system rather than a latent one.
+  under_occupied_bias: 0.55   # P(select an under-filled feasible cell) vs a high-P&L elite
+  pnl_selection_temperature: 0.8
+  mutations_per_offspring: [1, 1, 1, 2]   # mostly single-morpheme; some doubles
+  # Elites are RE-EVALUATED after each FORGE stage rather than trusting a stale fitness,
+  # because the defender retrains and the fitness landscape moves (dynamic QD).
+  reevaluate_elites_after_forge: true
+  reevaluate_sample: 24
+
+evaluation:
+  # Time-to-evade is measured against a FROZEN defender snapshot. If the defender retrains
+  # while the attacker searches, attacker and defender co-drift and the number is
+  # meaningless. This is the control Fraud-RLA (IEEE TDSC 2026) establishes.
+  frozen_gate_target_approval_rate: 0.60
+  probe_budget_cap: 4_000
+  time_to_evade_repeats: 3
+
+control_arms:
+  # Every arm here is a published result, not a diagnostic. If `bandit_only` matches the
+  # full agent we report that the MDP level bought nothing.
+  - random_tactic     # Level 2 replaced by uniform random tactic choice
+  - bandit_only       # Level 2 disabled, Level 1 retained -- the honest null for "why RL"
+  - static            # whole loop disabled -> LOOP-LIFT, the headline control

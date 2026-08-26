@@ -1,0 +1,113 @@
+# ACCESS — how control, credential or authority over the payment instrument is obtained.
+#
+# This slot projects many-to-one onto the archive's AUTHORISATION-LOCUS axis (8 -> 4).
+# The projection is published as executable code in grammar/cell_of.py, not left implied.
+#
+# NOTE ON WHAT IS DELIBERATELY ABSENT: there is no insider/internal-actor morpheme.
+# Insider collusion at a PSP or processor (a privileged actor changing risk configuration
+# or suppressing alerts) is therefore INEXPRESSIBLE in this grammar, and the design says
+# so as a stated ceiling rather than letting a judge discover it. The other named
+# inexpressible class is settlement/reconciliation-layer manipulation: the canonical
+# schema has no settlement-file object, so RAIL cannot reach it either.
+
+slot: ACCESS
+count: 8
+locus_axis_note: >
+  The AUTHORISATION-LOCUS bucket named "authorised-but-deceived-victim" covers both
+  deception and later repudiation: what the two share is that authorisation was genuine
+  at the payer. first-party-misuse is not deceived, and we say so here rather than
+  implying the bucket name is exact.
+
+values:
+  - id: stolen-credential
+    label: Stolen credential, victim unaware
+    locus: stolen-credential
+    description: >
+      Card data, credentials or a session are held by the attacker without the
+      legitimate holder's knowledge or participation. The classic CNP case.
+    observable_family: credential-misuse
+    genai_delta: >
+      Cost and scale of target selection and orchestration, not the theft itself.
+
+  - id: enumerated-credential
+    label: Enumerated or probed credential
+    locus: stolen-credential
+    description: >
+      The credential (or an accepted amount band, BIN range, address subfield or
+      exemption path) is DISCOVERED by iterated probing against a response oracle,
+      rather than stolen wholesale.
+    observable_family: sequence-oracle
+    genai_delta: >
+      An agent reads decline reason codes and issuer latency and online-optimises which
+      ranges stay open, replacing fixed brute force with adaptive search.
+
+  - id: synthetic-identity
+    label: Manufactured identity, no victim
+    locus: synthetic-identity
+    description: >
+      A coherent identity that corresponds to no real person, cultivated until a thin
+      file looks aged. There is no victim, so no fraud-coded dispute ever arrives and
+      the loss books as credit loss.
+    observable_family: cohort-statistics
+    genai_delta: >
+      Fabricates years of coherent low-value digital exhaust; agents manage hundreds of
+      cultivation schedules concurrently.
+
+  - id: authorised-but-deceived-payer
+    label: Authorised push by a deceived payer
+    locus: authorised-but-deceived-victim
+    description: >
+      The genuine customer, on the genuine device, with the correct PIN, authorises the
+      payment under deception or coercion. There is NO payer-side compromise, therefore
+      no payer-side artefact to detect. This is the loss category that dominates India
+      and the reason GATE-B exists.
+    observable_family: beneficiary-side
+    genai_delta: >
+      Real-time regional-language dialogue agents sustain multi-hour coercion at near
+      zero marginal cost, previously bounded by the supply of human callers.
+
+  - id: account-takeover
+    label: Account or device-binding takeover
+    locus: stolen-credential
+    description: >
+      Control of the account itself is seized — SIM swap and re-registration, device
+      rebinding, servicing-channel profile change. After the takeover every credential
+      legitimately belongs to the attacker.
+    observable_family: identity-transition
+    genai_delta: >
+      Persona-consistent multi-channel pretexting plus simultaneous victim distraction;
+      sub-second voice conversion against a call centre.
+
+  - id: merchant-onboarding-fraud
+    label: Attacker becomes the acceptor
+    locus: synthetic-identity
+    description: >
+      The attacker is onboarded as a merchant or sub-merchant, so proceeds arrive
+      wearing merchant-settlement clothing and complaints land after settlement.
+    observable_family: acquiring-underwriting
+    genai_delta: >
+      Complete coherent business identities — sites, policies, catalogues, reviews,
+      financials — pass automated documentary underwriting cheaply.
+
+  - id: delegated-agent-mandate
+    label: Delegated agent mandate abused
+    locus: delegated-agent-mandate
+    description: >
+      An AI agent holds a payment mandate on the consumer's behalf and its instruction
+      channel is corrupted, or the agent's identity is impersonated. Credential, token
+      and device are all legitimately the consumer's: authorised but corrupted intent,
+      with no message field for "the instruction was poisoned".
+    observable_family: mandate-conformance
+    genai_delta: >
+      The agent IS the vulnerability: untrusted web content becomes instruction.
+
+  - id: first-party-misuse
+    label: First-party misuse and repudiation
+    locus: authorised-but-deceived-victim
+    description: >
+      The transaction genuinely was the cardholder. All authorisation-time features are
+      clean and the fraud is post-hoc intent, expressed through the dispute rail.
+    observable_family: dispute-channel
+    genai_delta: >
+      Mass-produces individualised, policy-aware, evidence-consistent dispute narratives
+      and coaches claimants through representment.

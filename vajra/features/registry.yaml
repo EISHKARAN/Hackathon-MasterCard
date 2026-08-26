@@ -1,0 +1,543 @@
+# THE FEATURE REGISTRY — declared as FAMILIES that expand to a machine-counted total.
+#
+# The design's feature count is a PLANNED BUDGET of ~380, "machine-counted from
+# features/registry.yaml at build time and reported as whatever the registry actually contains --
+# not a claim about work already done". So this file declares families and their cross-products,
+# and features/registry.py expands them. `make train` prints the realised integer. If it prints
+# 290, 290 goes in the deck.
+#
+# EVERY FAMILY CARRIES:
+#   lineage   — what it is computed from, and the citation where one exists
+#   views     — which deployment views can construct it (see gate/views.yaml). This is what makes
+#               the single-institution visibility ablation a real ablation rather than a claim.
+#   catches   — the attack mechanism it exists to detect. A feature with no named mechanism is
+#               decoration, and the CI test asserts every family names one.
+#
+# TWO HARD RULES, both asserted by tests:
+#   1. NO FEATURE MAY READ AN ORACLE FIELD. sim/schema.py::ORACLE_FIELDS is simulator ground truth
+#      used only by the evaluation harness. tests/test_no_oracle_in_features.py enforces it.
+#   2. NO PROTECTED ATTRIBUTES OR OBVIOUS PROXIES. There is no age, gender, religion, caste or
+#      income feature, and geo features are transaction geography rather than residence.
+#
+# THE DUAL ENCODING IS THE POINT OF THE VELOCITY PANEL. Every velocity statistic appears BOTH as a
+# ratio to the entity's own trailing baseline AND as a peer-cohort percentile. A single absolute
+# encoding is defeated by an attacker who keeps every per-key counter sub-threshold; the ratio
+# catches the self-relative spike and the percentile catches the population-relative one.
+
+version: 1
+
+# ---------------------------------------------------------------------------------------
+# Shared axes referenced by the families below.
+# ---------------------------------------------------------------------------------------
+axes:
+  # THE NINE ENTITY KEYS. That count is canonical: any other figure elsewhere in the repo is a
+  # typo. The online-store footprint claim is stated as values-per-entity-per-key-type x active
+  # entities, never as a round total.
+  entity_keys:
+    - {name: pan_canonical,        views: [issuer, network]}
+    - {name: token_id,             views: [issuer, acquirer, network]}
+    - {name: token_requestor_id,   views: [issuer, network]}
+    - {name: device_fingerprint_id, views: [issuer, acquirer, payee_psp]}
+    - {name: terminal_id,          views: [acquirer, network]}
+    - {name: merchant_id,          views: [issuer, acquirer, network]}
+    - {name: bin_prefix,           views: [issuer, acquirer, network]}
+    - {name: vpa,                  views: [issuer, payee_psp]}
+    - {name: beneficiary_id,       views: [payee_psp, network]}
+
+  windows: [1h, 24h, 7d, 30d]
+
+  # Each velocity statistic x each encoding. `ratio` divides by the entity's own trailing
+  # baseline; `pct` is the peer-cohort percentile.
+  velocity_stats: [count, amount_sum]
+  velocity_encodings: [ratio, pct]
+
+families:
+
+  # =====================================================================================
+  # 1. Multi-key velocity panel — the largest family, and the dual encoding lives here.
+  # =====================================================================================
+  - id: velocity_panel
+    expand: entity_keys x windows x velocity_stats x velocity_encodings
+    name_template: "vel_{key}_{window}_{stat}_{encoding}"
+    dtype: float
+    lineage: >
+      Transaction-aggregation features in the sense of Bahnsen et al., Expert Systems with
+      Applications 2016. `ratio` = statistic in the window divided by the entity's own trailing
+      30d rate scaled to the window; `pct` = percentile within the peer cohort defined by
+      sim/habits.py::peer_cohort_key (issuer x credit-limit band), which is a COARSE,
+      BUSINESS-MEANINGFUL cohort rather than a clustering — a learned cohort fitted on a pool
+      containing sealed rows would import holdout information into every percentile feature.
+    catches: >
+      velocity-splitting, token-graph fragmentation (ATK-T2), entity/cohort splitting. The dual
+      encoding is what defeats an attacker who keeps every per-token counter sub-threshold.
+    per_key_views: true
+
+  - id: velocity_distinct
+    expand: entity_keys x windows
+    name_template: "vel_{key}_{window}_distinct_counterparty"
+    dtype: float
+    lineage: Distinct counterparties (merchant for card keys, payer/payee for account keys) in the window.
+    catches: fan-out and fan-in structure without a graph traversal on the inline path.
+    per_key_views: true
+
+  # =====================================================================================
+  # 2. Temporal shape — von Mises periodic encodings, per Bahnsen et al. 2016.
+  # =====================================================================================
+  # THE GAP THIS FAMILY CLOSES. `grammar/` declares observables for the TIER-B thin rails and the
+  # simulator emits them, but nothing read them: `reconciliation_lag_minutes` exists in
+  # sim/schema.py, is emitted with attack |N(340,220)| against benign |N(95,70)| minutes, and was
+  # referenced by ZERO features. Measured consequence at the full preset: `upi-lite-offline` scored
+  # recall 0.0000 and `aeps-microatm` ROC-AUC 0.336 -- ANTI-predictive -- together roughly a quarter
+  # of all attack events. A generated signal no feature reads is not a detection failure, it is a
+  # coverage hole, and this family closes it.
+  #
+  # DELIBERATELY NOT ADDED: an exact-amount-collision counter. AePS attack withdrawals are quantised
+  # to exactly 5000.0 while benign is uniform(500, 10000) rounded to paise, so a collision counter
+  # would fire almost only on attacks -- a near-perfect separator manufactured by the generator's
+  # choice of a single quantised value, not a real signal. Real AePS traffic has heavy mass on round
+  # amounts, so the true signal is weak. The honest fix is in the generator's benign realism, not a
+  # feature that exploits the artifact. Recorded here rather than silently exploited.
+  - id: thin_rail_observables
+    catches: >
+      ATK-U6 (UPI Lite sub-ceiling debit fan-out behind a delayed-reconciliation window) and the
+      AePS/micro-ATM assisted-withdrawal families (ATK-U11): agent-side probing visible as a
+      balance-enquiry-to-withdrawal ratio anomaly, and low central-visibility windows visible as an
+      elevated core-banking posting lag. These are the two rails where the detector scored at or
+      below chance, and in both cases the mechanism was emitted by the simulator and read by nothing.
+    features:
+      - {name: reconciliation_lag_minutes, views: [issuer, payee_psp, network],
+         lineage: "Core-banking posting lag in minutes, sentinel where the rail does not report one. Modelled as a LAG rather than as a claim about UPI Lite posting mechanics (sim/rails/thin.py). An acquirer cannot see the payer's core-banking posting, so it is ABSENT at that view."}
+      - {name: reconciliation_lag_pct_in_peer_cohort, views: [issuer, payee_psp, network],
+         lineage: "Percentile of the lag within the peer cohort, so the feature survives a portfolio whose absolute lag distribution differs from ours."}
+      - {name: balance_enquiry_count_24h, views: [issuer, acquirer, network],
+         lineage: "Trailing-24h count of balance_enquiry messages for this cardholder. The AePS probing observable: an agent testing which references work runs many enquiries per withdrawal. CAUSAL -- prior rows only."}
+      - {name: balance_enquiry_to_withdrawal_ratio_24h, views: [issuer, acquirer, network],
+         lineage: "Enquiries divided by withdrawals in the trailing 24h, sentinel off the AePS rail. The ratio rather than the raw count, because a busy legitimate agent has many of both."}
+      - {name: lite_debits_since_topup_24h, views: [issuer, payee_psp, network],
+         lineage: "Count of PRIOR upi-lite-offline debits sharing this top-up's original_auth_event_id within 24h. Attack top-ups fan out to 4-12 debits against 1-4 ordinary ones. Deliberately backward-looking: a group-total would count debits that have not happened yet, which is a future leak at serve time."}
+  - id: temporal
+    features:
+      - {name: tod_vonmises_sin_h1, lineage: "sin(2*pi*hour/24) — 1st harmonic"}
+      - {name: tod_vonmises_cos_h1, lineage: "cos(2*pi*hour/24)"}
+      - {name: tod_vonmises_sin_h2, lineage: "2nd harmonic; captures a bimodal midday/evening day"}
+      - {name: tod_vonmises_cos_h2, lineage: "2nd harmonic"}
+      - {name: tod_vonmises_sin_h3, lineage: "3rd harmonic"}
+      - {name: tod_vonmises_cos_h3, lineage: "3rd harmonic"}
+      - {name: hour_deviation_from_habit, lineage: "circular distance from the entity's own diurnal phase"}
+      - {name: is_night_hours, lineage: "hour in [0,5) IST — the AePS night-cluster observable"}
+      - {name: dow_sin, lineage: "day-of-week circular encoding"}
+      - {name: dow_cos, lineage: "day-of-week circular encoding"}
+      - {name: is_payday_window, lineage: "config/scenario.yaml month_end_payday_days"}
+      - {name: is_festival_window, lineage: "config/scenario.yaml festival window"}
+      - {name: festival_ramp_position, lineage: "0..1 position within the festival ramp"}
+      - {name: inter_arrival_seconds, lineage: "seconds since this entity's previous event"}
+      - {name: inter_arrival_log, lineage: "log1p of the above; the raw scale is heavy-tailed"}
+      - {name: inter_arrival_regularity, lineage: "1 - CV of the entity's last 8 inter-arrivals"}
+      - {name: inter_arrival_zscore_vs_habit, lineage: "vs the entity's own trailing mean"}
+      - {name: events_in_session, lineage: "count within the current session id"}
+    lineage: >
+      von Mises periodic time-of-day features per Bahnsen, Aouada, Stojanovic & Ottersten (ESWA
+      2016), which reports them as worth an average 13% increase in savings over aggregation
+      features alone. Circular rather than linear because a normal centred at 23:00 leaks
+      probability past midnight.
+    catches: burst campaigns, night AePS clusters, HUMAN-IMPLAUSIBLE UNIFORMITY (regularity high).
+    views: [issuer, acquirer, payee_psp, network]
+
+  # =====================================================================================
+  # 3. Sequence artefacts, computed INLINE and cheaply.
+  # =====================================================================================
+  - id: sequence_artefacts
+    features:
+      - {name: single_field_delta_retry_chain, lineage: "length of the run of retries differing in exactly one field"}
+      - {name: decline_reason_entropy, lineage: "Shannon entropy of this entity's last 16 response codes"}
+      - {name: response_code_transition_entropy, lineage: "entropy of adjacent response-code pairs"}
+      - {name: avs_trajectory_shape, lineage: "ordinal encoding of no_match -> partial -> match progress"}
+      - {name: avs_trajectory_monotone, lineage: "1 if the AVS trajectory is monotonically improving"}
+      - {name: cvv2_retry_count, lineage: "count of cvv2 no-match retries in 1h on this entity"}
+      - {name: entry_mode_transition_flag, lineage: "entry mode differs from this entity's previous event"}
+      - {name: entry_mode_downgrade_flag, lineage: "chip/contactless -> fallback or keyed"}
+      - {name: response_latency_probe_pattern, lineage: "CV of the entity's last 8 response latencies"}
+      - {name: approval_ratio_delta_vs_baseline, lineage: "1h approval rate minus this entity's 30d rate"}
+      - {name: amount_uniformity_score, lineage: "1 - CV of the entity's last 12 amounts"}
+      - {name: distinct_pan_per_terminal_1h, lineage: "distinct PANs seen at this terminal in 1h"}
+      - {name: inter_arrival_microstructure_similarity, lineage: "correlation of this entity's inter-arrival pattern with the population's modal pattern"}
+    lineage: Sequence properties of the entity's own recent history, computed from a bounded trailing buffer.
+    catches: >
+      oracle probing (ATK-C1, ATK-C3, and the former decline-oracle-surrogate row now folded into
+      the `oracle-probing` morpheme), technical-fallback steering (ATK-P1), label-latency bursts.
+    views: [issuer, acquirer, network]
+
+  # =====================================================================================
+  # 4. Trust-envelope integrity — DATA QUALITY is the signal, not anomaly.
+  # =====================================================================================
+  - id: trust_envelope
+    features:
+      - {name: threeds_field_population_score, lineage: "share of optional 3DS request fields populated"}
+      - {name: field_combination_implausibility, lineage: "count of mutually inconsistent pairs among screen/UA/channel/timezone/language/ASN"}
+      - {name: threeds_timezone_disagrees_with_geo, lineage: "browserTZ vs transaction geography"}
+      - {name: threeds_language_disagrees_with_geo, lineage: "browserLanguage vs transaction geography"}
+      - {name: threeds_channel_screen_mismatch, lineage: "app channel with a desktop screen size"}
+      - {name: threeds_authenticated_flag, lineage: "ECI band == authenticated"}
+      - {name: threeds_frictionless_flag, lineage: "frictionless success rather than challenged"}
+      - {name: threeds_challenge_abandoned_flag, lineage: "challenge started and abandoned"}
+      - {name: token_assurance_ordinal, lineage: "none/low/medium/high as 0..3"}
+      - {name: token_assurance_vs_device_age, lineage: "assurance ordinal minus a device-age band; low assurance on a day-old device is the ATK-T1 shape"}
+      - {name: provisioning_to_first_spend_minutes, lineage: "direct schema field"}
+      - {name: provisioning_to_first_spend_log, lineage: "log1p; the raw scale spans minutes to weeks"}
+      - {name: cvm_result_ordinal, lineage: "none < signature < offline_pin < online_pin < cdcvm < biometric"}
+      - {name: cvm_vs_device_age, lineage: "a device CVM on a device with age ~0"}
+      - {name: cryptogram_present_but_unverified, lineage: "cryptogram accepted anyway — the ATK-P2 observable"}
+      - {name: issuer_application_data_inconsistent, lineage: "IAD inconsistent with the card profile"}
+      - {name: exemption_flag_present, lineage: "SCA exemption asserted"}
+      - {name: exemption_rate_per_bin_24h, lineage: "share of this BIN's 24h volume asserting an exemption"}
+      - {name: stand_in_flag, lineage: "approved-on-behalf during issuer unavailability"}
+      - {name: agent_attestation_ordinal, lineage: "unattested < self_attested < attested. ILLUSTRATIVE field naming, badged in the UI"}
+      - {name: agent_mandate_signature_invalid, lineage: "signature check failed"}
+      - {name: agentic_indicator_without_mandate, lineage: "agent-initiated with no mandate of record"}
+    lineage: >
+      Internal consistency of the trust envelope. The insight is that a SYNTHESISED authentication
+      telemetry bundle is internally implausible BEFORE it is anomalous, so a naive
+      "sparse fields = risk" feature misses ATK-C4 entirely and a plausibility feature catches it.
+    catches: frictionless-path gaming (ATK-C4), token-provisioning takeover (ATK-T1), checkout-clone CoF provisioning (ATK-T4), agent impersonation (ATK-X3).
+    views: [issuer, network]
+
+  # =====================================================================================
+  # 5. Mandate deltas — the violation is visible only against the mandate object.
+  # =====================================================================================
+  - id: mandate_deltas
+    features:
+      - {name: mandate_present, lineage: "a mandate object is in the scoring view at all"}
+      - {name: mandate_amount_headroom, lineage: "(cap - amount) / cap"}
+      - {name: mandate_amount_headroom_pct, lineage: "percentile of headroom within the mandate cohort"}
+      - {name: mandate_count_vs_frequency, lineage: "debits to date versus the declared frequency's expectation"}
+      - {name: mandate_mcc_drift, lineage: "1 if the debit MCC is outside the mandate's permitted MCC"}
+      - {name: mandate_to_first_debit_minutes, lineage: "creation to first debit; ~0 is the consent-fatigue observable"}
+      - {name: cit_mit_flip_flag, lineage: "CIT/MIT indicator flipped on one token"}
+      - {name: pre_debit_notification_absent, lineage: "debit without a pre-debit notification"}
+      - {name: mandate_cohort_identical_params, lineage: "count of mandates in a 24h batch sharing this cap and frequency"}
+      - {name: mandate_creation_rate_per_payee_24h, lineage: "mandate creations for this payee in 24h"}
+      - {name: mandate_amount_vs_afa_band, lineage: "distance to the AFA-exempt band. The band value is [VERIFY] and swept"}
+    lineage: Computed against the stored mandate object, which most fraud scorers never see.
+    catches: mandate-scope escalation (ATK-M2), AutoPay consent-fatigue abuse (ATK-M3), agentic mandate-vs-execution divergence (ATK-X1).
+    views: [issuer]
+
+  # =====================================================================================
+  # 6. Policy-threshold geometry — distance to every threshold the incumbent enforces.
+  # =====================================================================================
+  - id: threshold_geometry
+    features:
+      - {name: distance_to_nearest_threshold, lineage: "signed rupee distance to the closest policy threshold"}
+      - {name: distance_to_nearest_threshold_rel, lineage: "the above divided by the threshold"}
+      - {name: just_below_threshold_flag, lineage: "within 2% below a threshold"}
+      - {name: amount_mass_below_cap_24h, lineage: "share of this entity's 24h volume sitting just below a cap"}
+      - {name: threshold_hug_run_length, lineage: "consecutive just-below-threshold events for this entity"}
+      - {name: cumulative_count_24h_vs_cap, lineage: "24h count against the flat count ceiling the incumbent enforces"}
+      - {name: amount_log, lineage: "log1p(amount) — the modelling scale for a lognormal ticket law"}
+      - {name: amount_is_round_atom, lineage: "amount equals a configured rupee atom"}
+      - {name: amount_round_number_avoidance, lineage: "1 - closeness to the nearest atom; mule layering AVOIDS round numbers"}
+    lineage: >
+      Geometry against the thresholds in sim/incumbent.py and sim/rails/*. Threshold values are
+      swept config parameters and are [VERIFY] where they correspond to regulatory bands.
+    catches: threshold-hugging, exemption routing (ATK-C5), AFA-band pinning (ATK-M3), the round-number-avoidance half of ATK-G1.
+    views: [issuer, acquirer, network]
+
+  # =====================================================================================
+  # 7. Cross-message divergence — the family almost no production stack scores.
+  # =====================================================================================
+  - id: cross_message
+    features:
+      - {name: auth_to_presentment_ratio, lineage: "settlement / authorisation amount"}
+      - {name: auth_to_presentment_ratio_vs_mcc, lineage: "the ratio minus the MCC's own median ratio"}
+      - {name: presentment_age_days, lineage: "days from auth to presentment"}
+      - {name: incremental_auth_absent, lineage: "a divergent presentment with no incremental authorisation"}
+      - {name: reversal_absent, lineage: "no reversal where the lifecycle would expect one"}
+      - {name: refund_without_original_auth, lineage: "refund with no resolvable original authorisation"}
+      - {name: refund_exceeds_original_flag, lineage: "cumulative refunds above the original amount"}
+      - {name: refund_to_different_credential, lineage: "credit issued to a credential other than the debited one"}
+      - {name: credit_to_debit_ratio_per_acceptor_24h, lineage: "refund value / debit value at this acceptor"}
+      - {name: time_to_dispute_days, lineage: "auth to dispute filing"}
+      - {name: label_channel_disagreement, lineage: "AUDIT FIELD: channels disagree. Exported for reporting, and it is what ATK-D3 attacks"}
+    lineage: Requires the clearing and dispute legs, which a scorer that reads authorisations only does not have.
+    catches: auth-versus-clearing divergence (ATK-S1), refund abuse (ATK-V2), representment anomalies (ATK-D2), label poisoning (ATK-D3).
+    views: [issuer, acquirer, network]
+    note: >
+      `label_channel_disagreement` is exported as an AUDIT field and is EXCLUDED from the model
+      matrix by features/registry.py, because a model that consumes label disagreement is
+      consuming the label. tests/test_audit_fields_excluded.py asserts it.
+
+  # =====================================================================================
+  # 8. Streaming graph sketches — THE COLD-GRAPH FIX. Inline, at t=0.
+  # =====================================================================================
+  - id: graph_sketches
+    features:
+      - {name: sketch_distinct_payers_per_beneficiary_1h, lineage: "HyperLogLog-style sketch, inline"}
+      - {name: sketch_distinct_payers_per_beneficiary_24h, lineage: "sketch, inline"}
+      - {name: sketch_beneficiary_fanin_degree, lineage: "approximate in-degree"}
+      - {name: sketch_beneficiary_fanout_degree, lineage: "approximate out-degree"}
+      - {name: sketch_payer_fanout_degree_24h, lineage: "distinct payees this payer touched"}
+      - {name: sketch_pan_token_fanout_7d, lineage: "distinct token requestors for this PAN"}
+      - {name: sketch_device_shared_entity_count, lineage: "distinct cardholders on this device"}
+      - {name: sketch_address_node_density, lineage: "entities sharing this address id"}
+      - {name: sketch_two_hop_reach_24h, lineage: "approximate 2-hop reachable set size"}
+      - {name: sketch_round_trip_flow_flag, lineage: "value returned to a prior payer within the window"}
+      - {name: sketch_kcore_acquisition_rate, lineage: "rate of change of approximate k-core membership"}
+      - {name: sketch_motif_reciprocity, lineage: "share of this entity's edges that are reciprocal"}
+      - {name: sketch_fingerprint_collision_degree, lineage: "entities sharing this device fingerprint hash"}
+      - {name: sketch_geohash_distinct_payer_devices, lineage: "distinct payer devices paying a non-registered payee in this geohash"}
+      - {name: sketch_first_txn_at_acceptor_share_24h, lineage: "share of this acceptor's 24h payers for whom this is a first transaction"}
+      - {name: sketch_seeder_cluster_membership, lineage: "membership in a cluster that seeded small inbound credits"}
+    lineage: >
+      Sketch structures in the in-process online store, refreshed per event. THE COLD-GRAPH FIX:
+      the heavy graph model cannot score the first seconds of a burst, and the first seconds are
+      exactly where enumeration, provisioning abuse and fan-out live. We do NOT claim live graph
+      traversal on the authorisation path — that is the mistake that makes latency claims fictional.
+    catches: agentic mule layering (ATK-G1), graph camouflage (ATK-G2), cross-rail choreography (ATK-G4), fingerprint collision (ATK-G5), QR overlay (ATK-U3).
+    views: [issuer, payee_psp, network]
+
+  # =====================================================================================
+  # 9. Beneficiary-side — GATE-B's observables. Computable ONLY on the receiving side.
+  # =====================================================================================
+  - id: beneficiary_side
+    features:
+      - {name: beneficiary_account_age_days, lineage: "direct schema field"}
+      - {name: beneficiary_age_band_ordinal, lineage: "0-1d / 1-7d / 7-30d / 30d+ as 0..3"}
+      - {name: in_out_skew, lineage: "|inflow - outflow| / inflow. A TIGHT skew is the mule signature; the threshold is a swept simulator parameter, not an empirical constant"}
+      - {name: value_conservation_net_of_skim, lineage: "outflow / inflow"}
+      - {name: pass_through_dwell_seconds, lineage: "credit to onward send"}
+      - {name: pass_through_dwell_log, lineage: "log1p of the above"}
+      - {name: beneficiary_onward_send_minutes, lineage: "direct schema field"}
+      - {name: first_receipt_to_first_send_minutes, lineage: "first ever credit to first ever send"}
+      - {name: beneficiary_distinct_payers_24h, lineage: "direct schema field"}
+      - {name: repeat_payer_share, lineage: "share of payers seen before"}
+      - {name: payer_set_growth_rate, lineage: "new payers per hour"}
+      - {name: biller_continuity_absent, lineage: "no recurring biller relationship in the payer set"}
+      - {name: first_credit_source_concentration, lineage: "Herfindahl index over first-credit sources"}
+      - {name: beneficiary_category_ordinal, lineage: "category encoding, with quasi-cash and off-ramp categories highest"}
+      - {name: beneficiary_kyc_tier_ordinal, lineage: "none < min_kyc < full_kyc < video_kyc"}
+      - {name: creditor_name_match_score, lineage: "confirmation-of-payee outcome. Whether an equivalent exists per rail is [VERIFY]"}
+      - {name: beneficiary_change_within_cooling_hours, lineage: "beneficiary detail changed inside the cooling window before payment"}
+      - {name: remittance_info_drift, lineage: "string distance from this vendor's prior remittance references"}
+      - {name: amount_vs_vendor_history, lineage: "amount z-score against this beneficiary's own history"}
+      - {name: payee_vpa_age_days, lineage: "direct schema field"}
+      - {name: payee_name_brand_similarity, lineage: "similarity of the payee name string to a known brand while the handle is unrelated"}
+      - {name: inbound_credit_then_outbound_different_payee, lineage: "the ATK-U5 refund-reciprocity shape"}
+      - {name: beneficiary_prior_from_exchange, lineage: "mule prior consumed through the bloom exchange. UNVERIFIED STUB; the no-exchange fallback is published as its own view in the ablation"}
+    lineage: >
+      Computable only on the receiving side. These are the direct observables for ATK-G1, ATK-G2,
+      ATK-U5 and ATK-A2, and they are the reason GATE-B exists: in an authorised push payment every
+      payer-side signal is genuine, so the enforceable control point is the beneficiary account.
+    catches: authorised push payment across the whole ATK-U series, mule layering, ghost-merchant onboarding.
+    views: [payee_psp, network]
+    note: >
+      THIS FEATURE LIST IS ALSO AN EXACT DESCRIPTION OF A LEGITIMATE NEW RECEIVER. That is the
+      ethical and regulatory soft spot of every beneficiary-side control, which is why
+      HARD-BENIGN-B exists and why false-freeze and false-hold rates are headline metrics
+      alongside recall.
+
+  # =====================================================================================
+  # 10. Onboarding cohort statistics — POPULATION-level, not per-application.
+  # =====================================================================================
+  - id: onboarding_cohort
+    features:
+      - {name: onboarding_batch_size, lineage: "applications in this batch"}
+      - {name: onboarding_batch_timing_cluster, lineage: "1 - CV of intra-batch inter-arrival times"}
+      - {name: device_os_entropy_collapse, lineage: "1 - normalised Shannon entropy of device models in the batch"}
+      - {name: device_model_entropy, lineage: "normalised Shannon entropy of device models"}
+      - {name: asn_reuse_rate, lineage: "share of the batch sharing an ASN"}
+      - {name: name_ngram_unlikelihood, lineage: "character-n-gram log-likelihood of the name strings under a population model"}
+      - {name: address_geocode_density, lineage: "entities per address geocode cell"}
+      - {name: onboarding_to_first_credit_minutes, lineage: "application to first inbound credit"}
+      - {name: first_credit_source_concentration_batch, lineage: "Herfindahl over the batch's first-credit sources"}
+      - {name: batch_kyc_tier_uniformity, lineage: "share of the batch at the modal KYC tier"}
+    lineage: >
+      A SMALL TABULAR onboarding-cohort table supporting a cohort-STATISTICS scorer. We score the
+      statistical footprint of a batch of onboardings.
+    catches: onboarding-cohort flood (ATK-K3) and the synthetic-identity cultivation half of ATK-K2. This is the ONLY layer that can see them, because each application clears KYC individually.
+    views: [payee_psp]
+    design_only_note: >
+      WHAT WE DELIBERATELY DO NOT BUILD, marked design-only on the slide and in the UI: document
+      and narrative embeddings, capture geometry, and anything liveness-adjacent. A full
+      KYC-origination simulator is a second simulator wearing a bullet point's clothing. We
+      attempt no liveness or document forensics and produce no bypass knowledge.
+
+  # =====================================================================================
+  # 11. Entity age and cold start — the stratification we publish whether or not it flatters us.
+  # =====================================================================================
+  - id: entity_age
+    features:
+      - {name: pan_age_days, lineage: "direct schema field"}
+      - {name: vpa_age_days, lineage: "direct schema field"}
+      - {name: device_age_days, lineage: "direct schema field"}
+      - {name: merchant_age_days, lineage: "direct schema field"}
+      - {name: account_age_days, lineage: "direct schema field"}
+      - {name: min_entity_age_days, lineage: "minimum age across the keys present on this event"}
+      - {name: entity_age_band_ordinal, lineage: "0-1d / 1-7d / 7-30d / 30d+ as 0..3 — the metric stratification axis"}
+      - {name: is_first_event_for_entity, lineage: "no prior event for the primary key"}
+      - {name: cold_start_flag, lineage: "min entity age below 1 day"}
+      - {name: bin_issuer_prior_fraud_rate, lineage: "COLD-START PRIOR: the BIN's own trailing rate, fitted causally on the training window only"}
+      - {name: peer_cohort_prior_fraud_rate, lineage: "COLD-START PRIOR: peer-cohort trailing rate, fitted causally"}
+      - {name: geo_cell_prior_fraud_rate, lineage: "COLD-START PRIOR: geo-cell trailing rate, fitted causally"}
+    lineage: >
+      Velocity-ratio features score a fresh PAN, VPA, device or beneficiary as LOW RISK BY
+      CONSTRUCTION, and a material share of real loss is a first transaction on a fresh entity.
+      The three prior features are the cold-start answer, and all three are fitted CAUSALLY on the
+      training window with holdout-family rows excluded — asserted by eval/leakage/statistic_fit.py.
+    catches: the 0-1d stratum, where an aggregate recall number would otherwise hide a collapse.
+    views: [issuer, acquirer, payee_psp, network]
+
+  # =====================================================================================
+  # 12. Self-relative amount and habit deviation.
+  # =====================================================================================
+  - id: habit_deviation
+    features:
+      - {name: amount_ratio_to_own_baseline, lineage: "amount / entity's trailing 30d median amount"}
+      - {name: amount_zscore_to_own_baseline, lineage: "z-score against the entity's own trailing distribution"}
+      - {name: amount_pct_in_peer_cohort, lineage: "percentile within the peer cohort"}
+      - {name: is_largest_ever_for_entity, lineage: "the FIRST-HIGH-TICKET shape; HARD-BENIGN-12 contains it deliberately"}
+      - {name: mcc_novelty, lineage: "1 if this MCC is unseen for the entity in 30d"}
+      - {name: mcc_habit_probability, lineage: "probability of this MCC under the entity's habit MCC mix"}
+      - {name: geo_novelty, lineage: "1 if this geo cell is unseen for the entity in 30d"}
+      - {name: geovelocity_break, lineage: "implied speed between consecutive geo cells exceeds a plausible bound"}
+      - {name: device_churn_30d, lineage: "distinct devices for this entity in 30d"}
+      - {name: rail_novelty, lineage: "1 if this rail is unseen for the entity in 30d"}
+      - {name: rail_ratio_vs_peer_cohort, lineage: "this entity's share on this rail versus the peer cohort's"}
+      - {name: dormancy_reactivation_flag, lineage: "first event after a dormant spell"}
+    lineage: >
+      Anomaly RELATIVE TO SELF. None of these is meaningful without the per-actor habit model in
+      sim/habits.py, which is why the simulator builds habits before it emits a single event.
+    catches: >
+      relocation, bereavement and first-high-ticket shapes are HARD-BENIGN-12 cohorts here on
+      purpose: these features are exactly the ones those cohorts trip, and the cohort FPR is the
+      price of the family.
+    views: [issuer, acquirer, payee_psp, network]
+
+  # =====================================================================================
+  # 13. Merchant and acquirer side.
+  # =====================================================================================
+  - id: merchant_side
+    features:
+      - {name: mcc_vs_basket_semantics, lineage: "MCC inconsistent with the acceptor descriptor's implied category"}
+      - {name: acceptor_descriptor_mismatch, lineage: "descriptor inconsistent with the registered merchant record"}
+      - {name: merchant_ticket_step_change, lineage: "24h mean ticket versus the merchant's 30d mean"}
+      - {name: merchant_ramp_curve_shape, lineage: "second difference of the merchant's daily volume"}
+      - {name: merchant_approval_ratio_delta, lineage: "merchant 1h approval rate minus its 30d rate"}
+      - {name: new_mid_ticket_velocity, lineage: "24h count on a MID younger than 30 days"}
+      - {name: foreign_issuer_concentration, lineage: "share of this acceptor's payers on a foreign issuer"}
+      - {name: first_txn_at_acceptor_share, lineage: "share of payers for whom this is a first transaction at this acceptor"}
+      - {name: repeat_customer_share_merchant, lineage: "share of this merchant's payers seen before"}
+      - {name: refund_rate_anomaly, lineage: "merchant refund rate versus its MCC cohort"}
+      - {name: chargeback_after_funding_flag, lineage: "chargeback arriving after settlement funding"}
+      - {name: settlement_to_withdrawal_days, lineage: "settlement to onward withdrawal"}
+      - {name: traffic_geo_vs_registered_geo, lineage: "share of traffic outside the merchant's registered geography"}
+      - {name: merchant_volume_delta_in_cell, lineage: "a co-located merchant's volume change in the same geohash — the ATK-U3 competitor-drop observable"}
+    lineage: Acceptor-side structure. Several of these are ACQUIRER-VIEW ONLY and the ablation says so.
+    catches: card testing on merchant funnels (ATK-C2), bust-out merchants (ATK-S2), PayFac laundering (ATK-A1), ghost merchants (ATK-A2), storefront farms (ATK-A3), QR overlay (ATK-U3).
+    views: [acquirer, network, issuer]
+
+  # =====================================================================================
+  # 14. Device and session.
+  # =====================================================================================
+  - id: device_session
+    features:
+      - {name: device_rebinding_event, lineage: "direct schema field"}
+      - {name: pin_reset_event, lineage: "direct schema field"}
+      - {name: sms_silence_window_minutes, lineage: "direct schema field — the SIM-swap transition observable"}
+      - {name: rebinding_to_first_payee_minutes, lineage: "rebinding to the first payment to a new payee"}
+      - {name: profile_change_before_spend_days, lineage: "a non-transactional profile change PRECEDING spend — the ATK-V1 pre-stage"}
+      - {name: session_duration_minutes, lineage: "direct schema field"}
+      - {name: debits_per_uninterrupted_session, lineage: "count within one session"}
+      - {name: in_app_dwell_uniformity, lineage: "1 - CV of dwell across the session; HUMAN-IMPLAUSIBLE uniformity is the signal"}
+      - {name: escalating_amount_in_session, lineage: "monotone amount increase within one session"}
+      - {name: fresh_beneficiary_count_24h, lineage: "distinct never-seen payees in 24h"}
+      - {name: fd_liquidation_before_transfer, lineage: "a large inbound liquidation immediately preceding outbound transfers"}
+      - {name: device_fingerprint_entropy, lineage: "entropy of the device attribute bundle; TOO-CLEAN fingerprints are the ATK-G5 tell"}
+      - {name: ip_asn_novelty, lineage: "1 if this ASN is unseen for the entity in 30d"}
+      - {name: referrer_domain_age_days, lineage: "direct schema field"}
+      - {name: txn_note_template_score, lineage: "similarity of the transaction note to a template family"}
+    lineage: Device, binding-transition and session structure, from schema fields and trailing state.
+    catches: SIM-swap takeover (ATK-U10), voice-clone pre-stage (ATK-V1), screen-share assisted debit (ATK-U9), coercion (ATK-U1), deep-link spoof (ATK-U4).
+    views: [issuer, payee_psp]
+    excluded_note: >
+      Accessibility and screen-capture PERMISSIONS, remote-access foreground-app detection and
+      typing cadence are APP-SDK signals that sit outside both shipped personae. They are present
+      in the schema because the observables are real, and they are EXCLUDED from every scored
+      result by sim/schema.py::OUT_OF_PERSONA_FIELDS.
+
+  # =====================================================================================
+  # 15. Rail and channel context — one-hots, so the model can condition per rail.
+  # =====================================================================================
+  - id: rail_context
+    expand: rails
+    name_template: "rail_is_{rail}"
+    dtype: float
+    lineage: One-hot over the twelve declared rails, so a tree can split per rail rather than pooling.
+    catches: nothing on its own; it is the conditioning that lets every other family be read per rail.
+    views: [issuer, acquirer, payee_psp, network]
+
+  - id: channel_context
+    features:
+      - {name: tier_is_b, lineage: "the rail is a THIN emitter with no message-level fidelity claim"}
+      - {name: message_kind_is_authorisation, lineage: "one-hot"}
+      - {name: message_kind_is_credit_leg, lineage: "inbound_credit or onward_send"}
+      - {name: message_kind_is_post_auth, lineage: "presentment, chargeback, representment or refund"}
+      - {name: has_beneficiary_leg, lineage: "the rail has a receiving side at all"}
+      - {name: entry_mode_ordinal, lineage: "risk-ordered entry-mode encoding"}
+      - {name: initiation_mode_ordinal, lineage: "UPI initiation-mode encoding. The NPCI code table is [VERIFY]; ours is semantic"}
+      - {name: is_cross_border, lineage: "acceptor country is not IN"}
+      - {name: incumbent_score, lineage: "THE INCUMBENT'S OWN SCORE. Included deliberately: an issuer's new model gets the legacy engine's opinion as an input, and excluding it would understate what a real deployment has"}
+      - {name: incumbent_rule_count, lineage: "how many legacy rules fired"}
+    lineage: Channel and rail context, plus the incumbent's own opinion.
+    catches: conditioning; and `incumbent_score` is what makes the delta-versus-incumbent comparison an apples-to-apples one.
+    views: [issuer, acquirer, payee_psp, network]
+    note: >
+      `incumbent_accept_probability` is deliberately NOT a feature. It is the PROPENSITY, used by
+      the reject-inference estimator, and feeding a propensity to the model as a feature is how a
+      selection-bias correction quietly becomes a leak.
+
+# ---------------------------------------------------------------------------------------
+# Fields exported for AUDIT and reporting but EXCLUDED from the model matrix.
+# These ARE registry features (they are computed and written out); they are simply not columns
+# the model sees. features/registry.py asserts each one exists as a declared feature.
+# ---------------------------------------------------------------------------------------
+audit_only:
+  - label_channel_disagreement          # consuming label disagreement is consuming the label
+
+# ---------------------------------------------------------------------------------------
+# Schema fields that must NEVER become features. Distinct from `audit_only`: these are not
+# computed at all. features/registry.py asserts none of them appears in the expanded registry,
+# so a future change that adds one fails the build rather than silently leaking.
+# ---------------------------------------------------------------------------------------
+never_features:
+  - incumbent_accept_probability
+  # ^ This is the PROPENSITY. It belongs to the inverse-propensity reject-inference estimator.
+  #   Feeding a propensity to the model as a feature is how a selection-bias CORRECTION quietly
+  #   becomes a leak: the model would learn to read the very quantity that is supposed to be
+  #   reweighting it, and the corrected estimate would no longer be an estimate of anything.
+  - oracle_is_attack
+  - attack_campaign_id
+  - attack_family_id
+  - attack_grammar_str
+  - attack_cell_id
+  - attack_stage
+  - sealed_holdout
+  - oracle_value_at_risk_inr
+  # ^ Simulator ground truth for the evaluation harness only.
+  - screen_share_app_present
+  - accessibility_permission
+  # ^ App-SDK signals outside both shipped personae. Real observables, excluded from scoring.
+
+# ---------------------------------------------------------------------------------------
+# The no-protected-attributes assertion, made explicit so it can be checked.
+# ---------------------------------------------------------------------------------------
+protected_attribute_policy:
+  asserted: >
+    No feature in this registry encodes age, gender, religion, caste, income, or any direct proxy
+    for them. Geography features are TRANSACTION geography (acceptor geo cell, geohash of the
+    payment) rather than residence, and issuer/BIN features are institutional rather than personal.
+  checked_by: tests/test_no_protected_attributes.py
+  residual_risk: >
+    Geography and device tier CAN correlate with socio-economic status. We do not claim otherwise;
+    we publish a disparate-impact table over decline, friction AND beneficiary-side hold/freeze
+    rates by segment, geography and device tier so the correlation is measurable rather than
+    denied. That table's segments are synthetic attributes we generated, so it demonstrates the
+    reporting machinery exists — not that a real portfolio is fair.

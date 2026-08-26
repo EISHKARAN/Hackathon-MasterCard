@@ -1,0 +1,1049 @@
+{
+  "arm": "full",
+  "coverage": {
+    "archived_elites": 34,
+    "coverage_all_elites": 0.08947368421052632,
+    "coverage_ceiling_reachable_over_feasible": 0.7052631578947368,
+    "coverage_note": "Reported TWICE \u2014 all elites and solvent elites only \u2014 so the 0.33x/1x/3x mule-cost sweep moves a number instead of silently emptying cells. Ruin is a penalty plus a flag, never a deletion.",
+    "coverage_solvent_only": 0.08421052631578947,
+    "emergent_hybrids": 27,
+    "evaluations_per_occupied_cell_mean": 2.2058823529411766,
+    "feasible_but_unreachable": 112,
+    "feasible_denominator": 380,
+    "occupied_cells": 34,
+    "occupied_equals_elites": true,
+    "reachable_cells": 268,
+    "ruined_elites": 0,
+    "search_claim": "AT 2.2 EVALUATIONS PER OCCUPIED CELL WE DO NOT CALL THIS MAP-ELITES OPTIMISATION. It is a TYPED ENUMERATION WITH P&L ANNOTATION \u2014 still a defensible artifact, but a different claim, and the coverage figure must be read as a count of compositions that executed rather than as the output of a search.",
+    "solvent_elites": 32,
+    "total_evaluations": 75
+  },
+  "distinctness": {
+    "caveat": "At low evaluation counts many elites have sparse or empty attribution distributions, so the merge is conservative -- it under-merges rather than over-merges, and the pre-merge count is the more honest read until the archive is well-populated.",
+    "js_threshold": 0.05,
+    "merged_examples": [
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "a2a-assisted|stolen-credential|label-attack|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "a2a-assisted|stolen-credential|low-visibility-rail|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "a2a-assisted|stolen-credential|trust-inheritance|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "a2a-assisted|synthetic-identity|graph-camouflage|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-auth|authorised-but-deceived-victim|cohort-splitting|d1",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-auth|authorised-but-deceived-victim|oracle-probing|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-auth|delegated-agent-mandate|oracle-probing|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-auth|delegated-agent-mandate|velocity-splitting|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-auth|stolen-credential|cohort-splitting|d2",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-auth|stolen-credential|threshold-hugging|d1",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-auth|stolen-credential|velocity-splitting|d1",
+        "js": 0.0
+      },
+      {
+        "cell_a": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+        "cell_b": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "js": 0.0
+      }
+    ],
+    "n_merged_pairs": 561,
+    "note": "Cells whose elites are not separable above the JS threshold in detector-attribution space are MERGED, so the post-merge count can only fall. A diversity number that can go DOWN when validated is the only kind worth reporting.",
+    "post_merge_cells": 1,
+    "post_merge_coverage": 0.002631578947368421,
+    "pre_merge_cells": 34
+  },
+  "note": "The headline diversity integer is the POST-MERGE occupied-cell count. The type-legal string-space size (from `make grammar`) is subordinate and never the headline. This report can print below target, and the number it prints is what ships.",
+  "observable_delta": {
+    "measured": false,
+    "note": "A slot whose values all produce the same observable-delta is credited with moving nothing distinguishable. MONETISATION is expected to be near-zero here, and that is the honest reason it is not allowed to inflate the diversity headline.",
+    "per_slot": {},
+    "status": "NOT MEASURED \u2014 no code path populates Elite.observable_delta",
+    "unmeasured_caveat": "The per-slot observable-delta instrument is DECLARED BUT NOT WIRED: nothing assigns Elite.observable_delta, so there is no measurement to report. Previously this printed 0.0000 per slot, which reads as 'measured, and every slot moves nothing'. It is reported as unmeasured instead."
+  },
+  "per_cell": [
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d2",
+      "composition": "ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=trust-inheritance/MONETISATION=mule-chain-cashout/LABEL=victim-complains",
+      "cost_inr": 24.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 18,
+      "emergent_hybrid": false,
+      "evaluations": 1,
+      "family_id": "GEN-4151",
+      "fitness": 1317236.0,
+      "n_events": 2,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 1317260.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|stolen-credential|label-attack|d2",
+      "composition": "ACCESS=stolen-credential/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=label-attack/MONETISATION=crypto-offramp/LABEL=label-poisoned",
+      "cost_inr": 347.0,
+      "detection_latency_hours": 8.0,
+      "discovered_tick": 15,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-0135",
+      "fitness": 8827.000000000002,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "beneficiary_freeze after break-even, not ruin",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 9174.000000000002
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|stolen-credential|low-visibility-rail|d2",
+      "composition": "ACCESS=account-takeover/TRUST=aged-account/RAIL=aeps-microatm/EVASION=low-visibility-rail/MONETISATION=mule-chain-cashout/LABEL=label-poisoned",
+      "cost_inr": 36.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 22,
+      "emergent_hybrid": false,
+      "evaluations": 1,
+      "family_id": "GEN-0136",
+      "fitness": 655764.0,
+      "n_events": 3,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 655800.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+      "composition": "ACCESS=enumerated-credential/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=threshold-hugging/MONETISATION=crypto-offramp/LABEL=label-poisoned",
+      "cost_inr": 120.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 12,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-4995",
+      "fitness": 1122469.0,
+      "n_events": 10,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 1122589.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|stolen-credential|trust-inheritance|d2",
+      "composition": "ACCESS=account-takeover/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=trust-inheritance/MONETISATION=refund-chargeback-recovery/LABEL=victim-blames-self",
+      "cost_inr": 12.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 23,
+      "emergent_hybrid": true,
+      "evaluations": 2,
+      "family_id": "GEN-7149",
+      "fitness": 5237988.0,
+      "n_events": 1,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 5238000.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": -1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|synthetic-identity|graph-camouflage|d2",
+      "composition": "ACCESS=synthetic-identity/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=graph-camouflage/MONETISATION=mule-chain-cashout/LABEL=label-delayed",
+      "cost_inr": 12.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 10,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-9894",
+      "fitness": -12.0,
+      "n_events": 1,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": false,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 0.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+      "composition": "ACCESS=merchant-onboarding-fraud/TRUST=kyc-passed/RAIL=a2a-credit-transfer/EVASION=low-visibility-rail/MONETISATION=biller-giftcard-resale/LABEL=label-poisoned",
+      "cost_inr": 4596.0,
+      "detection_latency_hours": 7.0,
+      "discovered_tick": 7,
+      "emergent_hybrid": true,
+      "evaluations": 5,
+      "family_id": "GEN-1966",
+      "fitness": 3349749.0000000005,
+      "n_events": 8,
+      "observable_delta": 0.0,
+      "ruin_trigger": "beneficiary_freeze after break-even, not ruin",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 3354345.0000000005
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+      "composition": "ACCESS=synthetic-identity/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=threshold-hugging/MONETISATION=mule-chain-cashout/LABEL=label-delayed",
+      "cost_inr": 144.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 5,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-9916",
+      "fitness": 742179.0,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 742323.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-auth|authorised-but-deceived-victim|cohort-splitting|d1",
+      "composition": "ACCESS=first-party-misuse/TRUST=cdcvm/RAIL=card-cp-emv/EVASION=cohort-splitting/MONETISATION=credit-line-drawdown/LABEL=label-poisoned",
+      "cost_inr": 3684.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 7,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-1216",
+      "fitness": 1167255.0000000002,
+      "n_events": 7,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon"
+      ],
+      "value_retained_inr": 1170939.0000000002
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-auth|authorised-but-deceived-victim|oracle-probing|d2",
+      "composition": "ACCESS=authorised-but-deceived-payer/TRUST=tokenised/RAIL=card-cnp-3ds/EVASION=oracle-probing/MONETISATION=crypto-offramp/LABEL=label-delayed",
+      "cost_inr": 12.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 16,
+      "emergent_hybrid": true,
+      "evaluations": 6,
+      "family_id": "GEN-9748",
+      "fitness": 5237988.0,
+      "n_events": 1,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 5238000.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 5.0,
+      "caught_share": 0.0,
+      "cell_id": "card-auth|delegated-agent-mandate|oracle-probing|d2",
+      "composition": "ACCESS=delegated-agent-mandate/TRUST=tokenised/RAIL=card-cnp-keyed/EVASION=oracle-probing/MONETISATION=merchant-settlement/LABEL=label-poisoned",
+      "cost_inr": 126.5,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 4,
+      "emergent_hybrid": false,
+      "evaluations": 1,
+      "family_id": "GEN-5625",
+      "fitness": 791873.5000000001,
+      "n_events": 5,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 792000.0000000001
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d2",
+      "composition": "ACCESS=delegated-agent-mandate/TRUST=mandated/RAIL=card-cnp-3ds/EVASION=velocity-splitting/MONETISATION=goods-resale/LABEL=victim-blames-self",
+      "cost_inr": 924.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 10,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-2141",
+      "fitness": 749001.0000000001,
+      "n_events": 2,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 749925.0000000001
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-auth|stolen-credential|cohort-splitting|d2",
+      "composition": "ACCESS=account-takeover/TRUST=mandated/RAIL=card-cnp-3ds/EVASION=cohort-splitting/MONETISATION=merchant-settlement/LABEL=victim-complains",
+      "cost_inr": 24.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 23,
+      "emergent_hybrid": false,
+      "evaluations": 1,
+      "family_id": "GEN-4043",
+      "fitness": 232776.0,
+      "n_events": 2,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 232800.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-auth|stolen-credential|threshold-hugging|d1",
+      "composition": "ACCESS=enumerated-credential/TRUST=tokenised/RAIL=card-cp-emv/EVASION=threshold-hugging/MONETISATION=credit-line-drawdown/LABEL=label-poisoned",
+      "cost_inr": 12.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 5,
+      "emergent_hybrid": true,
+      "evaluations": 3,
+      "family_id": "GEN-9504",
+      "fitness": 1309488.0,
+      "n_events": 1,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon"
+      ],
+      "value_retained_inr": 1309500.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-auth|stolen-credential|velocity-splitting|d1",
+      "composition": "ACCESS=account-takeover/TRUST=cdcvm/RAIL=card-cp-emv/EVASION=velocity-splitting/MONETISATION=credit-line-drawdown/LABEL=victim-blames-self",
+      "cost_inr": 936.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 10,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-1321",
+      "fitness": 1484559.0000000002,
+      "n_events": 3,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon"
+      ],
+      "value_retained_inr": 1485495.0000000002
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+      "composition": "ACCESS=first-party-misuse/TRUST=aged-account/RAIL=card-clearing-dispute/EVASION=threshold-hugging/MONETISATION=refund-chargeback-recovery/LABEL=victim-complains",
+      "cost_inr": 120.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 25,
+      "emergent_hybrid": true,
+      "evaluations": 3,
+      "family_id": "GEN-6924",
+      "fitness": 2728236.0,
+      "n_events": 10,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 2728356.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+      "composition": "ACCESS=merchant-onboarding-fraud/TRUST=aged-account/RAIL=card-clearing-dispute/EVASION=cohort-splitting/MONETISATION=merchant-settlement/LABEL=label-poisoned",
+      "cost_inr": 948.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 16,
+      "emergent_hybrid": true,
+      "evaluations": 5,
+      "family_id": "GEN-1042",
+      "fitness": 2065787.0,
+      "n_events": 4,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 2066735.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-post-auth|synthetic-identity|threshold-hugging|d2",
+      "composition": "ACCESS=synthetic-identity/TRUST=mandated/RAIL=card-clearing-dispute/EVASION=threshold-hugging/MONETISATION=credit-line-drawdown/LABEL=never-labelled",
+      "cost_inr": 144.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 18,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-2767",
+      "fitness": 944077.0,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 944221.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+      "composition": "ACCESS=stolen-credential/TRUST=cdcvm/RAIL=card-token-provisioning/EVASION=graph-camouflage/MONETISATION=biller-giftcard-resale/LABEL=label-delayed",
+      "cost_inr": 4560.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 2,
+      "emergent_hybrid": false,
+      "evaluations": 2,
+      "family_id": "GEN-9848",
+      "fitness": 931815.0000000001,
+      "n_events": 5,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 936375.0000000001
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+      "composition": "ACCESS=synthetic-identity/TRUST=aged-account/RAIL=card-token-provisioning/EVASION=trust-inheritance/MONETISATION=biller-giftcard-resale/LABEL=label-poisoned",
+      "cost_inr": 24.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 5,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-1074",
+      "fitness": 174576.0,
+      "n_events": 2,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 174600.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "card-token|synthetic-identity|velocity-splitting|d2",
+      "composition": "ACCESS=synthetic-identity/TRUST=threeds-authenticated/RAIL=card-token-provisioning/EVASION=velocity-splitting/MONETISATION=credit-line-drawdown/LABEL=label-poisoned",
+      "cost_inr": 1944.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 15,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-5907",
+      "fitness": 41880.00000000001,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 43824.00000000001
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "mandate-recurring|authorised-but-deceived-victim|label-attack|d2",
+      "composition": "ACCESS=authorised-but-deceived-payer/TRUST=kyc-passed/RAIL=upi-autopay-mandate/EVASION=label-attack/MONETISATION=biller-giftcard-resale/LABEL=label-poisoned",
+      "cost_inr": 249.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 20,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-6584",
+      "fitness": 571170.0,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 571419.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "mandate-recurring|authorised-but-deceived-victim|velocity-splitting|d2",
+      "composition": "ACCESS=authorised-but-deceived-payer/TRUST=mandated/RAIL=upi-autopay-mandate/EVASION=velocity-splitting/MONETISATION=merchant-settlement/LABEL=victim-complains",
+      "cost_inr": 24.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 14,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-0240",
+      "fitness": 7401.000000000001,
+      "n_events": 2,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 7425.000000000001
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "mandate-recurring|delegated-agent-mandate|threshold-hugging|d2",
+      "composition": "ACCESS=delegated-agent-mandate/TRUST=mandated/RAIL=agentic-commerce/EVASION=threshold-hugging/MONETISATION=biller-giftcard-resale/LABEL=label-poisoned",
+      "cost_inr": 144.0,
+      "detection_latency_hours": 3.0,
+      "discovered_tick": 12,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-6062",
+      "fitness": 519190.0,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "onward_send_blocked after break-even, not ruin",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 519334.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+      "composition": "ACCESS=stolen-credential/TRUST=mandated/RAIL=upi-autopay-mandate/EVASION=label-attack/MONETISATION=credit-line-drawdown/LABEL=label-poisoned",
+      "cost_inr": 36.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 23,
+      "emergent_hybrid": true,
+      "evaluations": 3,
+      "family_id": "GEN-4153",
+      "fitness": 5285574.0,
+      "n_events": 3,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 5285610.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "mandate-recurring|stolen-credential|oracle-probing|d2",
+      "composition": "ACCESS=stolen-credential/TRUST=mandated/RAIL=agentic-commerce/EVASION=oracle-probing/MONETISATION=goods-resale/LABEL=label-poisoned",
+      "cost_inr": 112.5,
+      "detection_latency_hours": 3.0,
+      "discovered_tick": 11,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-5547",
+      "fitness": 827747.5000000001,
+      "n_events": 5,
+      "observable_delta": 0.0,
+      "ruin_trigger": "beneficiary_freeze after break-even, not ruin",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 827860.0000000001
+    },
+    {
+      "attribution": {},
+      "break_even_hours": -1.0,
+      "caught_share": 0.0,
+      "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d2",
+      "composition": "ACCESS=synthetic-identity/TRUST=mandated/RAIL=agentic-commerce/EVASION=low-visibility-rail/MONETISATION=merchant-settlement/LABEL=label-delayed",
+      "cost_inr": 912.0,
+      "detection_latency_hours": 1.0,
+      "discovered_tick": 4,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-2927",
+      "fitness": -912.0,
+      "n_events": 1,
+      "observable_delta": 0.0,
+      "ruin_trigger": "onward_send_blocked",
+      "ruined": false,
+      "sealed": false,
+      "solvent": false,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 0.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d1",
+      "composition": "ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=upi-pay/EVASION=label-attack/MONETISATION=goods-resale/LABEL=never-labelled",
+      "cost_inr": 200.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 14,
+      "emergent_hybrid": true,
+      "evaluations": 2,
+      "family_id": "GEN-9933",
+      "fitness": 804310.0,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon"
+      ],
+      "value_retained_inr": 804510.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": -1.0,
+      "caught_share": 0.0,
+      "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d2",
+      "composition": "ACCESS=authorised-but-deceived-payer/TRUST=cdcvm/RAIL=upi-pay/EVASION=label-attack/MONETISATION=biller-giftcard-resale/LABEL=label-delayed",
+      "cost_inr": 382.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 6,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-6740",
+      "fitness": 4106.0,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 4488.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "upi-realtime|authorised-but-deceived-victim|low-visibility-rail|d2",
+      "composition": "ACCESS=authorised-but-deceived-payer/TRUST=kyc-passed/RAIL=upi-collect/EVASION=low-visibility-rail/MONETISATION=biller-giftcard-resale/LABEL=victim-blames-self",
+      "cost_inr": 36.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 22,
+      "emergent_hybrid": false,
+      "evaluations": 1,
+      "family_id": "GEN-1230",
+      "fitness": 1222164.0,
+      "n_events": 3,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 1222200.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+      "composition": "ACCESS=account-takeover/TRUST=cdcvm/RAIL=upi-pay/EVASION=label-attack/MONETISATION=credit-line-drawdown/LABEL=label-poisoned",
+      "cost_inr": 180.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 13,
+      "emergent_hybrid": true,
+      "evaluations": 17,
+      "family_id": "GEN-6161",
+      "fitness": 5500083.0,
+      "n_events": 8,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon"
+      ],
+      "value_retained_inr": 5500263.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d2",
+      "composition": "ACCESS=merchant-onboarding-fraud/TRUST=kyc-passed/RAIL=upi-pay/EVASION=graph-camouflage/MONETISATION=merchant-settlement/LABEL=label-poisoned",
+      "cost_inr": 1884.0,
+      "detection_latency_hours": 4.0,
+      "discovered_tick": 13,
+      "emergent_hybrid": false,
+      "evaluations": 1,
+      "family_id": "GEN-0193",
+      "fitness": 3798456.0000000005,
+      "n_events": 7,
+      "observable_delta": 0.0,
+      "ruin_trigger": "onward_send_blocked after break-even, not ruin",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 3800340.0000000005
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d2",
+      "composition": "ACCESS=merchant-onboarding-fraud/TRUST=kyc-passed/RAIL=upi-collect/EVASION=threshold-hugging/MONETISATION=biller-giftcard-resale/LABEL=victim-blames-self",
+      "cost_inr": 144.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 21,
+      "emergent_hybrid": true,
+      "evaluations": 4,
+      "family_id": "GEN-9301",
+      "fitness": 5867219.0,
+      "n_events": 12,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 5867363.0
+    },
+    {
+      "attribution": {},
+      "break_even_hours": 1.0,
+      "caught_share": 0.0,
+      "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+      "composition": "ACCESS=synthetic-identity/TRUST=aged-account/RAIL=upi-lite-offline/EVASION=velocity-splitting/MONETISATION=biller-giftcard-resale/LABEL=label-delayed",
+      "cost_inr": 24.0,
+      "detection_latency_hours": -1.0,
+      "discovered_tick": 17,
+      "emergent_hybrid": true,
+      "evaluations": 1,
+      "family_id": "GEN-6874",
+      "fitness": 1397271.0,
+      "n_events": 2,
+      "observable_delta": 0.0,
+      "ruin_trigger": "",
+      "ruined": false,
+      "sealed": false,
+      "solvent": true,
+      "stages": [
+        "recon",
+        "establish"
+      ],
+      "value_retained_inr": 1397295.0
+    }
+  ],
+  "projection_tables": {
+    "access_to_locus": {
+      "account-takeover": "stolen-credential",
+      "authorised-but-deceived-payer": "authorised-but-deceived-victim",
+      "delegated-agent-mandate": "delegated-agent-mandate",
+      "enumerated-credential": "stolen-credential",
+      "first-party-misuse": "authorised-but-deceived-victim",
+      "merchant-onboarding-fraud": "synthetic-identity",
+      "stolen-credential": "stolen-credential",
+      "synthetic-identity": "synthetic-identity"
+    },
+    "depth_source": "derived from the plan's stage count, NOT a grammar slot",
+    "evasion_axis": "identity mapping \u2014 an EVASION mutation is always cell-crossing",
+    "locus_members": {
+      "authorised-but-deceived-victim": [
+        "authorised-but-deceived-payer",
+        "first-party-misuse"
+      ],
+      "delegated-agent-mandate": [
+        "delegated-agent-mandate"
+      ],
+      "stolen-credential": [
+        "account-takeover",
+        "enumerated-credential",
+        "stolen-credential"
+      ],
+      "synthetic-identity": [
+        "merchant-onboarding-fraud",
+        "synthetic-identity"
+      ]
+    },
+    "mutation_taxonomy": {
+      "always_cell_crossing": [
+        "EVASION"
+      ],
+      "always_cell_preserving": [
+        "LABEL",
+        "MONETISATION",
+        "TRUST"
+      ],
+      "conditional": [
+        "ACCESS",
+        "RAIL"
+      ]
+    },
+    "nominal_cells": 576,
+    "rail_class_members": {
+      "a2a-assisted": [
+        "a2a-credit-transfer",
+        "aeps-microatm"
+      ],
+      "card-auth": [
+        "card-cnp-3ds",
+        "card-cnp-keyed",
+        "card-cp-emv"
+      ],
+      "card-post-auth": [
+        "card-clearing-dispute"
+      ],
+      "card-token": [
+        "card-token-provisioning"
+      ],
+      "mandate-recurring": [
+        "agentic-commerce",
+        "upi-autopay-mandate"
+      ],
+      "upi-realtime": [
+        "upi-collect",
+        "upi-lite-offline",
+        "upi-pay"
+      ]
+    },
+    "rail_to_rail_class": {
+      "a2a-credit-transfer": "a2a-assisted",
+      "aeps-microatm": "a2a-assisted",
+      "agentic-commerce": "mandate-recurring",
+      "card-clearing-dispute": "card-post-auth",
+      "card-cnp-3ds": "card-auth",
+      "card-cnp-keyed": "card-auth",
+      "card-cp-emv": "card-auth",
+      "card-token-provisioning": "card-token",
+      "upi-autopay-mandate": "mandate-recurring",
+      "upi-collect": "upi-realtime",
+      "upi-lite-offline": "upi-realtime",
+      "upi-pay": "upi-realtime"
+    }
+  }
+}

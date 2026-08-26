@@ -1,0 +1,40 @@
+# VAJRA — one-command bring-up: the scorer/API, the Next.js UI, over the committed replay bundle.
+#
+# `docker compose up` serves the six screens against the OFFLINE REPLAY BUNDLE with no model training
+# and no network egress, which is the demo path that works on venue wifi that does not exist. The
+# volume mounts the repo read-only except for the generated `data/` and `reports/` roots.
+#
+# NOTE on the offline path: a FIRST `docker compose up` pulls base images and builds the Next.js image
+# — ten-plus network-bound minutes. What we CARRY to a venue instead is a `docker save` image tarball
+# plus `make demo-offline`; the clone-and-compose path is offered to a judge reproducing at home,
+# where the network is not the risk.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    image: vajra-api:1.0
+    command: uvicorn api.app:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./reports:/app/reports:ro
+      - ./bundles:/app/bundles:ro
+      - ./data:/app/data
+    environment:
+      - LLM_MODE=cached          # the demo path NEVER touches the network
+      - VAJRA_PRESET=small
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: ../docker/ui.Dockerfile
+    image: vajra-ui:1.0
+    command: npm run start
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE=http://api:8000
+    depends_on:
+      - api

@@ -1,0 +1,4251 @@
+{
+  "n_entries": 380,
+  "n_rejected": 0,
+  "n_passed": 380,
+  "rules": [
+    {
+      "id": "DU-01",
+      "rationale": "Names a control and describes defeating it \u2014 that is a bypass procedure, not a signature.",
+      "compliant_alternative": "Describe the OBSERVABLE the bypass produces (e.g. 'field-combination implausibility with a high field-population score')."
+    },
+    {
+      "id": "DU-02",
+      "rationale": "Reads as INSTRUCTION rather than as signature. The archive describes shapes, not recipes.",
+      "compliant_alternative": "State the kill-chain STAGE NAMES and the observables each stage produces."
+    },
+    {
+      "id": "DU-03",
+      "rationale": "Executable code inside an archive entry.",
+      "compliant_alternative": "Remove the code. A detector consumes distributions and field co-occurrences, not programs."
+    },
+    {
+      "id": "DU-04",
+      "rationale": "Matches a real-scheme IIN/BIN range and card-number length. Our identifiers are drawn from reserved non-routable prefixes and are deliberately non-Luhn-valid.",
+      "compliant_alternative": "Use the reserved 999xxx prefixes in sim/graph/entities.py::RESERVED_BIN_PREFIXES."
+    },
+    {
+      "id": "DU-05",
+      "rationale": "Matches a plausible Indian mobile number. No real PII, ever.",
+      "compliant_alternative": "Use a synthetic handle from the reserved space; mobile numbers are not modelled at all."
+    },
+    {
+      "id": "DU-06",
+      "rationale": "Matches a plausible IFSC code shape. No real institutional identifiers.",
+      "compliant_alternative": "Use the synthetic PSP ids (PSPnnn) the world builder generates."
+    },
+    {
+      "id": "DU-07",
+      "rationale": "An enumeration PROCEDURE. Card testing is in the taxonomy as a signature; the procedure is not.",
+      "compliant_alternative": "Describe the observable: distinct-PAN-per-terminal within tight BIN prefixes, near-uniform micro-amounts, decline-reason concentration."
+    },
+    {
+      "id": "DU-08",
+      "rationale": "Vendor- or scheme-named vulnerability claim. We make no claims about any named product's security.",
+      "compliant_alternative": "Describe the mechanism generically and mark the specifics [VERIFY]."
+    },
+    {
+      "id": "DU-09",
+      "rationale": "Persuasive scam copy / smishing template. We generate template FAMILIES with labelled generators, never persuasion.",
+      "compliant_alternative": "The detector needs the DISTRIBUTIONAL signature (near-duplicate embedding clusters, n-gram unlikelihood, metadata uniformity), not the content."
+    },
+    {
+      "id": "DU-10",
+      "rationale": "Describes building a deepfake or voice-cloning capability. We build none of that.",
+      "compliant_alternative": "Model the OBSERVABLE COHORT STATISTIC instead: device-model entropy collapse, ASN reuse, name n-gram unlikelihood, onboarding-to-first-credit latency."
+    },
+    {
+      "id": "DU-11",
+      "rationale": "A concrete credential value.",
+      "compliant_alternative": "Credential values are never content. Reference the schema field name instead."
+    },
+    {
+      "id": "DU-12",
+      "rationale": "A plausible Aadhaar number shape. No real or realistic national identifiers.",
+      "compliant_alternative": "AePS is modelled by terminal-level population statistics only; no identity numbers exist in the schema."
+    }
+  ],
+  "limits": "PATTERN-BASED. It will miss paraphrase. It is a FLOOR UNDER human review, not a substitute for it. Deliberately crude, because a crude filter that fails the build is more trustworthy than a clever one that fails silently.",
+  "why_published": "A filter whose output you cannot see is an assertion. A log showing what was proposed and refused demonstrates the boundary was enforced during the build, and lets a reviewer disagree with a specific decision rather than with our self-description.",
+  "entries": [
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "heuristic",
+      "proposal_id": "092f03543fc8",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "heuristic",
+      "proposal_id": "4f933cd15c17",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "cache",
+      "proposal_id": "092f03543fc8",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "cache",
+      "proposal_id": "4f933cd15c17",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "cache",
+      "proposal_id": "092f03543fc8",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "cache",
+      "proposal_id": "4f933cd15c17",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "heuristic",
+      "proposal_id": "3b32f0720a51",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:28:48+00:00",
+      "source": "heuristic",
+      "proposal_id": "403012831245",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "9f28f2d6d296",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "a2164973771c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "0a33b13ff17f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "892901155a60",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "6d9ead1b1c90",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "heuristic",
+      "proposal_id": "77caed4baa68",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:36:22+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "9f28f2d6d296",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "a2164973771c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "0a33b13ff17f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "892901155a60",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "6d9ead1b1c90",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "77caed4baa68",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-18T15:39:29+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6011ec4bf8fa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "a4e11dfbe982",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "23087b97a619",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "9dcde2353e96",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "131d54bbaee9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "705da8083114",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "f7a82eea5e1b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "ca9d86793437",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8de3802407b1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "c1fec6e44289",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "f32cee3129d7",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "889210db72ba",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8301289b91ea",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "d90b3034409c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "149de265e99b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "45c0ae1d44cd",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "2b87836a3ef8",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|velocity-splitting|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "ce55e97b18d4",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|oracle-probing|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "291b99e84c4c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "4fec777dba66",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "9b013226e838",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "34e3d170dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8e976b83e3fe",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "ec7e0d58dc42",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "0737318d2b1d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "5f73beb880ca",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "3cf04bd48f4b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "27d63d257836",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "c521c5b34caa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8830c4c24efb",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "6a8e039347d0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|oracle-probing|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c521c5b34caa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "6def9f9b9329",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "38b0a9a3087a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "36f5dc55a073",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6def9f9b9329",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "9c74df108cfa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "0737318d2b1d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c521c5b34caa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6def9f9b9329",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "9b317a29e23b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "0737318d2b1d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "83b0857569a9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "83b0857569a9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6def9f9b9329",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "af50241abae2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c521c5b34caa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "1a5505da2b2c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "858dac6c8f0c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "ee5ab878e9d1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8d888f81b997",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|cohort-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "5f73beb880ca",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "16b0a47af0ad",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "f5b0fe556363",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6def9f9b9329",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c1fec6e44289",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "22ecab91604c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "a4e11dfbe982",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "23087b97a619",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "131d54bbaee9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "705da8083114",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "f7a82eea5e1b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8de3802407b1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "bde5d432cf59",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "f32cee3129d7",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "889210db72ba",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8301289b91ea",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "a39747e8f79c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "149de265e99b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "45c0ae1d44cd",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "2b87836a3ef8",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|velocity-splitting|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ce55e97b18d4",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|oracle-probing|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "a39747e8f79c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "ca71bbae4279",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "291b99e84c4c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "4fec777dba66",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "9b013226e838",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c521c5b34caa",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8e976b83e3fe",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "e2b3bbabac0b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c1fec6e44289",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "3cf04bd48f4b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "27d63d257836",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8830c4c24efb",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "4f933cd15c17",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ca71bbae4279",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "7d60af1c4964",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "38b0a9a3087a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "36f5dc55a073",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "7d60af1c4964",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8b3fe2161ab6",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "579082093f2f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "795b56bb30b9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ca71bbae4279",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "579082093f2f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "af50241abae2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "1a5505da2b2c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "3d8621f2cece",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ee5ab878e9d1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "9a9fff3208e0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "da3a0d5901e1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "41e594458716",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ba535cba163d",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "846b6ccdbac9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "81680c7f1003",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "b5ca7047ec01",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "e3dca1c5e8f0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "9f28f2d6d296",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c8f3e32b9606",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "a4e11dfbe982",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "23087b97a619",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "131d54bbaee9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "705da8083114",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "f7a82eea5e1b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8de3802407b1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "f32cee3129d7",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "889210db72ba",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8301289b91ea",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "149de265e99b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "45c0ae1d44cd",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "2b87836a3ef8",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|velocity-splitting|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ce55e97b18d4",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|oracle-probing|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "291b99e84c4c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "4fec777dba66",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "9b013226e838",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8e976b83e3fe",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "3cf04bd48f4b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "27d63d257836",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8830c4c24efb",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "be1a656a4d14",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "4f933cd15c17",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "339e3a1e03cd",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "38b0a9a3087a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "36f5dc55a073",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "339e3a1e03cd",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "8b3fe2161ab6",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "339e3a1e03cd",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "795b56bb30b9",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "7d60af1c4964",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "af50241abae2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "1a5505da2b2c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "3d8621f2cece",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "ee5ab878e9d1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "9a9fff3208e0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8e7df10ea818",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "cc7241a2c2e2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "baf914491b0c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "c22413e3c41a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "a2164973771c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "0a33b13ff17f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "892901155a60",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "6d9ead1b1c90",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "77caed4baa68",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "94274f8380d0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "38ef98c87c8a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|oracle-probing|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "77caed4baa68",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "6f8e5d0a93d2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "b8a4e7cef649",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "7b0c13406c94",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "7a21d4c68d7b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "f817004e2e3f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "7a21d4c68d7b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "7a21d4c68d7b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "e9432093e0b4",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "13b7d245b4db",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "75e83d476f19",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|authorised-but-deceived-victim|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "75bae8be176c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|stolen-credential|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "7a21d4c68d7b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "e468f91f31c2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "e468f91f31c2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "03a39bf79b9a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|synthetic-identity|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "04d6e3acd95a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|delegated-agent-mandate|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "4d7cb7aa78b6",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "c2ef5903d7ad",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|velocity-splitting|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "f9f395cbefbc",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|oracle-probing|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "e468f91f31c2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "e468f91f31c2",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|synthetic-identity|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "1f51fe357f7c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "4d90a4a9fa5c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|delegated-agent-mandate|threshold-hugging|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "89ce08b2f30c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "993420cbe93c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "275a0c4bac3e",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "993420cbe93c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "06c064c858fe",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "bc4761f58303",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|label-attack|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "5eb08de1766a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-token|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "403012831245",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|threshold-hugging|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "9def7f12d930",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "3541c26c660f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|authorised-but-deceived-victim|trust-inheritance|d3",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "762e44b9139a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "3282df1dd40f",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "66025e9b5985",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-post-auth|synthetic-identity|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "762e44b9139a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "024bcc3a8233",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|authorised-but-deceived-victim|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "a298519267b0",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|graph-camouflage|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "762e44b9139a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "8eb6f43d5d39",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "79c8ad852a34",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "14e674bc5e3b",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|authorised-but-deceived-victim|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "196aaed315a6",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "mandate-recurring|stolen-credential|low-visibility-rail|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "520ea450ecd3",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|trust-inheritance|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "d64f298013ed",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|stolen-credential|label-attack|d1",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "f12d15e8d7e1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "762e44b9139a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "heuristic",
+      "proposal_id": "dde9ee10722c",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "card-auth|authorised-but-deceived-victim|cohort-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "762e44b9139a",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "upi-realtime|synthetic-identity|velocity-splitting|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "f12d15e8d7e1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    },
+    {
+      "stamped_at": "2026-08-19T12:42:02+00:00",
+      "source": "cache",
+      "proposal_id": "f12d15e8d7e1",
+      "outcome": "PASSED",
+      "hits": [],
+      "context": {
+        "cell_id": "a2a-assisted|stolen-credential|threshold-hugging|d2",
+        "escape_region": "no prior escape region (first tick): targeting under-occupied feasible cells"
+      }
+    }
+  ]
+}

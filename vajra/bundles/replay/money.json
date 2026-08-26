@@ -1,0 +1,35 @@
+{
+  "abstention_priced_separately": "'Frictioned' is reported separately from 'declined': a system that frictions everything has moved friction onto good customers, not stopped fraud.",
+  "denominator": {
+    "composition": "sealed-pool attacks + HARD-BENIGN-12 + HARD-BENIGN-B + ordinary benign, time-forward TEST window, LOOP-DISCOVERED (GEN-*) compositions EXCLUDED",
+    "n_attack": 34,
+    "n_events_scored": 13818,
+    "why": "The opening number is scored ONLY on populations withheld before modelling plus the adversarial-legitimate cohorts, with loop-discovered compositions removed, so it is not the circularity the design spends a section disowning."
+  },
+  "loop_off": {
+    "hard_benign_false_action_rate": 0.11179705915366484,
+    "n_good_declined": 1043,
+    "n_good_frictioned": 228,
+    "rupees_fraud_attempted": 239154.55000000002,
+    "rupees_fraud_stopped": 16948.010000000002,
+    "rupees_good_declined": 42934451.36,
+    "rupees_good_frictioned": 2559973.7399999998,
+    "value_detection_rate": 0.07086634981437735
+  },
+  "loop_on": {
+    "hard_benign_false_action_rate": 0.11179705915366484,
+    "n_good_declined": 1043,
+    "n_good_frictioned": 228,
+    "rupees_fraud_attempted": 239154.55000000002,
+    "rupees_fraud_stopped": 16948.010000000002,
+    "rupees_good_declined": 42934451.36,
+    "rupees_good_frictioned": 2559973.7399999998,
+    "value_detection_rate": 0.07086634981437735
+  },
+  "provenance": "SIMULATOR-INTERNAL rupees, labelled as such on the screen. Not real money.",
+  "static_arm_present": false,
+  "toggle": "The loop ON/OFF toggle switches between two STORED result sets (loop arm vs static arm), so it is a real comparison of two real runs, not an animation.",
+  "toggle_caveat": "NO STATIC ARM WAS TRAINED, so both sides of this toggle are the SAME bundle and every digit is identical. No make target produces data/models/gate-i_<view>_static. The toggle is disabled on screen rather than left to look like a comparison that moved nothing -- an interaction that silently does nothing is worse than an absent one.",
+  "toggle_is_live": false,
+  "view": "issuer"
+}

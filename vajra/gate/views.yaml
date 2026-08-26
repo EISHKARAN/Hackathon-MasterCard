@@ -1,0 +1,133 @@
+# THE DEPLOYMENT-VIEW MATRIX — which features actually exist at which institution.
+#
+# WHY THIS FILE IS NEVER CUT: every graph-feature claim in fraud detection implicitly assumes data
+# NO SINGLE INSTITUTION HOLDS. An unqualified "PAN-canonical aggregation" claim is wrong, and an
+# issuer will not believe any graph number we quote until it sees what happens when the features it
+# cannot construct are removed. So the single-institution visibility ablation is a first-class
+# published result and it is cheap enough to live inside `make eval`.
+#
+# ABSENT, NOT ZEROED. When a view cannot construct a feature, the column is REMOVED from the
+# matrix. Zeroing would tell the model "this entity has no token fan-out", which is a different
+# and false statement from "this institution cannot see token fan-out" — and it would make the
+# ablation measure the wrong thing.
+#
+# The per-feature availability is declared in features/registry.yaml (each family's `views`, and
+# each entity key's `views` for the velocity panel). THIS file declares what each view IS, what it
+# is missing, and what the no-exchange fallback looks like. features/registry.py::features_for_view
+# does the masking and tests/test_views.py asserts the two files agree.
+
+version: 1
+
+views:
+
+  issuer:
+    label: Issuer / payer PSP
+    description: >
+      The richest view. Holds the token-to-PAN map, so it is the ONLY view that can construct
+      PAN-canonical aggregation. Sees its own 3DS authentication results, its own decline history,
+      clearing and dispute outcomes, and the mandate objects it stores.
+    holds_token_to_pan_map: true
+    persona: GATE-I
+    placement: >
+      Sidecar gRPC service in the authorisation host, called synchronously; or network-side advice
+      returning a score in a private-use field, ASSIGNMENT PER NETWORK [VERIFY]. We deliberately do
+      not name a field.
+    cannot_construct:
+      - acquirer-side underwriting metadata (hosting, TLS, ASN linkage across MIDs)
+      - basket composition and merchant-side checkout flags
+      - beneficiary-side inflow/outflow, dwell and payer-set structure (unless exchanged)
+      - onboarding-cohort statistics for accounts it did not open
+    high_value_families: [velocity_panel, trust_envelope, mandate_deltas, cross_message, sequence_artefacts]
+
+  acquirer:
+    label: Acquirer / PayFac
+    description: >
+      Sees terminal, MID, acceptor and basket-side signals. CANNOT construct PAN-canonical
+      aggregation, because it does not hold the token-to-PAN map — this is the single most
+      consequential missing capability in the whole ablation.
+    holds_token_to_pan_map: false
+    persona: GATE-I
+    placement: Acquirer-side risk service on the inbound authorisation request.
+    cannot_construct:
+      - PAN-canonical velocity, fan-out or graph aggregation
+      - issuer 3DS ACS internals and issuer decline history
+      - mandate objects stored at the issuer
+      - beneficiary-side observables
+    high_value_families: [merchant_side, sequence_artefacts, threshold_geometry]
+    high_value_attacks: [ATK-C2, ATK-S2, ATK-A1, ATK-A3]
+
+  payee_psp:
+    label: Payee PSP / receiving bank
+    description: >
+      OWNS GATE-B. Sees inbound credits, onward sends, account age, payer sets and onboarding
+      cohorts — the observables no payer-side institution has. This is the enforceable control
+      point for authorised push payments, where every payer-side signal is genuine.
+    holds_token_to_pan_map: false
+    persona: GATE-B
+    placement: >
+      Inline on the inbound-credit event for the credit scorer; off-path plus event-triggered for
+      the onboarding-cohort scorer.
+    cannot_construct:
+      - PAN-canonical aggregation, card authentication state, mandate objects
+      - payer-side habit baselines and payer device history
+      - clearing and dispute outcomes
+    high_value_families: [beneficiary_side, onboarding_cohort, graph_sketches]
+    high_value_attacks: [ATK-U1, ATK-U3, ATK-U8, ATK-G1, ATK-G2, ATK-A2, ATK-K3]
+
+  network:
+    label: Network
+    description: >
+      Sees cross-institution structure: token requestor fan-out across issuers, frictionless share
+      per merchant/ACS pair, and the geohash-level competitor effects no single party can see.
+      Included because several attack rows in the taxonomy are only observable here, and marking
+      them so is more honest than pretending a single institution could catch them.
+    holds_token_to_pan_map: true
+    persona: GATE-I
+    placement: Network-side advice, returning a score in a private-use field [VERIFY assignment].
+    cannot_construct:
+      - basket composition and acquirer underwriting documents
+      - beneficiary account age and onward-send behaviour inside a receiving bank
+    high_value_attacks: [ATK-C1, ATK-C4, ATK-T2, ATK-T3, ATK-U3, ATK-G2]
+
+# ---------------------------------------------------------------------------------------
+# The cross-institution beneficiary-risk exchange — AN UNVERIFIED STUB.
+# ---------------------------------------------------------------------------------------
+beneficiary_risk_exchange:
+  status: STUB
+  implemented: bloom-filter membership test over beneficiary identifiers, sharing no PII by construction
+  verified: false
+  verify_note: >
+    Real-world availability and regulatory permissibility are UNVERIFIED [VERIFY]. We do not claim
+    any counterparty would participate.
+  # THE PAYER-SIDE PATH NEVER DEPENDS ON THE EXCHANGE ALONE. This is the fallback, and it is
+  # published as its OWN VIEW in the ablation so the degraded case is quantified rather than
+  # asserted.
+  no_exchange_fallback:
+    - on-us beneficiary history (this institution's own prior credits to this payee)
+    - new-payee age
+    - first-payment-to-this-payee flag
+    - payer-side cooling-off on a first payment to a new payee
+  ablation_view_id: payee_psp_no_exchange
+
+# An additional view used only by the ablation: the payee PSP with the exchange unavailable.
+ablation_views:
+  payee_psp_no_exchange:
+    base: payee_psp
+    remove_features: [beneficiary_prior_from_exchange]
+    label: Payee PSP, exchange unavailable
+    why: >
+      If shared beneficiary signals are unobtainable, GATE-B degrades to a single-institution
+      inbound-credit scorer with materially weaker recall. The ablation is the thing that
+      quantifies exactly how much weaker, rather than leaving it as a hand-wave.
+
+# ---------------------------------------------------------------------------------------
+# What none of these placements is.
+# ---------------------------------------------------------------------------------------
+practitioner_review:
+  reviewed_by_practitioner: false
+  statement: >
+    NONE of these three placements has been reviewed by a practitioner at such an institution.
+    They are derived from published message specs and public regulatory material; treat them as a
+    design proposal defensible on MECHANISM, not as validated integration plans. If no external
+    payments practitioner is secured, every artifact reads "self-reviewed against cited public
+    message specs and incident reports" and the word *practitioner* is removed.

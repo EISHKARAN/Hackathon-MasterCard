@@ -1,0 +1,212 @@
+# THE SEALED HOLDOUT MANIFEST.
+#
+# ============================ READ THIS BEFORE TOUCHING THE FILE =========================
+# This file must be HASH-COMMITTED TO GIT BEFORE ANY MODELLING BEGINS. It is the single
+# failure in the whole build that CANNOT BE REPAIRED LATER: if the manifest lands after
+# features have been engineered, the anti-circularity story is dead and re-committing does not
+# fix it. `eval/leakage/commit_order.py` compares this file's first-commit timestamp against
+# the first commit of any file under features/ or gate/ and FAILS THE BUILD if the order is
+# wrong. `git log` is the evidence a judge checks.
+#
+# If the repo is not a git repo, that test reports SKIPPED-UNVERIFIABLE rather than PASS.
+# A skip is honest; a pass we did not earn is not. See README section "Making the seal real".
+# ========================================================================================
+#
+# WHAT SEALING BUYS, AND WHAT IT DOES NOT
+# It buys: generalisation across COMPOSITIONS withheld before modelling. It does NOT buy
+# generalisation across CONCEPTS -- the families are sealed *within a grammar we authored*, so
+# anything whose locus is outside our six slots is outside the system by construction. Two
+# concrete inexpressible classes: settlement/reconciliation-layer manipulation (the schema has
+# no settlement-file object) and insider collusion at a PSP or processor (there is no
+# internal-actor morpheme). The answer to concept novelty is Author-an-Attack plus the
+# documented slot-extension procedure, not this file.
+#
+# ALSO NOTE: holding out a family while still training on every morpheme it is built from is
+# leave-one-COMBINATION-out. The `leave_one_evasion_morpheme_out` arm below is the only arm
+# that tests generalisation to an unseen MECHANISM, and it is reported as its own harder row
+# rather than folded into the family-holdout claim.
+
+manifest_version: 1
+sealed_before_modelling: true
+
+# A family is a PATTERN plus a depth. Its members are every type-legal composition matching
+# the pattern at that depth. Withholding is by COMPOSITION IDENTITY, not by row, which is what
+# makes "one morpheme different" well defined for the sibling metric.
+families:
+
+  - id: SEALED-01
+    label: Frictionless-path gaming on authenticated card CNP
+    pattern: {ACCESS: stolen-credential, RAIL: card-cnp-3ds, EVASION: trust-inheritance}
+    depth: 2
+    related_seed: ATK-C4
+    rationale: >
+      The highest-value card family and the one whose whole mechanism is that successful cases
+      carry AUTHENTICATED indicators. If the detector cannot generalise here, the trust-envelope
+      feature family is decoration.
+
+  - id: SEALED-02
+    label: Response-oracle probing on keyed CNP
+    pattern: {ACCESS: enumerated-credential, RAIL: card-cnp-keyed, EVASION: oracle-probing}
+    depth: 3
+    related_seed: ATK-C1
+    rationale: >
+      Tests whether the sequence-artefact features (retry chains, decline-reason entropy, AVS
+      trajectory) generalise, since the oracle behaviour is a sequence property only and no
+      per-event feature can see it.
+
+  - id: SEALED-03
+    label: Token-graph fragmentation across requestors
+    pattern: {ACCESS: stolen-credential, RAIL: card-token-provisioning, EVASION: graph-camouflage}
+    depth: 2
+    related_seed: ATK-T2
+    rationale: >
+      The canonical PAN-canonical-aggregation family. Sealed because it is also the family the
+      visibility ablation hurts most -- an acquirer or PSP holds no token-to-PAN map -- so the
+      sealed result and the ablation result read against each other.
+
+  - id: SEALED-04
+    label: Authorised push under coercion, corporate/A2A shape
+    pattern: {ACCESS: authorised-but-deceived-payer, RAIL: a2a-credit-transfer, EVASION: graph-camouflage}
+    depth: 3
+    related_seed: ATK-U1
+    rationale: >
+      The loss category that dominates India and the one with NO payer-side artefact at all.
+      This is the family that tests whether GATE-B's beneficiary prior actually carries GATE-I.
+
+  - id: SEALED-05
+    label: QR-overlay / payee substitution on UPI PAY
+    pattern: {ACCESS: authorised-but-deceived-payer, RAIL: upi-pay, EVASION: graph-camouflage}
+    depth: 3
+    related_seed: ATK-U3
+    rationale: >
+      Sealed to test the beneficiary-age and geohash-density features on the rail that carries
+      the most volume, where the merchant who loses the revenue is not the complainant.
+
+  - id: SEALED-06
+    label: Onboarding-cohort flood into mule supply
+    pattern: {ACCESS: synthetic-identity, RAIL: upi-pay, EVASION: cohort-splitting}
+    depth: 2
+    related_seed: ATK-K3
+    rationale: >
+      The only family the onboarding-cohort scorer can see at all, and a family where no label
+      ever arrives. Sealing it tests the cohort-statistics layer independently of supervision.
+
+  - id: SEALED-07
+    label: Policy-aware mule layering to biller inventory
+    pattern: {ACCESS: synthetic-identity, RAIL: a2a-credit-transfer, EVASION: graph-camouflage}
+    depth: 3
+    related_seed: ATK-G1
+    rationale: >
+      Tests value-conservation and dwell features rather than static graph features -- which is
+      the distinction the ATK-G2 mechanism is specifically designed to defeat.
+
+  - id: SEALED-08
+    label: Mandate-scope escalation on AutoPay
+    pattern: {ACCESS: stolen-credential, RAIL: upi-autopay-mandate, EVASION: threshold-hugging}
+    depth: 2
+    related_seed: ATK-M2
+    rationale: >
+      Every authorisation here is individually valid; the violation exists only against the
+      mandate object. Sealing it tests whether the mandate-delta feature family is doing work.
+
+  - id: SEALED-09
+    label: Dispute-channel label poisoning
+    pattern: {ACCESS: stolen-credential, RAIL: card-clearing-dispute, EVASION: label-attack}
+    depth: 2
+    related_seed: ATK-D3
+    rationale: >
+      Deliberately included even though the metric computed against its labels is compromised,
+      because that compromise is the finding. Every figure touching this family is flagged in
+      the same table, never in a footnote.
+
+  - id: SEALED-10
+    label: Agentic mandate-vs-execution divergence
+    pattern: {ACCESS: delegated-agent-mandate, RAIL: agentic-commerce, EVASION: trust-inheritance}
+    depth: 2
+    related_seed: ATK-X1
+    rationale: >
+      A Tier-B rail, sealed deliberately: it tests whether mandate-conformance guards generalise
+      on a rail where we make NO message-level fidelity claim. We expect this row to be weak and
+      we publish it anyway.
+
+  - id: SEALED-11
+    label: Assisted-terminal cash-out on a low-visibility rail
+    pattern: {ACCESS: stolen-credential, RAIL: aeps-microatm, EVASION: low-visibility-rail}
+    depth: 2
+    related_seed: ATK-U11
+    rationale: >
+      Sealed AND covered by the leave-one-morpheme-out arm below, so it appears in both the
+      easy (combination) and hard (mechanism) holdout tiers -- which makes the gap between the
+      two arms directly readable on one family.
+
+  - id: SEALED-12
+    label: Slow-drip retrain contamination
+    pattern: {ACCESS: synthetic-identity, RAIL: upi-pay, EVASION: label-attack}
+    depth: 3
+    related_seed: ATK-Z2
+    rationale: >
+      An attack on our own machinery. The frozen canary probe suite is the only immune memory
+      against it, and sealing the family is how we find out whether the canary actually fires.
+
+# ----------------------------------------------------------------------------------------
+# The leave-one-MORPHEME-out arm. Reported as its own harder row.
+# ----------------------------------------------------------------------------------------
+leave_one_evasion_morpheme_out:
+  morpheme: low-visibility-rail
+  rationale: >
+    NO training composition may contain this morpheme -- not the seeds, not the mechanically
+    expanded space, not the Composer's output. This is the only arm that tests generalisation to
+    an unseen MECHANISM rather than to an unseen combination of seen mechanisms.
+    `low-visibility-rail` is chosen because (a) it is the mechanism behind three shipped seeds
+    (ATK-U6, ATK-U11, ATK-B1), so withholding it costs us real training signal rather than being
+    a free win, and (b) its observables are cohort RATIOS against a peer group rather than event
+    properties, so nothing else in the feature set is a near-proxy for it.
+  expected_consequence: >
+    Every archive cell whose EVASION axis is `low-visibility-rail` becomes unreachable in
+    training, so training-arm coverage drops. That drop is REPORTED, not hidden: `make
+    archive-report` prints coverage with and without the withheld morpheme.
+
+# ----------------------------------------------------------------------------------------
+# Enforcement. Three mechanisms, all of which fail the build.
+# ----------------------------------------------------------------------------------------
+enforcement:
+  leakage_linter: >
+    eval/leakage/linter.py fails on any feature name, rule string or config value referencing a
+    held-out family id or the withheld morpheme.
+  leakage_audit: >
+    eval/leakage/entity_audit.py asserts no training row shares an entity id, device, mule
+    component or campaign id with any holdout family. Family holdout leaks through aggregates and
+    graph neighbourhoods without this: withholding the LABEL while training on the same device
+    node is not a holdout.
+  separate_rng_streams: >
+    core/rng.py::family_stream gives each family its own KDF-derived stream, so a held-out
+    family's draws cannot correlate with training data through shared generator state.
+  statistic_fit: >
+    eval/leakage/statistic_fit.py asserts cohort baselines, quantile bin edges, scalers, the
+    isotonic calibrator and the conformal calibration set are fitted causally on the training
+    window WITH HOLDOUT-FAMILY ROWS EXCLUDED. This is the control an entity-id audit cannot see:
+    a cohort baseline fitted over a pool containing sealed rows imports holdout information into
+    EVERY training feature without a single id crossing the boundary.
+  blind_composer: >
+    Held-out-family campaigns are generated by a Composer instance with NO access to defender
+    feedback -- a sealed genome. Without it, "held-out family" degrades into "family the attacker
+    optimised against the same detector", which is a much weaker claim.
+
+# What is frozen across the whole evaluation, versus retrained per tick. Stated here because
+# "frozen" is only meaningful if the list is written down in advance.
+frozen_across_evaluation:
+  - the fidelity discriminator (a versioned out-of-loop auditor, never inside the optimiser)
+  - the canary probe suite
+  - the Blind Composer's genome
+  - this manifest
+  - the cost matrix
+  - HARD-BENIGN-12 and HARD-BENIGN-B cohort definitions
+  - the scoring endpoint exposed to Author-an-Attack (/score-frozen)
+
+retrained_per_tick:
+  - G1 LightGBM
+  - G3 GRU and G4 RGCN (when in scope)
+  - the isotonic calibrator
+  - the conformal calibration set
+  - the threshold / action lookup table
+  # G0's invariant table changes only by human edit, recorded in git.

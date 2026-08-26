@@ -1,0 +1,87 @@
+# MONETISATION — the cash-out path.
+#
+# ALWAYS CELL-PRESERVING: MONETISATION is not an archive axis, so a MONETISATION mutation
+# produces a same-cell sibling. It is also, honestly, the slot that moves the FEWEST
+# observables -- and we say so out loud rather than letting thousands of strings differing only
+# in a behaviour-inert slot inflate a diversity claim the distinctness test never sees.
+# `make archive-report` prints the per-slot observable-delta precisely so this slot is visibly
+# credited with what it actually moves.
+#
+# `min_depth` is consumed by grammar/cell_of.py::admissible_depths. A cash-out path that
+# requires layering cannot be realised as a single-stage kill chain, and that constraint is
+# authored HERE, independently of grammar/feasible_cells.yaml, so the CI consistency test
+# between the two is a real test rather than a tautology.
+
+slot: MONETISATION
+count: 7
+
+values:
+  - id: goods-resale
+    label: Goods purchase and resale
+    description: >
+      Buy physical or digital goods and resell. The oldest path and still the highest-volume
+      one for stolen card credentials.
+    min_depth: 1
+    signatures: [basket_semantics_vs_mcc, shipping_novelty, one_item_micro_basket]
+    attacker_cost_key: null
+
+  - id: mule-chain-cashout
+    label: Mule-chain layering to cash
+    description: >
+      Proceeds pass through a chain of receiving accounts before cash-out. Each hop is
+      unremarkable and sits in a DIFFERENT institution's data, which is the entire reason
+      GATE-B and the visibility ablation exist. Requires layering by definition.
+    min_depth: 2
+    signatures: [in_out_skew, fan_out_degree, holding_time_seconds, weekly_mule_set_refresh]
+    attacker_cost_key: mule_burn
+
+  - id: biller-giftcard-resale
+    label: Biller payment and gift-card resale
+    description: >
+      Convert proceeds into liquid biller credit or gift-card inventory. Biller payments are
+      irreversible and low-scrutiny, and an agent can match proceeds to available inventory
+      hourly.
+    min_depth: 2
+    signatures: [biller_category_share, consumer_id_continuity, refund_rate_anomaly]
+    attacker_cost_key: mule_burn
+
+  - id: merchant-settlement
+    label: Proceeds arrive as merchant settlement
+    description: >
+      The attacker is (or controls) the acceptor, so scam proceeds arrive wearing
+      merchant-settlement clothing and complaints land AFTER settlement. Requires an
+      onboarding stage then a collection stage.
+    min_depth: 2
+    signatures: [settlement_to_withdrawal_days, zero_repeat_customer_share, mcc_vs_basket_mismatch, ramp_curve_shape]
+    attacker_cost_key: merchant_onboarding_cost
+
+  - id: credit-line-drawdown
+    label: Credit-line drawdown
+    description: >
+      Draw against a credit line rather than a balance, so loss size is credit-limit-scale
+      rather than balance-scale. In the synthetic-identity case no victim ever disputes and the
+      loss books as CREDIT loss -- invisible to any model trained on network fraud reports.
+    min_depth: 1
+    signatures: [first_txn_share_of_limit, activation_to_first_debit_minutes, utilisation_trajectory_smoothness]
+    attacker_cost_key: synthetic_identity_cost
+
+  - id: refund-chargeback-recovery
+    label: Refund or chargeback recovery
+    description: >
+      Recover value through the post-authorisation channel: a refund with no matching original
+      authorisation, a refund exceeding the original, a refund to a different credential, or a
+      successful fraud-coded dispute on a genuine purchase. Requires an antecedent
+      authorisation, so never single-stage.
+    min_depth: 2
+    signatures: [refund_without_original_auth, credit_to_debit_ratio_per_acceptor, representment_win_rate_outlier, time_to_dispute_distribution]
+    attacker_cost_key: null
+
+  - id: crypto-offramp
+    label: Crypto off-ramp
+    description: >
+      Convert to crypto and exit. Included because it is a real terminal path in the Indian
+      task-scam and mule-layering families; modelled purely as a beneficiary category with a
+      short dwell, never as any operational detail.
+    min_depth: 2
+    signatures: [holding_time_seconds, beneficiary_category_offramp, onward_send_immediacy]
+    attacker_cost_key: mule_burn

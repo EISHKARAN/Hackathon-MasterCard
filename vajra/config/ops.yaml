@@ -1,0 +1,89 @@
+# Operational scenario parameters. EVERY value here is a policy parameter we chose,
+# not a measurement of any real institution. A judge who thinks 40 analysts is wrong
+# for their bank changes one line and the whole cost curve, alert budget, precision@k
+# and queue-ceiling arithmetic move with it. That is the point of the file.
+#
+# Nothing in this file is [VERIFY]-clean: it is all stipulated. It is stated as
+# illustrative arithmetic on named assumptions wherever it reaches a report.
+
+scale:
+  # The reference portfolio the alert budget, queue ceiling and daily false-positive
+  # counts are expressed against. The simulator does not generate 10M events; it
+  # generates a sample and every absolute daily count is scaled to this denominator
+  # and labelled "scaled to a stated 10M-authorisation reference portfolio".
+  reference_authorisations_per_day: 10_000_000
+  peak_to_mean_ratio: 2.5
+
+review_queue:
+  analysts: 40
+  cases_per_analyst_per_shift: 60
+  shifts_per_day: 1
+  # 40 x 60 x 1 = 2400 cases/day = 0.024% of 10M. Derived, never hard-coded:
+  # eval/metrics/capacity.py computes it and asserts the arithmetic.
+
+analyst_model:
+  # The modelled investigator. base_wrong_disposition_rate is a POLICY PARAMETER,
+  # not an estimate of any real ops floor, and it gets the same sensitivity sweep as
+  # the attacker economics. Its whole purpose is to make review-queue exhaustion
+  # (ATK-Z3) a testable attack instead of a bullet point.
+  base_wrong_disposition_rate: 0.08
+  # Queue pressure = queue_depth / daily_capacity. The wrong-disposition rate rises
+  # linearly in pressure above pressure_knee and saturates at max_wrong_rate.
+  pressure_knee: 1.0
+  pressure_slope: 0.12
+  max_wrong_disposition_rate: 0.45
+  # Hours from event to analyst disposition, lognormal.
+  disposition_latency_hours_median: 6.0
+  disposition_latency_hours_sigma: 0.8
+
+label_latency:
+  # All three channels' timings are [VERIFY] against network reporting semantics and
+  # are modelled as swept ranges, never as asserted deadlines.
+  issuer_tag_days_min: 1
+  issuer_tag_days_max: 9
+  chargeback_days_min: 45
+  chargeback_days_max: 120
+  # Fraction of true fraud that never produces any label at all (unreported loss).
+  unreported_loss_share: 0.22
+  # Fraction of benign transactions that produce a false fraud complaint.
+  false_complaint_rate: 0.0006
+  # Friendly-fraud contamination: share of first-party-misuse disputes coded as fraud.
+  friendly_fraud_share: 0.30
+
+incumbent_policy:
+  # The deliberately mediocre legacy rule engine. It must be STOCHASTIC: a purely
+  # deterministic rule engine puts propensities in {0,1}, which means no overlap, no
+  # positivity, and undefined IPW weights -- it would silently void the reject
+  # inference arm rather than make it favourable.
+  epsilon: 0.05          # randomised margin around the decision threshold
+  decline_threshold: 0.62
+  # Published so a judge can see the overlap region rather than take our word:
+  # reports/propensity_histogram.json, written by gate/cli.py train.
+
+friction_caps:
+  # Per-rail cap on the share of traffic that may receive friction. UPI is tight
+  # because added UPI friction is bounded by NPCI UX rules [VERIFY scope] and the PIN
+  # already is the additional factor -- our UPI response is an interstitial, a cooling
+  # delay or a hold, never a second auth factor.
+  card-cnp-3ds: 0.060
+  card-cnp-keyed: 0.060
+  card-cp-emv: 0.010
+  card-clearing-dispute: 0.020
+  card-token-provisioning: 0.040
+  upi-pay: 0.008
+  upi-collect: 0.015
+  upi-autopay-mandate: 0.010
+  a2a-credit-transfer: 0.020
+  upi-lite-offline: 0.004
+  aeps-microatm: 0.010
+  agentic-commerce: 0.030
+  _default: 0.020
+
+approval_rate_floor_delta_pp: -0.05   # approval-rate delta guardrail, percentage points
+
+beneficiary_hold:
+  # A wrongly frozen receiver is a materially worse harm than a declined payer, so the
+  # freeze payload must say when the money moves anyway. Bounded hold + auto-release.
+  max_hold_hours: 24
+  auto_release_unless_escalated: true
+  golden_hour_target_minutes: 60

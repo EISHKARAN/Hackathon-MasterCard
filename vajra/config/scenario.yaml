@@ -1,0 +1,160 @@
+# World scenario parameters and the three size presets.
+#
+# BASE RATE IS A POLICY PARAMETER, NOT AN OBSERVATION. We do not calibrate India-rail
+# base rates or amount laws to PaySim, Sparkov, AMLSim or ULB -- calibrating a
+# simulator to another simulator is circular by construction. Base rates are swept and
+# every recall number names the base rate it was measured at.
+
+presets:
+  # `--preset smoke` exists for CI and for the day-1 wiring test. It is too small for
+  # any reported metric and eval/ refuses to publish headline numbers from it.
+  smoke:
+    cardholders: 400
+    merchants: 60
+    days: 14
+    attack_campaigns: 24
+    label: "SMOKE — wiring only, NOT a reportable population"
+
+  # `--preset small` is the demo/replay-bundle population: big enough that G1 has real
+  # positives to learn from, small enough for the <10 min `make demo` budget.
+  small:
+    cardholders: 6_000
+    merchants: 900
+    days: 60
+    attack_campaigns: 420
+    label: "SMALL — the committed replay bundle population"
+
+  # `--preset full` is what `make all FULL=1` runs and what the deck quotes.
+  full:
+    cardholders: 24_000
+    merchants: 3_200
+    days: 120
+    attack_campaigns: 1_600
+    label: "FULL — the reported-metrics population"
+
+default_preset: small
+
+# SUPERSEDED AT TRAIN TIME: gate/cli.py prefers the REALISED attack share from
+# reports/sim_report_*.json (0.0069 at the full preset) because nnPU's risk
+# estimator is parameterised by this prior. This value is the TARGET, not what ran.
+base_rate:
+  # Share of authorisation-leg events that belong to an attack campaign, BEFORE the
+  # incumbent policy declines anything. Swept; the target value is the one used for
+  # headline numbers and is printed beside every recall figure.
+  target: 0.005
+  sweep: [0.001, 0.005]
+
+rail_mix:
+  # Share of benign authorisation volume per rail. India-weighted but explicitly OUR
+  # choice: no public UPI transaction-level corpus exists to fit this to [VERIFY].
+  # F3-05 asserts the realised UPI share against a band derived from THIS config, not
+  # from an unstated prior -- the expectation is written before the plot.
+  card-cnp-3ds: 0.150
+  card-cnp-keyed: 0.070
+  card-cp-emv: 0.110
+  card-token-provisioning: 0.020
+  upi-pay: 0.420
+  upi-collect: 0.055
+  upi-autopay-mandate: 0.040
+  a2a-credit-transfer: 0.075
+  upi-lite-offline: 0.035
+  aeps-microatm: 0.020
+  agentic-commerce: 0.005
+  # card-clearing-dispute is NOT in the mix: clearing and dispute messages are derived
+  # from authorisations by the lifecycle, never sampled independently. Sampling them
+  # would break the F1 invariant that every presentment resolves to an auth.
+
+tier_a_rails:
+  # Fully built at message level. Tier-B rails carry attack compositions and observable
+  # signatures but make NO claim of message-level fidelity, and the UI says so on the
+  # card rather than hiding the omission.
+  - card-cnp-3ds
+  - card-cnp-keyed
+  - card-cp-emv
+  - card-clearing-dispute
+  - card-token-provisioning
+  - upi-pay
+  - upi-collect
+  - upi-autopay-mandate
+  - a2a-credit-transfer
+
+tier_b_rails:
+  - upi-lite-offline
+  - aeps-microatm
+  - agentic-commerce
+
+calendar:
+  # ONE shared exogenous calendar process drives every actor. A diurnal curve alone is
+  # not a calendar: a flat week reads synthetic in five seconds, and HARD-BENIGN-12
+  # already assumes festival travel and a small-merchant seasonal ramp that a
+  # diurnal-only generator cannot produce.
+  timezone_offset_hours: 5.5          # IST
+  start_date: "2026-03-02"            # a Monday, so dow index 0 == Monday
+  dow_multiplier: [0.94, 0.96, 1.00, 1.06, 1.18, 1.24, 1.02]   # Mon..Sun
+  month_end_payday_days: [1, 2, 28, 29, 30, 31]
+  month_end_payday_multiplier: 1.35
+  festival:
+    name: "festival-window"
+    # Day offsets from start_date. Pre-ramp, peak, post-ramp.
+    start_day_offset: 38
+    peak_day_offset: 44
+    end_day_offset: 49
+    peak_multiplier: 1.9
+  diurnal_peaks_ist: [11.0, 20.5]
+  diurnal_concentration: 1.6          # von Mises kappa
+
+concentration:
+  # Merchants, MCCs and geohashes are drawn from an explicit Zipf tail with stated
+  # support sizes, because concentration is the first structure a real corpus shows.
+  # F5 checks the realised share of volume in the top-k against a band written here.
+  merchant_zipf_s: 1.08
+  mcc_zipf_s: 0.92
+  geohash_zipf_s: 1.15
+  geohash_support: 220
+  expected_top10_merchant_share: [0.16, 0.42]
+  expected_top10_mcc_share: [0.40, 0.78]
+
+actor_lifecycle:
+  # Per-actor dormancy, reactivation and closure, so account age is not a monotone
+  # proxy for activity.
+  dormancy_hazard_per_day: 0.004
+  reactivation_hazard_per_day: 0.030
+  closure_hazard_per_day: 0.0006
+
+amount_law:
+  # Ticket-size lognormal with rupee atoms. Atoms are the round-number spikes F5 checks.
+  atoms: [100, 200, 500, 1000, 2000, 5000]
+  atom_probability: 0.17
+  lognormal_mu: 6.35
+  lognormal_sigma: 1.15
+  min_amount: 5
+  max_amount: 500_000
+
+graph:
+  # Benign density that LOOKS like fraud. If the benign graph is clean, every graph
+  # feature works perfectly and the detection result is worthless.
+  device_sharing_family_share: 0.14
+  gig_worker_fanin_share: 0.06
+  marketplace_seller_share: 0.05
+  joint_account_share: 0.09
+  nri_corridor_share: 0.03
+  multi_token_cardholder_share: 0.22
+  devices_per_cardholder_lambda: 1.35
+  beneficiaries_per_cardholder_lambda: 4.2
+
+cohorts:
+  # HARD-BENIGN-12 and HARD-BENIGN-B are FIXED hand-authored adversarial-legitimate
+  # sets, sized to their own guardrail. rows_per_cohort is chosen so the realised
+  # minimum detectable effect on an FPR near 0.1% is printed next to every cohort
+  # rather than implied -- a +-0.05pp guardrail needs 1e5-1e6 rows per cohort per arm
+  # and we do not pretend to buy it at demo scale.
+  hard_benign_12_rows_per_cohort: 900
+  hard_benign_b_rows_per_cohort: 600
+
+onboarding:
+  # A small tabular onboarding-cohort table supporting a cohort-STATISTICS scorer.
+  # What we deliberately do NOT build, marked design-only in the UI and on the slide:
+  # document/narrative embeddings, capture geometry, anything liveness-adjacent.
+  benign_batches: 140
+  benign_batch_size_lambda: 9.0
+  attack_batch_share: 0.10

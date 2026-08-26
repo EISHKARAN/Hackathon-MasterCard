@@ -1,0 +1,333 @@
+# SIGNATURE RESOLUTION — every observable named in the taxonomy must resolve, or be DECLARED
+# design-only. There is no third option, and `make grammar` fails the build on an unknown name.
+#
+# ============================== WHY THIS FILE EXISTS ====================================
+# The design's archive admission criterion is ">= 3 observable signatures that must RESOLVE TO FIELDS
+# IN THE CANONICAL SCHEMA, and a named observer that can see them". The taxonomy (grammar/slots/*.yaml
+# and grammar/seeds.yaml) names observables in the language of the attack; the implementation
+# (sim/schema.py and features/registry.yaml) names them in the language of the pipeline. Those two
+# vocabularies WILL drift, and when they drift silently the admission criterion becomes decorative:
+# a composition can claim three signatures none of which anything computes.
+#
+# So the mapping is explicit and machine-checked. `grammar/signatures.py::resolve` returns one of:
+#
+#   schema        the observable IS a canonical schema field
+#   feature       the observable IS (or aliases to) a registry feature we compute
+#   design_only   the observable is REAL and belongs in the taxonomy, but WE DO NOT BUILD IT
+#   unknown       -> `make grammar` FAILS
+#
+# THE design_only TIER IS NOT A LOOPHOLE, it is the point. The design already applies this idea to
+# ATK-K3's deepfake-V-CIP signals ("design-only, marked so in the UI"); generalising it across the whole
+# taxonomy converts an inconsistency we would otherwise have shipped into a published artifact. Every
+# design_only entry carries a REASON, the UI badges it, and the archive admission gate COUNTS ONLY
+# RESOLVED SIGNATURES toward the >= 3 criterion — so a composition cannot be admitted on the strength
+# of observables nothing computes.
+# ========================================================================================
+
+version: 1
+
+# ---------------------------------------------------------------------------------------
+# ALIASES — the taxonomy's name for an observable we DO compute, under a different name.
+# ---------------------------------------------------------------------------------------
+aliases:
+  # velocity and graph
+  multi_key_velocity_ratio: vel_pan_canonical_24h_count_ratio
+  merchant_txn_count_1h: vel_merchant_id_1h_count_ratio
+  token_velocity_ratio_24h: vel_token_id_24h_count_ratio
+  fan_out_degree: sketch_beneficiary_fanout_degree
+  payee_cluster_stranger_indegree: sketch_beneficiary_fanin_degree
+  payee_collect_fanout_1h: sketch_distinct_payers_per_beneficiary_1h
+  distinct_payer_devices_per_geohash: sketch_geohash_distinct_payer_devices
+  pan_token_fanout_7d: sketch_pan_token_fanout_7d
+  provisioning_burst_flag: sketch_pan_token_fanout_7d
+  tokens_created_same_day: sketch_pan_token_fanout_7d
+  shared_device_across_tokens: sketch_device_shared_entity_count
+  shared_attribute_graph_density: sketch_address_node_density
+  address_node_density: sketch_address_node_density
+  fingerprint_collision_degree: sketch_fingerprint_collision_degree
+  fingerprint_entropy: device_fingerprint_entropy
+  motif_census_deviation: sketch_motif_reciprocity
+  k_core_acquisition_rate: sketch_kcore_acquisition_rate
+  round_trip_flow_share: sketch_round_trip_flow_flag
+  seeder_cluster_membership: sketch_seeder_cluster_membership
+  terminal_distinct_customers_1h: distinct_pan_per_terminal_1h
+  mit_chain_device_diversity: device_churn_30d
+
+  # beneficiary side
+  holding_time_seconds: pass_through_dwell_seconds
+  onward_send_immediacy: beneficiary_onward_send_minutes
+  card_auth_to_outbound_push_seconds: beneficiary_onward_send_minutes
+  trust_in_to_deposit_out_ratio: value_conservation_net_of_skim
+  zero_repeat_customer_share: repeat_payer_share
+  weekly_mule_set_refresh: payer_set_growth_rate
+  biller_category_share: biller_continuity_absent
+  beneficiary_category_offramp: beneficiary_category_ordinal
+  quasi_cash_mcc_exposure: beneficiary_category_ordinal
+  beneficiary_change_to_payment_hours: beneficiary_change_within_cooling_hours
+  reciprocal_credit_then_escalating_debit: inbound_credit_then_outbound_different_payee
+
+  # thresholds and amounts
+  amount_mass_below_cap: amount_mass_below_cap_24h
+  cumulative_count_24h: cumulative_count_24h_vs_cap
+  round_number_avoidance: amount_round_number_avoidance
+
+  # trust envelope, mandates, agentic
+  exemption_flag_rate: exemption_rate_per_bin_24h
+  activation_to_first_debit_minutes: credit_line_activated_ts
+  mandate_creation_rate_per_payee: mandate_creation_rate_per_payee_24h
+  mandate_signature_valid: agent_mandate_signature_valid
+  mandate_vs_execution_mismatch: agent_quoted_amount_inr
+  authorised_vs_quoted_amount: agent_quoted_amount_inr
+  human_confirmation_event: agent_human_confirmation_event
+
+  # sequence and temporal
+  reason_code_mix_skew: decline_reason_entropy
+  code_to_approval_latency_regularity: response_latency_probe_pattern
+  machine_normal_velocity_flag: inter_arrival_regularity
+  out_of_hours_flag: is_night_hours
+
+  # merchant side
+  basket_semantics_vs_mcc: mcc_vs_basket_semantics
+  mcc_vs_basket_mismatch: mcc_vs_basket_semantics
+  ramp_curve_shape: merchant_ramp_curve_shape
+  descriptor_churn_vs_terminal: acceptor_descriptor_mismatch
+  merchant_history_sparsity: merchant_age_days
+  consumer_id_continuity: repeat_customer_share_merchant
+  prior_merchant_relationship: repeat_customer_share_merchant
+
+  # cross-message
+  credit_to_debit_ratio_per_acceptor: credit_to_debit_ratio_per_acceptor_24h
+  time_to_dispute_distribution: time_to_dispute_days
+  reversal_reference_present: reversal_present
+  channel_disagreement_rate: label_channel_disagreement
+
+  # device / rail context
+  device_geo_mismatch_vs_history: geo_novelty
+  first_payee_after_rebinding: rebinding_to_first_payee_minutes
+  reconciliation_lag: reconciliation_lag_minutes
+  acquirer_population_shift: rail_ratio_vs_peer_cohort
+  lite_to_nonlite_ratio_vs_cohort: rail_ratio_vs_peer_cohort
+  collect_decline_accept_ratio: collect_accepted
+
+# ---------------------------------------------------------------------------------------
+# DESIGN-ONLY — real observables that BELONG in the taxonomy and that WE DO NOT BUILD.
+#
+# These are badged design-only in the UI, they do NOT count toward the >= 3 resolved-signature
+# admission criterion, and a composition whose signatures are all design-only cannot be archived.
+# Grouped by WHY, because the reasons are different and the difference matters.
+# ---------------------------------------------------------------------------------------
+design_only:
+
+  # --- REFUSED BY POLICY. We build no deepfake, face-swap, voice-cloning, document-forensics or
+  # --- narrative-embedding capability, and we produce no bypass knowledge. Not a scope cut: a refusal.
+  voiceprint_margin_above_threshold:
+    reason: "No voice-biometric features anywhere. ATK-V1 is modelled as a non-transactional profile-change event PRECEDING spend, never as a voice-conversion recipe."
+    group: refused_by_policy
+  intra_call_voiceprint_variance:
+    reason: "Same refusal. Call-audio features are not built."
+    group: refused_by_policy
+  narrative_near_duplicate_cluster:
+    reason: "Narrative embeddings are not built. The detector needs the DISTRIBUTIONAL signature, not the content."
+    group: refused_by_policy
+  evidence_metadata_uniformity:
+    reason: "Document forensics is not built. ATK-D2's observables live with the acquirer and dispute processor."
+    group: refused_by_policy
+  evidence_timestamp_implausibility:
+    reason: "Same refusal: no document-level forensics."
+    group: refused_by_policy
+  user_merchant_embedding_distance:
+    reason: "No learned per-user merchant embeddings. Would require behavioural profiling we do not build."
+    group: refused_by_policy
+  # The six ATK-K3 deepfake-video-KYC signals. The seed row declares these design-only in its own
+  # `design_only_signals` list; they are repeated here so the CENTRAL resolver agrees with the seed
+  # rather than each having its own opinion. This is also exactly why ATK-K1 was merged into ATK-K3:
+  # as separate rows they were one implementable attack twice, distinguished only by these signals.
+  virtual_camera_artefact:
+    reason: "Liveness-adjacent. We build no capture-path forensics and produce no bypass knowledge. ATK-K3 is detected by POPULATION statistics over an onboarding batch instead."
+    group: refused_by_policy
+  frame_timing_regularity:
+    reason: "Liveness-adjacent capture-path forensics. Not built."
+    group: refused_by_policy
+  sensor_noise_absence:
+    reason: "Liveness-adjacent sensor forensics. Not built."
+    group: refused_by_policy
+  lipsync_offset:
+    reason: "Liveness-adjacent audio-video correlation. Not built."
+    group: refused_by_policy
+  capture_geometry_reuse:
+    reason: "Capture geometry is explicitly outside the onboarding scope: what we build is a small tabular cohort table supporting a cohort-STATISTICS scorer, not a KYC-origination simulator."
+    group: refused_by_policy
+  document_embedding_near_duplicate:
+    reason: "Document embeddings are not built. Same refusal as narrative embeddings."
+    group: refused_by_policy
+
+  # --- OUTSIDE BOTH SHIPPED PERSONAE. Real observables, held by nobody in GATE-I or GATE-B. These are
+  # --- the double-dagger rows, EXCLUDED FROM EVERY SCORED RESULT, and the visibility ablation covers them.
+  account_age_vs_first_credit_age:
+    reason: "Employer HR-side payroll comparison. Outside both personae (ATK-V3)."
+    group: outside_personae
+  bank_detail_change_to_payroll_days:
+    reason: "Employer-side detail-change event. Outside both personae."
+    group: outside_personae
+  employee_ids_per_account:
+    reason: "Employer payroll file. Outside both personae."
+    group: outside_personae
+  account_age_vs_history_consistency:
+    reason: "Bureau file age. Outside both personae (ATK-K2)."
+    group: outside_personae
+  identity_element_graph_sharing:
+    reason: "Bureau identity-element graph. Outside both personae."
+    group: outside_personae
+  identity_cluster_cooccurrence:
+    reason: "Bureau identity clustering. Outside both personae."
+    group: outside_personae
+  utilisation_trajectory_smoothness:
+    reason: "Requires a credit-outcome feed. Outside both personae."
+    group: outside_personae
+  autopay_exact_payment_share:
+    reason: "Requires a credit-servicing feed. Outside both personae."
+    group: outside_personae
+  first_payment_default_flag:
+    reason: "Credit outcome, arrives months later and outside both personae."
+    group: outside_personae
+  first_txn_share_of_limit:
+    reason: "Credit-limit utilisation needs a credit feed. The LIMIT is on the event (`credit_limit_inr`); the utilisation trajectory is not."
+    group: outside_personae
+  merchant_diversity_entropy:
+    reason: "Cross-issuer merchant diversity. Outside a single issuer's view."
+    group: outside_personae
+  entity_reregistration_reuse:
+    reason: "Acquirer underwriting records. Outside both personae (ATK-S2)."
+    group: outside_personae
+  one_item_micro_basket:
+    reason: "Basket composition is merchant/PSP-side. Outside both personae (ATK-C2)."
+    group: outside_personae
+  shipping_novelty:
+    reason: "Shipping addresses are merchant-side and are not modelled. No PII."
+    group: outside_personae
+  shipping_novelty_score:
+    reason: "Same: merchant-side shipping data is not modelled."
+    group: outside_personae
+  email_to_pan_linkage_novelty:
+    reason: "Email addresses are PII and are not modelled anywhere in the schema."
+    group: outside_personae
+  cardholder_dispute_rate_vs_cohort:
+    reason: "Dispute-processor view. GATE-I sees its own chargebacks, not the cohort's dispute rate."
+    group: outside_personae
+  representment_win_rate_outlier:
+    reason: "Dispute-processor and acquirer view."
+    group: outside_personae
+  delivery_evidence_contradiction:
+    reason: "Delivery evidence is merchant-side document content."
+    group: outside_personae
+  device_continuity_purchase_to_dispute:
+    reason: "Requires joining a dispute-portal session to an authorisation device. Outside both personae."
+    group: outside_personae
+  servicing_action_without_approver:
+    reason: "Servicing-platform audit trail. Outside both personae (ATK-V2)."
+    group: outside_personae
+  tool_call_offpolicy_flag:
+    reason: "Agent-platform tool-call trace. Outside both personae."
+    group: outside_personae
+  concurrent_sessions_per_agent_identity:
+    reason: "Agent-platform session telemetry. Outside both personae (ATK-X3)."
+    group: outside_personae
+  agent_behavioural_fingerprint_drift:
+    reason: "Agent-platform behavioural telemetry. Outside both personae."
+    group: outside_personae
+  payers_per_referrer:
+    reason: "Referrer-level payer aggregation needs a web-analytics join we do not model. The referrer DOMAIN and its age are on the event."
+    group: outside_personae
+  geo_distance_from_home_km:
+    reason: "We model geo CELLS, not coordinates, so a kilometre distance is not computable. Cell novelty is."
+    group: outside_personae
+  src_recognition_flag:
+    reason: "Secure-remote-commerce recognition flow is [VERIFY] and not modelled (ATK-T3)."
+    group: outside_personae
+
+  # --- CONSORTIUM / FEDERATED. Network- or consortium-side only. ATK-Z4 is a DESIGN-LEVEL entry in the
+  # --- AUTOIMMUNE suite rather than a scored family, and this is why.
+  participant_update_norm_outlier:
+    reason: "Per-participant model-update norms are consortium-side. Federated learning is cut-list item 1."
+    group: consortium
+  segment_validation_loss_regression:
+    reason: "Requires a shared model's per-segment validation. Consortium-side."
+    group: consortium
+  canary_local_global_disagreement:
+    reason: "Requires a shared global model to disagree with. Consortium-side."
+    group: consortium
+  bloom_exchange_query_pattern:
+    reason: "Query-pattern telemetry on the exchange, which is itself an UNVERIFIED STUB."
+    group: consortium
+
+  # --- OPS AND LOOP TELEMETRY. These are real and we DO measure them — but as REPORT SERIES, not as
+  # --- per-event features. Naming where each one actually lives, so "design-only" is not a shrug.
+  alert_volume_delta:
+    reason: "Measured as a report series in the action-band decomposition, not as a per-event feature."
+    group: ops_telemetry
+  queue_age_distribution_shift:
+    reason: "Queue telemetry. The modelled analyst's queue pressure is in sim/labels.py's report."
+    group: ops_telemetry
+  disposition_time_seconds:
+    reason: "Analyst disposition latency is modelled in sim/labels.py and reported there."
+    group: ops_telemetry
+  analyst_disposition_accuracy:
+    reason: "The modelled analyst's wrong-disposition rate under queue pressure, reported in sim/labels.py's report. Deliberately NOT a feature: it is a property of the label channel."
+    group: ops_telemetry
+  review_band_score_mass:
+    reason: "Score mass in the review band is a report quantity in the action-band decomposition."
+    group: ops_telemetry
+  label_flip_rate:
+    reason: "Label-channel telemetry. Reported in the label-table stats; consuming it as a feature would be consuming the label."
+    group: ops_telemetry
+  label_maturity_fraction:
+    reason: "Reported with EVERY evaluation window by eval/splits.py::maturity_report. Not a feature."
+    group: ops_telemetry
+  cohort_approval_then_dispute_rate:
+    reason: "A retrospective cohort statistic, visible only after labels mature. That is the ATK-Z1 point."
+    group: ops_telemetry
+  mandate_revocation_rate:
+    reason: "Mandate-lifecycle telemetry; the simulator produces revocations and counts them in the emitter counters."
+    group: ops_telemetry
+  canary_probe_score_trend:
+    reason: "The frozen canary suite's trend across model versions, in loop/sentinel.py. A promotion-gate input, not a feature."
+    group: loop_telemetry
+  conformal_p_mass_shift:
+    reason: "A Sentinel signal, in loop/sentinel.py. Not a per-event feature."
+    group: loop_telemetry
+  feature_support_width_delta:
+    reason: "A drift statistic computed across windows by the Sentinel, not per event."
+    group: loop_telemetry
+  cohort_percentile_monotone_drift:
+    reason: "A cross-retrain drift statistic, in loop/sentinel.py."
+    group: loop_telemetry
+
+  # --- TIER-B THIN EMITTERS. The rail carries attack compositions and signatures but makes NO claim of
+  # --- message-level fidelity, so its rail-specific observables are design-only by construction.
+  lite_topup_frequency:
+    reason: "UPI Lite is a THIN emitter. Top-up frequency is modelled coarsely and makes no message-level fidelity claim."
+    group: tier_b_thin
+  lite_debit_count_per_payee:
+    reason: "UPI Lite thin emitter; per-payee debit structure is not modelled at message level."
+    group: tier_b_thin
+  balance_enquiry_to_withdrawal_ratio:
+    reason: "AePS is a THIN emitter. The enquiry/withdrawal ratio is generated but not exposed as a feature."
+    group: tier_b_thin
+  prior_aeps_history_flag:
+    reason: "AePS thin emitter; per-customer AePS history is not modelled."
+    group: tier_b_thin
+
+  # --- APP-SDK. Present in the SCHEMA because the observables are real, and excluded from every scored
+  # --- result by sim/schema.py::OUT_OF_PERSONA_FIELDS.
+  typing_cadence_anomaly:
+    reason: "App-SDK signal. Present in the schema (`typing_cadence_score`), EXCLUDED from every scored result."
+    group: app_sdk
+
+  # --- MECHANISM COVERED, EXACT STATISTIC NOT COMPUTED. Honest middle ground: the attack mechanism IS
+  # --- detectable through what we build, but this specific statistic is not one of our columns.
+  per_key_subthreshold_share:
+    reason: "The velocity panel's DUAL ENCODING (own-baseline ratio AND peer percentile, across nine keys) covers the mechanism. This exact share statistic is not a column."
+    group: mechanism_covered
+  edge_weight_vs_relationship_age:
+    reason: "Requires a weighted temporal graph with edge ages. The sketch layer gives degree and dwell, not edge weights."
+    group: mechanism_covered

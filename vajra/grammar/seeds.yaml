@@ -1,0 +1,1052 @@
+# The 51 hand-authored seed compositions.
+#
+# PROVENANCE TIER OF THIS FILE: hand-authored, SELF-REVIEWED against the published checklist in
+# docs/SEED_CHECKLIST.md. No outside practitioner has reviewed these. Nothing in this repo says
+# practitioner-reviewed or expert-audited, because we are 2-4 builders with no payments
+# practitioner on the team and any team claiming thousands of expert-validated attacks in three
+# weeks is not telling the truth.
+#
+# ADMISSION CRITERION, machine-enforced by `make grammar`:
+#   1. the six-slot grammar string TYPE-CHECKS against grammar/typing.yaml -- this assertion is
+#      the ONLY proof that the attack table is compositions rather than prose;
+#   2. >= 3 observable signatures, each of which must RESOLVE to a field in sim/schema.py;
+#   3. a named OBSERVER whose views.yaml view actually grants those signals;
+#   4. `stages`, which is what determines KILL-CHAIN DEPTH (depth is not a slot).
+#
+# ALL ENTRIES ARE ABSTRACTION-LEVEL: kill-chain shape, attacker economics, and observable
+# signatures in payment data. No operational tradecraft, no vendor-specific bypass procedures,
+# no real BINs, IINs, IFSCs, VPAs, phone numbers or PII. `genai_delta` describes changes in
+# COST, SCALE and ADAPTIVITY -- never method.
+#
+# OBSERVER CODES
+#   I = GATE-I (payer/issuer or payer-PSP view)      B = GATE-B (beneficiary PSP / receiving bank)
+#   Q = acquirer or PayFac                           N = network
+#   D = dispute processor                            S = consumer app SDK
+# `dagger: true`  -> at least one listed signal is held by NO SINGLE PARTY in our two shipped
+#                    personae; reachable only via the bloom exchange (an unverified stub) or
+#                    replaced by the no-exchange fallback. Both are quantified in the
+#                    single-institution visibility ablation.
+# `double_dagger: true` -> at least one signal sits OUTSIDE both personae entirely (acquirer-only
+#                    underwriting metadata, app-SDK device permissions, bureau files). Those rows
+#                    stay in the taxonomy because the observables are real, but they are
+#                    EXCLUDED FROM EVERY SCORED RESULT.
+
+seeds:
+
+  # ================= Card CNP, authentication and oracle probing ==========================
+  - id: ATK-C1
+    name: Adaptive PAN/BIN-range probing
+    grammar: ACCESS=enumerated-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=oracle-probing/MONETISATION=goods-resale/LABEL=label-delayed
+    stages: [recon, probe, extract]
+    observer: [I, N]
+    dagger: true
+    genai_delta: >
+      An agent reads decline reason codes and issuer latency and online-optimises which ranges,
+      amount bands and MCCs stay open, replacing fixed brute force with adaptive search.
+    why_hard: >
+      Individually plausible and spread thin across many merchants; no single merchant sees the
+      grid, and the grid is the attack.
+    signatures:
+      - distinct_pan_per_terminal_1h
+      - amount_uniformity_score
+      - decline_reason_entropy
+      - approval_ratio_delta_vs_baseline
+      - pos_entry_mode
+    verify: [Reason-code semantics differ per network and spec version]
+
+  - id: ATK-C2
+    name: Card-testing on legitimate merchant funnels
+    grammar: ACCESS=enumerated-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=velocity-splitting/MONETISATION=goods-resale/LABEL=label-delayed
+    stages: [probe, extract]
+    observer: [I, Q]
+    double_dagger: true
+    genai_delta: >
+      Auto-discovers arbitrary checkout flows and their bot defences, so testing scales to
+      thousands of small merchants without bespoke work per merchant.
+    why_hard: >
+      The victim merchant is collateral rather than accomplice, and the pattern reads as
+      conversion-rate noise on the merchant's own dashboard.
+    signatures:
+      - approval_ratio_delta_vs_baseline
+      - cvv2_result
+      - avs_result
+      - amount_uniformity_score
+      - merchant_txn_count_1h
+    excluded_from_scoring_reason: >
+      Basket composition, email disposability and guest-checkout flags are merchant/PSP-side and
+      sit outside both shipped personae.
+
+  - id: ATK-C3
+    name: AVS/CVV2 oracle harvesting
+    grammar: ACCESS=enumerated-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=oracle-probing/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [probe, extract]
+    observer: [I]
+    genai_delta: >
+      Synthesises plausible name/address/postcode candidates from fragmentary data and iterates
+      on verification result codes at machine speed.
+    why_hard: >
+      Each attempt is a legitimate-shaped authorisation. The oracle behaviour is a SEQUENCE
+      property only, invisible to any per-event scorer.
+    signatures:
+      - avs_result
+      - avs_trajectory_shape
+      - single_field_delta_retry_chain
+      - inter_arrival_seconds
+      - device_fingerprint_id
+
+  - id: ATK-C4
+    name: Frictionless-path gaming via synthesised authentication telemetry
+    grammar: ACCESS=stolen-credential/TRUST=threeds-authenticated/RAIL=card-cnp-3ds/EVASION=trust-inheritance/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [I, N]
+    dagger: true
+    genai_delta: >
+      Generates internally consistent device/browser/behaviour profiles and account-history
+      narratives so risk-based authentication scores frictionless, plus per-merchant discovery of
+      which sparse field sets still route frictionless.
+    why_hard: >
+      Successful cases carry AUTHENTICATED indicators, so downstream models trust them and
+      liability shifts to the issuer. The attacker is optimising against the liability grammar.
+    signatures:
+      - threeds_field_population_score
+      - field_combination_implausibility
+      - threeds_authentication_result
+      - device_age_days
+      - threeds_eci
+
+  - id: ATK-C5
+    name: Exemption and threshold-edge routing
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=threshold-hugging/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [recon, extract]
+    observer: [I, Q]
+    genai_delta: >
+      Agents infer per acquirer and per merchant which exemption or low-value flag actually
+      passes unchallenged, then route traffic there.
+    why_hard: >
+      Exemptions are legitimate and they reduce the friction metrics merchants optimise for.
+      Thresholds are regulatory rather than tunable.
+    signatures:
+      - exemption_flag
+      - distance_to_nearest_threshold
+      - amount_inr
+      - cumulative_count_24h
+    verify: [Exemption scope and threshold values per jurisdiction]
+
+  # ================= Card-present and degraded-window ====================================
+  - id: ATK-P1
+    name: Technical-fallback and CVM-downgrade steering
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=card-cp-emv/EVASION=trust-inheritance/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [extract]
+    observer: [I, Q]
+    genai_delta: >
+      Recon agents fuse telemetry to map which terminal populations still accept fallback or
+      no-CVM contactless, turning a manual survey into a continuous one.
+    why_hard: >
+      Fallback exists for genuine terminal faults, so blanket blocking breaks acceptance for
+      real merchants.
+    signatures:
+      - pos_entry_mode
+      - cvm_result
+      - terminal_verification_result
+      - emv_cryptogram_atc
+      - amount_inr
+
+  - id: ATK-P2
+    name: Cryptogram replay and counter anomaly
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=card-cp-emv/EVASION=oracle-probing/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [probe, extract]
+    observer: [I]
+    genai_delta: >
+      Not the cryptography. What scales is target selection and orchestration across terminal
+      estates and issuer configurations.
+    why_hard: >
+      Requires issuer-side cryptographic validation discipline that is applied inconsistently
+      across estates, and the inconsistency is what is probed.
+    signatures:
+      - emv_cryptogram_atc
+      - emv_cryptogram_verified
+      - emv_unpredictable_number
+      - geo_cell
+      - issuer_application_data_consistent
+
+  - id: ATK-P3
+    name: Stand-in / degraded-window burst
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=velocity-splitting/MONETISATION=goods-resale/LABEL=label-delayed
+    stages: [recon, extract]
+    observer: [I, N]
+    genai_delta: >
+      Monitors decline and latency telemetry across many merchants to detect issuer degradation
+      in near-real time, then bursts into the window.
+    why_hard: >
+      The issuer's own model never scored these transactions -- stand-in logic is deliberately
+      permissive -- so there is no score to have been wrong.
+    signatures:
+      - stand_in_indicator
+      - response_latency_ms
+      - amount_inr
+      - trace_number
+      - merchant_txn_count_1h
+
+  # ================= Clearing, settlement and acquiring economics =========================
+  - id: ATK-S1
+    name: Auth-versus-clearing amount divergence
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=aged-account/RAIL=card-clearing-dispute/EVASION=trust-inheritance/MONETISATION=merchant-settlement/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [I, Q]
+    genai_delta: >
+      Fits per-MCC tolerance policies (tip, fuel, hotel incremental norms) to pick divergences
+      that never trip an exception report.
+    why_hard: >
+      Most fraud stacks score authorisation only. Clearing is a batch analytics afterthought, so
+      the divergence is never scored by the model that could see it.
+    signatures:
+      - auth_to_presentment_ratio
+      - presentment_age_days
+      - incremental_auth_present
+      - reversal_present
+      - mcc
+
+  - id: ATK-S2
+    name: Bust-out merchant (settlement-lag arbitrage)
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=threshold-hugging/MONETISATION=merchant-settlement/LABEL=label-delayed
+    stages: [establish, cultivate, extract]
+    observer: [Q, N]
+    double_dagger: true
+    genai_delta: >
+      Models per-acquirer reserve and hold policy to time the ramp and the exit.
+    why_hard: >
+      The early history is GENUINELY clean, so detection must be predictive rather than
+      reactive -- and the chargebacks arrive after funding.
+    signatures:
+      - merchant_ticket_step_change
+      - approval_ratio_delta_vs_baseline
+      - chargeback_after_funding_flag
+      - entity_reregistration_reuse
+    excluded_from_scoring_reason: >
+      Acquirer reserve and funding-schedule views sit outside both shipped personae. GATE-I sees
+      only the chargebacks, after the money has gone.
+
+  # ================= Tokenisation and trust inheritance ===================================
+  - id: ATK-T1
+    name: Token-provisioning takeover (digital enablement)
+    grammar: ACCESS=account-takeover/TRUST=cdcvm/RAIL=card-token-provisioning/EVASION=trust-inheritance/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [I, N]
+    genai_delta: >
+      Makes convincing issuer-impersonation contact and identity narratives cheap at scale,
+      raising identification-and-verification pass rates at provisioning time.
+    why_hard: >
+      It looks like premium, device-authenticated, liability-shifted traffic, which carries a
+      structurally LOWER risk prior than the traffic it displaces.
+    signatures:
+      - provisioning_to_first_spend_minutes
+      - token_assurance_level
+      - device_age_days
+      - cvm_result
+      - geo_cell
+
+  - id: ATK-T2
+    name: Token-graph fragmentation
+    grammar: ACCESS=stolen-credential/TRUST=tokenised/RAIL=card-token-provisioning/EVASION=graph-camouflage/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [I, N]
+    dagger: true
+    genai_delta: >
+      Orchestrates mass card-on-file token creation across many merchants with a consistent
+      per-merchant persona for each.
+    why_hard: >
+      Detectors keyed on token or on merchant see nothing. Only PAN-canonical or network-level
+      aggregation reveals the fan-out, and an acquirer cannot construct it.
+    signatures:
+      - pan_token_fanout_7d
+      - token_velocity_ratio_24h
+      - shared_device_across_tokens
+      - provisioning_burst_flag
+      - token_requestor_id
+
+  - id: ATK-T3
+    name: Secure-remote-commerce recognition abuse
+    grammar: ACCESS=stolen-credential/TRUST=tokenised/RAIL=card-cnp-3ds/EVASION=trust-inheritance/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [I, N]
+    dagger: true
+    genai_delta: >
+      Automates account-recognition and recovery narratives across many merchant SRC surfaces.
+    why_hard: >
+      SRC is DESIGNED to abstract card details away and minimise friction, so the absence of
+      friction is not an anomaly there.
+    signatures:
+      - src_recognition_flag
+      - prior_merchant_relationship
+      - email_to_pan_linkage_novelty
+      - shipping_novelty_score
+      - token_assurance_level
+      - first_txn_at_acceptor_share
+      - mcc_novelty
+    verify: [Current SRC/Click-to-Pay recognition flow]
+
+  - id: ATK-T4
+    name: Checkout-clone card-on-file provisioning
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=tokenised/RAIL=card-cnp-3ds/EVASION=trust-inheritance/MONETISATION=goods-resale/LABEL=victim-blames-self
+    stages: [establish, extract]
+    observer: [I]
+    genai_delta: >
+      Brand-faithful multilingual checkout and consent surfaces generated per merchant, plus
+      conversation pacing around one-time codes.
+    why_hard: >
+      Tokenised traffic is treated as higher trust AND is merchant-scoped, so PAN-level rules
+      stay silent while the token-level view sees one ordinary first purchase.
+    signatures:
+      - provisioning_to_first_spend_minutes
+      - device_geo_mismatch_vs_history
+      - tokens_created_same_day
+      - code_to_approval_latency_regularity
+      - token_assurance_level
+
+  # ================= Mandates, recurring and merchant-initiated ===========================
+  - id: ATK-M1
+    name: Synthetic-identity card-on-file subscription farm
+    grammar: ACCESS=synthetic-identity/TRUST=mandated/RAIL=card-cnp-keyed/EVASION=cohort-splitting/MONETISATION=goods-resale/LABEL=never-labelled
+    stages: [establish, cultivate, extract]
+    observer: [I, Q]
+    genai_delta: >
+      Mass-manufactures coherent long-lived identities with realistic browsing, support-chat and
+      payment histories, so accounts age credibly without human effort per identity.
+    why_hard: >
+      NO VICTIM EVER COMPLAINS, so no fraud-coded chargeback label arrives. The family is
+      structurally invisible to any model trained on network fraud reports.
+    signatures:
+      - mit_chain_device_diversity
+      - identity_cluster_cooccurrence
+      - account_age_vs_history_consistency
+      - shared_attribute_graph_density
+      - cit_mit_indicator
+
+  - id: ATK-M2
+    name: Mandate-scope escalation
+    grammar: ACCESS=stolen-credential/TRUST=mandated/RAIL=upi-autopay-mandate/EVASION=threshold-hugging/MONETISATION=merchant-settlement/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [I]
+    genai_delta: >
+      Agents probe and iterate mandate boundaries continuously, learning the enforcement
+      envelope rather than guessing it once.
+    why_hard: >
+      Each authorisation is individually VALID. The violation is visible only against the
+      mandate object, which fraud scorers usually never see.
+    signatures:
+      - mandate_count_vs_frequency
+      - mandate_amount_headroom
+      - mandate_mcc_drift
+      - cit_mit_indicator
+      - mandate_id
+
+  - id: ATK-M3
+    name: AutoPay / e-mandate consent-fatigue abuse (incl. predatory loan-app funnels)
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=mandated/RAIL=upi-autopay-mandate/EVASION=threshold-hugging/MONETISATION=merchant-settlement/LABEL=victim-blames-self
+    stages: [establish, extract]
+    observer: [I, B]
+    genai_delta: >
+      Mass-generated merchant identities, terms-and-conditions copy, pre-debit-notification
+      lookalikes, and hundreds of localised app variants per week.
+    why_hard: >
+      Mandates are validly authorised, debits are trivially small and pre-notified, and a real
+      (if predatory) contract exists.
+    signatures:
+      - mandate_creation_rate_per_payee
+      - mandate_cohort_identical_params
+      - mandate_amount_headroom
+      - mandate_revocation_rate
+      - mandate_to_first_debit_minutes
+    verify: [Current e-mandate AFA-exempt threshold; card vs UPI difference]
+
+  # ================= Disputes, representment and the label channel ========================
+  - id: ATK-D1
+    name: First-party-misuse narrative factory
+    grammar: ACCESS=first-party-misuse/TRUST=aged-account/RAIL=card-clearing-dispute/EVASION=label-attack/MONETISATION=refund-chargeback-recovery/LABEL=label-poisoned
+    stages: [extract, dispute]
+    observer: [I, D]
+    genai_delta: >
+      Mass-produces individualised, policy-aware, evidence-consistent dispute narratives and
+      coaches claimants through representment.
+    why_hard: >
+      The transaction GENUINELY WAS the cardholder. Every authorisation-time feature is clean
+      and the fraud is post-hoc intent.
+    signatures:
+      - cardholder_dispute_rate_vs_cohort
+      - narrative_near_duplicate_cluster
+      - delivery_evidence_contradiction
+      - device_continuity_purchase_to_dispute
+      - dispute_reason_code
+      - time_to_dispute_days
+      - representment_filed
+      - auth_to_presentment_ratio
+
+  - id: ATK-D2
+    name: Representment-evidence poisoning
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=aged-account/RAIL=card-clearing-dispute/EVASION=label-attack/MONETISATION=merchant-settlement/LABEL=label-poisoned
+    stages: [establish, dispute]
+    observer: [Q, D]
+    double_dagger: true
+    genai_delta: >
+      Fabricates plausible delivery logs, chat transcripts and evidence bundles at scale,
+      including internally consistent document sets.
+    why_hard: >
+      Dispute adjudication is document-based and largely manual, so volume and internal
+      consistency beat scrutiny.
+    signatures:
+      - evidence_metadata_uniformity
+      - representment_win_rate_outlier
+      - evidence_timestamp_implausibility
+      - dispute_reason_code
+    excluded_from_scoring_reason: >
+      Representment document bundles are held by the acquirer and the dispute processor, not by
+      either shipped persona.
+
+  - id: ATK-D3
+    name: Chargeback / network-report label poisoning
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=card-clearing-dispute/EVASION=label-attack/MONETISATION=refund-chargeback-recovery/LABEL=label-poisoned
+    stages: [extract, dispute]
+    observer: [I, N, D]
+    genai_delta: >
+      Coordinated, individually credible fraud-coded disputes shift the label distribution the
+      retraining pipeline consumes.
+    why_hard: >
+      THE POISONED DATA IS THE LABEL SOURCE, so the attack is invisible to any metric computed
+      using those labels. Our channel-disagreement audit field exists for exactly this row.
+    signatures:
+      - reason_code_mix_skew
+      - label_flip_rate
+      - time_to_dispute_days
+      - label_channel_disagreement
+      - dispute_reason_code
+
+  # ================= Merchant onboarding and acquiring abuse ==============================
+  - id: ATK-A1
+    name: Transaction laundering through PayFac sub-merchants
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=cohort-splitting/MONETISATION=merchant-settlement/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [Q]
+    double_dagger: true
+    genai_delta: >
+      Generates complete coherent business identities -- sites, policies, catalogues, reviews,
+      financials -- that pass automated documentary underwriting cheaply.
+    why_hard: >
+      Underwriting is documentary. The fraud is a MISMATCH between declared and actual commerce,
+      and issuers treat acquirer metadata as ground truth.
+    signatures:
+      - mcc_vs_basket_semantics
+      - acceptor_descriptor_mismatch
+      - traffic_geo_vs_registered_geo
+      - merchant_ramp_curve_shape
+    excluded_from_scoring_reason: >
+      Shared hosting, TLS and ASN linkage across MIDs, and site-versus-descriptor comparison,
+      are underwriting-side only.
+
+  - id: ATK-A2
+    name: Ghost-merchant onboarding at PA/PG (India)
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=kyc-passed/RAIL=upi-collect/EVASION=graph-camouflage/MONETISATION=merchant-settlement/LABEL=victim-blames-self
+    stages: [establish, extract]
+    observer: [Q, B]
+    double_dagger: true
+    genai_delta: >
+      Synthetic business documents, sites, catalogues and reviews per shell merchant, at
+      near-zero marginal cost per shell.
+    why_hard: >
+      Scam proceeds arrive wearing MERCHANT-SETTLEMENT clothing, and complaints land after
+      settlement has already funded.
+    signatures:
+      - mcc_vs_basket_semantics
+      - repeat_payer_share
+      - settlement_to_withdrawal_days
+      - refund_rate_anomaly
+      - payee_vpa_age_days
+    excluded_from_scoring_reason: >
+      Site age versus registration age is an underwriting-side observable.
+
+  - id: ATK-A3
+    name: GenAI storefront and smishing farm
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=velocity-splitting/MONETISATION=merchant-settlement/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [I, Q]
+    double_dagger: true
+    genai_delta: >
+      Mass generation of unique, localised, brand-plausible storefronts and messages, which
+      defeats template- and hash-based takedown entirely.
+    why_hard: >
+      Content uniqueness breaks reputation lists, and laundering hides novel merchants behind
+      aged trusted MIDs.
+    signatures:
+      - new_mid_ticket_velocity
+      - avs_result
+      - foreign_issuer_concentration
+      - first_txn_at_acceptor_share
+    excluded_from_scoring_reason: >
+      Certificate and ASN reuse across acceptors is acquirer-side. GATE-I sees only the
+      first-transaction-at-a-new-acceptor share.
+
+  # ================= India real-time rails: APP and low-visibility channels ===============
+  - id: ATK-U1
+    name: '"Digital arrest" coercion of an authorised payer'
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=graph-camouflage/MONETISATION=mule-chain-cashout/LABEL=victim-complains
+    stages: [establish, extract, cashout]
+    observer: [I, B]
+    genai_delta: >
+      Real-time regional-language dialogue agents sustain multi-hour coercion at near-zero
+      marginal cost. Previously this was bounded by the supply of human callers; now it is not.
+    why_hard: >
+      FULLY AUTHORISED. Correct PIN, correct device, correct customer -- and the victim actively
+      lies to bank callbacks. There is no payer-side artefact because there is no payer-side
+      compromise. This is why the enforceable control point is the beneficiary account.
+    signatures:
+      - fd_liquidation_before_transfer
+      - fresh_beneficiary_count_24h
+      - escalating_amount_in_session
+      - session_duration_minutes
+      - beneficiary_onward_send_minutes
+    modelled_as: >
+      An FD liquidation followed within minutes by escalating transfers to fresh beneficiaries
+      in one hours-long session -- NOT as a coercion script. Screen-share app presence is an
+      app-SDK signal outside both personae.
+
+  - id: ATK-U2
+    name: Collect-request farming
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=kyc-passed/RAIL=upi-collect/EVASION=cohort-splitting/MONETISATION=mule-chain-cashout/LABEL=victim-blames-self
+    stages: [establish, extract]
+    observer: [I, B]
+    dagger: true
+    genai_delta: >
+      Code-mixed vernacular voice agents at thousands of concurrent calls, tuned per region.
+    why_hard: >
+      Large volumes of legitimate merchant collects exist, and the value per event is tiny.
+      Payee-side fan-out is invisible to the payer PSP.
+    signatures:
+      - payee_collect_fanout_1h
+      - collect_decline_accept_ratio
+      - inter_arrival_seconds
+      - amount_inr
+      - payee_vpa_age_days
+    verify: [Current UPI COLLECT caps, restrictions and status]
+
+  - id: ATK-U3
+    name: Static-QR overlay swap on a merchant estate
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=kyc-passed/RAIL=upi-pay/EVASION=graph-camouflage/MONETISATION=mule-chain-cashout/LABEL=victim-blames-self
+    stages: [establish, extract, cashout]
+    observer: [B, N]
+    dagger: true
+    genai_delta: >
+      Pixel-faithful branded QR standee generation per brand and locale, from a single photograph.
+    why_hard: >
+      Payers see a plausible name, and THE MERCHANT IS NOT THE COMPLAINANT -- the party that
+      loses the revenue never files the report.
+    signatures:
+      - payee_vpa_age_days
+      - distinct_payer_devices_per_geohash
+      - beneficiary_onward_send_minutes
+      - geo_cell
+      - merchant_volume_delta_in_cell
+
+  - id: ATK-U4
+    name: Intent / deep-link parameter spoof
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=upi-pay/EVASION=cohort-splitting/MONETISATION=mule-chain-cashout/LABEL=victim-complains
+    stages: [establish, extract, cashout]
+    observer: [I, B]
+    genai_delta: >
+      Mass generation of brand-consistent payment landing pages and localised checkout copy.
+    why_hard: >
+      The payment is a perfectly valid push from the payer's OWN device, initiated by the payer.
+    signatures:
+      - upi_initiation_mode
+      - referrer_domain_age_days
+      - payee_name_brand_similarity
+      - payers_per_referrer
+      - txn_note_template_score
+
+  - id: ATK-U5
+    name: Refund-reciprocity / "wrong transfer" play
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=upi-pay/EVASION=graph-camouflage/MONETISATION=mule-chain-cashout/LABEL=victim-blames-self
+    stages: [establish, extract]
+    observer: [I, B]
+    genai_delta: >
+      Persuasive multilingual follow-up dialogue plus forged transaction screenshots, produced
+      per victim at no marginal cost.
+    why_hard: >
+      The outbound looks like ordinary goodwill P2P, the amounts are modest, and the inbound
+      credit really did arrive.
+    signatures:
+      - inbound_credit_then_outbound_different_payee
+      - reversal_reference_present
+      - seeder_cluster_membership
+      - amount_inr
+      - beneficiary_onward_send_minutes
+
+  - id: ATK-U6
+    name: Low-visibility rail siphoning
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=cdcvm/RAIL=upi-lite-offline/EVASION=low-visibility-rail/MONETISATION=mule-chain-cashout/LABEL=victim-blames-self
+    stages: [establish, extract]
+    observer: [I]
+    genai_delta: >
+      IVR-native regional-language agents walk victims through enabling and topping up a
+      PIN-free wallet.
+    why_hard: >
+      The rail is DESIGNED to bypass per-transaction PIN and central checks, and each debit sits
+      beneath most rule floors.
+    signatures:
+      - lite_topup_frequency
+      - lite_debit_count_per_payee
+      - reconciliation_lag_minutes
+      - lite_to_nonlite_ratio_vs_cohort
+      - amount_inr
+    verify: [UPI Lite posting behaviour and limits]
+    framing_note: >
+      Framed as "weakened central velocity visibility" WITHOUT asserting posting mechanics.
+
+  - id: ATK-U7
+    name: Credit-line-on-UPI harvesting
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=upi-pay/EVASION=threshold-hugging/MONETISATION=credit-line-drawdown/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [I]
+    genai_delta: >
+      Persona-consistent conversational coaching walks a victim through activating a credit line
+      they did not previously have.
+    why_hard: >
+      NO device or PIN anomaly at all -- the device is unchanged, so device rules stay silent --
+      and loss size is credit-limit-scale rather than balance-scale.
+    signatures:
+      - activation_to_first_debit_minutes
+      - first_txn_share_of_limit
+      - payee_vpa_age_days
+      - mcc
+      - device_age_days
+
+  - id: ATK-U8
+    name: Task/investment "salary ladder"
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=upi-pay/EVASION=threshold-hugging/MONETISATION=crypto-offramp/LABEL=victim-blames-self
+    stages: [establish, cultivate, extract]
+    observer: [I, B]
+    genai_delta: >
+      Tireless multilingual group-chat personas plus fabricated dashboards and earnings artefacts.
+    why_hard: >
+      The early credits look like GENUINE INCOME, and the victim actively resists intervention
+      because they believe they are earning.
+    signatures:
+      - reciprocal_credit_then_escalating_debit
+      - payee_cluster_stranger_indegree
+      - trust_in_to_deposit_out_ratio
+      - amount_inr
+      - session_duration_minutes
+
+  - id: ATK-U9
+    name: Screen-share / remote-access assisted authorised debit
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=cdcvm/RAIL=upi-pay/EVASION=velocity-splitting/MONETISATION=mule-chain-cashout/LABEL=victim-blames-self
+    stages: [establish, extract]
+    observer: [I]
+    genai_delta: >
+      Convincing "support" agents in the victim's own language at unlimited concurrency, guiding
+      installs step by step.
+    why_hard: >
+      Genuine device, genuine PIN, genuine customer present. Nothing about the credential is wrong.
+    signatures:
+      - in_app_dwell_uniformity
+      - debits_per_uninterrupted_session
+      - typing_cadence_anomaly
+      - session_duration_minutes
+      - amount_inr
+    modelled_as: >
+      Human-implausible uniform in-app dwell times and multiple debits in one uninterrupted
+      session. Accessibility and screen-capture PERMISSIONS are app-SDK signals outside both
+      personae and are excluded from scoring.
+
+  - id: ATK-U10
+    name: SIM-swap / re-registration takeover
+    grammar: ACCESS=account-takeover/TRUST=aged-account/RAIL=upi-pay/EVASION=velocity-splitting/MONETISATION=mule-chain-cashout/LABEL=victim-complains
+    stages: [establish, extract, cashout]
+    observer: [I]
+    genai_delta: >
+      Persona-consistent multi-channel pretexting plus simultaneous victim distraction.
+    why_hard: >
+      AFTER THE SWAP, every credential legitimately belongs to the attacker. The detection window
+      is the transition, not the transaction.
+    signatures:
+      - sms_silence_window_minutes
+      - device_rebinding_event
+      - pin_reset_event
+      - first_payee_after_rebinding
+      - geovelocity_break
+
+  - id: ATK-U11
+    name: Biometric-replay / agent-collusion cash-out
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=aeps-microatm/EVASION=low-visibility-rail/MONETISATION=mule-chain-cashout/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [I, Q]
+    genai_delta: >
+      Cheap templating of enrolment artefacts and scripted agent-side pretexts; the scale is in
+      orchestrating many agents, not in the biometrics.
+    why_hard: >
+      No PIN or OTP to challenge, biometrics treated as strong authentication, and victims
+      complain late.
+    signatures:
+      - terminal_distinct_customers_1h
+      - balance_enquiry_to_withdrawal_ratio
+      - geo_distance_from_home_km
+      - amount_uniformity_score
+      - prior_aeps_history_flag
+      - is_night_hours
+      - geo_novelty
+    verify: [Current Aadhaar-lock and AePS onboarding rules]
+
+  # ================= Identity manufacture and onboarding cohorts ==========================
+  - id: ATK-K2
+    name: Synthetic identity with manufactured digital exhaust to bust-out
+    grammar: ACCESS=synthetic-identity/TRUST=aged-account/RAIL=card-cnp-3ds/EVASION=trust-inheritance/MONETISATION=credit-line-drawdown/LABEL=never-labelled
+    stages: [establish, cultivate, extract]
+    observer: [I, N]
+    double_dagger: true
+    genai_delta: >
+      Fabricates years of coherent low-value footprint, converting a thin file into an
+      aged-looking one; agents manage hundreds of cultivation schedules concurrently.
+    why_hard: >
+      NO VICTIM EVER DISPUTES. Losses book as credit loss, so fraud models are never trained on
+      the family at all.
+    signatures:
+      - identity_element_graph_sharing
+      - address_node_density
+      - utilisation_trajectory_smoothness
+      - autopay_exact_payment_share
+      - merchant_diversity_entropy
+    excluded_from_scoring_reason: >
+      Bureau file age and synchronised cross-issuer limit requests sit outside both personae.
+
+  - id: ATK-K3
+    name: Onboarding-cohort flood for scam infrastructure (incl. the deepfake video-KYC variant)
+    grammar: ACCESS=synthetic-identity/TRUST=kyc-passed/RAIL=upi-pay/EVASION=cohort-splitting/MONETISATION=mule-chain-cashout/LABEL=never-labelled
+    stages: [establish, extract]
+    observer: [B]
+    merged_from: ATK-K1
+    merge_reason: >
+      The former ATK-K1 (deepfake video-KYC / re-KYC) is merged in as a VARIANT rather than kept
+      as its own row, because its distinguishing signals -- virtual-camera artefacts, frame-timing
+      regularity, absent sensor noise, lipsync offset, capture geometry, near-duplicate document
+      embeddings -- are ALL design-only in this artifact. As separate rows they were two rows
+      describing one implementable attack, distinguished only by signals we are not building.
+    genai_delta: >
+      End-to-end automation of documents, faces and exhaust makes mule-account supply near-free,
+      removing the layering bottleneck. A puppeteered face plus matching voice makes even a
+      supervised session passable at scale.
+    why_hard: >
+      Each application clears KYC INDIVIDUALLY, and passing a supervised session is treated as
+      strong evidence. Only population-level statistics reveal the cohort.
+    signatures:
+      - onboarding_batch_timing_cluster
+      - device_os_entropy_collapse
+      - asn_reuse_rate
+      - name_ngram_unlikelihood
+      - address_geocode_density
+      - first_credit_source_concentration
+      - onboarding_to_first_credit_minutes
+    design_only_signals:
+      - virtual_camera_artefact
+      - frame_timing_regularity
+      - sensor_noise_absence
+      - lipsync_offset
+      - capture_geometry_reuse
+      - document_embedding_near_duplicate
+    design_only_note: >
+      The list above is NOT IN THE ARTIFACT and is badged design-only in the UI and on the slide.
+      They are real observables and belong in the taxonomy; we do not build liveness or document
+      forensics, and we produce no bypass knowledge.
+
+  # ================= Laundering, graph camouflage and cash-out choreography ===============
+  - id: ATK-G1
+    name: Policy-aware agentic mule layering
+    grammar: ACCESS=synthetic-identity/TRUST=kyc-passed/RAIL=a2a-credit-transfer/EVASION=graph-camouflage/MONETISATION=biller-giftcard-resale/LABEL=never-labelled
+    stages: [establish, layer, cashout]
+    observer: [I, B]
+    dagger: true
+    genai_delta: >
+      An agent reads caps, cooling-off and reporting rules and re-plans splits and routes hourly,
+      replacing human mule managers; it also matches proceeds to liquid biller and gift-card
+      inventory.
+    why_hard: >
+      Each hop is unremarkable AND SITS IN A DIFFERENT INSTITUTION'S DATA. Biller payments are
+      irreversible and low-scrutiny.
+    signatures:
+      - in_out_skew
+      - fan_out_degree
+      - round_number_avoidance
+      - holding_time_seconds
+      - weekly_mule_set_refresh
+      - biller_category_share
+
+  - id: ATK-G2
+    name: Graph-camouflage benign subgraph
+    grammar: ACCESS=synthetic-identity/TRUST=kyc-passed/RAIL=upi-pay/EVASION=graph-camouflage/MONETISATION=mule-chain-cashout/LABEL=never-labelled
+    stages: [establish, layer, cashout]
+    observer: [B, N]
+    dagger: true
+    genai_delta: >
+      Generative graph modelling produces mule networks whose degree distribution, communities
+      and motif census mimic families, gig workers and small merchants.
+    why_hard: >
+      STATIC GRAPH FEATURES ARE EXACTLY WHAT THE GENERATOR OPTIMISES AGAINST. Only temporal and
+      value-conservation structure survives, which is why our graph features include both.
+    signatures:
+      - motif_census_deviation
+      - round_trip_flow_share
+      - pass_through_dwell_seconds
+      - in_out_skew
+      - edge_weight_vs_relationship_age
+      - k_core_acquisition_rate
+
+  - id: ATK-G4
+    name: Cross-rail cash-out choreography
+    grammar: ACCESS=stolen-credential/TRUST=tokenised/RAIL=card-token-provisioning/EVASION=graph-camouflage/MONETISATION=mule-chain-cashout/LABEL=victim-complains
+    stages: [establish, extract, cashout]
+    observer: [I, B]
+    dagger: true
+    genai_delta: >
+      Agentic orchestration across many apps and interfaces with no human labour per hop.
+    why_hard: >
+      NO PARTICIPANT OWNS THE FULL GRAPH, and privacy law limits sharing exactly the fields that
+      would join it.
+    signatures:
+      - card_auth_to_outbound_push_seconds
+      - quasi_cash_mcc_exposure
+      - beneficiary_fanin_degree
+      - beneficiary_onward_send_minutes
+      - token_requestor_id
+
+  - id: ATK-G5
+    name: Fingerprint cloning / entity-resolution collision
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=cohort-splitting/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [I]
+    genai_delta: >
+      Automated generation of coherent device and browser attribute bundles at scale.
+    why_hard: >
+      RESOLUTION ERRORS ARE SILENT. A false merge grants inherited trust; a false split erases
+      history. Neither produces an alert.
+    signatures:
+      - field_combination_implausibility
+      - fingerprint_collision_degree
+      - fingerprint_entropy
+      - device_fingerprint_id
+      - geo_cell
+
+  # ================= Voice, servicing and corporate channels ==============================
+  - id: ATK-V1
+    name: Voice-clone step-up bypass to profile change
+    grammar: ACCESS=account-takeover/TRUST=aged-account/RAIL=card-cnp-3ds/EVASION=trust-inheritance/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [establish, cultivate, extract]
+    observer: [I]
+    genai_delta: >
+      Sub-second streaming voice conversion from short public audio; one operator runs many
+      concurrent calls in any language.
+    why_hard: >
+      THE FRAUD LABEL ATTACHES TO THE LATER TRANSACTION, NOT THE CALL. The pre-stage produces no
+      fraudulent transaction for days, so the supervision never points at it.
+    signatures:
+      - profile_change_before_spend_days
+      - voiceprint_margin_above_threshold
+      - intra_call_voiceprint_variance
+      - device_age_days
+      - threeds_authentication_result
+    verify: [Call attestation availability in India]
+    modelled_as: >
+      A non-transactional profile-change event PRECEDING spend, with abnormally low intra-call
+      voiceprint variance -- NOT as a voice-conversion recipe.
+
+  - id: ATK-V2
+    name: Prompt injection / tool abuse of a support agent (incl. returnless-refund abuse)
+    grammar: ACCESS=delegated-agent-mandate/TRUST=agent-attested/RAIL=card-cnp-keyed/EVASION=oracle-probing/MONETISATION=refund-chargeback-recovery/LABEL=label-poisoned
+    stages: [probe, extract]
+    observer: [I, Q]
+    genai_delta: >
+      Natural-language jailbreaks and indirect injection via ingested tickets, documents and
+      email threads reach money-moving tools; high-volume persuasive service-desk conversations.
+    why_hard: >
+      THE INSTITUTION'S OWN TRUSTED IDENTITY performs the action, and refunds often sit outside
+      the fraud stack entirely.
+    signatures:
+      - refund_without_original_auth
+      - credit_to_debit_ratio_per_acceptor
+      - refund_exceeds_original_flag
+      - servicing_action_without_approver
+      - tool_call_offpolicy_flag
+
+  - id: ATK-V3
+    name: Payroll / beneficiary-detail redirection
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=trust-inheritance/MONETISATION=mule-chain-cashout/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [B]
+    double_dagger: true
+    genai_delta: >
+      Cheap targeted pretexting plus a voice clone against HR helpdesks, replicated across many
+      employees at once.
+    why_hard: >
+      A LEGITIMATE, EXPECTED, HIGH-VOLUME OPERATION, and batch credit files are weakly scored.
+    signatures:
+      - bank_detail_change_to_payroll_days
+      - employee_ids_per_account
+      - creditor_name_match_score
+      - account_age_vs_first_credit_age
+    excluded_from_scoring_reason: >
+      Employer HR-side detail-change events are outside both shipped personae.
+
+  - id: ATK-B1
+    name: Vendor-master redirection with deepfake approval
+    grammar: ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=low-visibility-rail/MONETISATION=mule-chain-cashout/LABEL=victim-complains
+    stages: [establish, extract, cashout]
+    observer: [I, B]
+    genai_delta: >
+      House-style-matched email threads plus a deepfake approval call defeat callback verification.
+    why_hard: >
+      CALLBACK VERIFICATION -- the standard control -- is precisely what the deepfake defeats.
+    signatures:
+      - beneficiary_change_to_payment_hours
+      - creditor_name_match_score
+      - remittance_info_drift
+      - amount_vs_vendor_history
+      - out_of_hours_flag
+
+  # ================= Agentic commerce =====================================================
+  - id: ATK-X1
+    name: Prompt injection of a consumer shopping agent
+    grammar: ACCESS=delegated-agent-mandate/TRUST=agent-attested/RAIL=agentic-commerce/EVASION=trust-inheritance/MONETISATION=goods-resale/LABEL=victim-complains
+    stages: [establish, extract]
+    observer: [I, N]
+    double_dagger: true
+    genai_delta: >
+      THE AGENT IS THE VULNERABILITY: untrusted web content becomes instruction.
+    why_hard: >
+      Credential, token and device are all legitimately the consumer's. Authorised but corrupted
+      intent, and THERE IS NO MESSAGE FIELD FOR "THE INSTRUCTION WAS POISONED".
+    signatures:
+      - mandate_vs_execution_mismatch
+      - merchant_history_sparsity
+      - human_confirmation_event
+      - user_merchant_embedding_distance
+      - agent_attestation_status
+    verify: [Agentic-commerce field naming and mandate/attestation object shape as of 2026]
+    excluded_from_scoring_reason: >
+      Page-fetch-to-decision hops and human-confirmation events are agent-platform-side.
+
+  - id: ATK-X2
+    name: Malicious or spoofed merchant agent
+    grammar: ACCESS=merchant-onboarding-fraud/TRUST=aged-account/RAIL=agentic-commerce/EVASION=trust-inheritance/MONETISATION=merchant-settlement/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [Q, N]
+    double_dagger: true
+    genai_delta: >
+      Standing up a convincing merchant agent -- catalogue, negotiation behaviour, policy text --
+      is now hours of work rather than months.
+    why_hard: >
+      NO AGENT-IDENTITY REPUTATION BUREAU EXISTS, and attribution across protocol hops is
+      unsettled.
+    signatures:
+      - agent_endpoint_age_days
+      - agent_attestation_status
+      - authorised_vs_quoted_amount
+      - descriptor_churn_vs_terminal
+      - first_payment_default_flag
+
+  - id: ATK-X3
+    name: Agent impersonation and attribution collapse
+    grammar: ACCESS=delegated-agent-mandate/TRUST=agent-attested/RAIL=agentic-commerce/EVASION=cohort-splitting/MONETISATION=goods-resale/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [I, N]
+    double_dagger: true
+    genai_delta: >
+      Cloning an agent's conversational and behavioural fingerprint is trivial, and volume
+      spoofing is economical.
+    why_hard: >
+      "BOT-LIKE" WAS HISTORICALLY A FRAUD PRIOR AND IS NOW INVERTED, and liability rules for
+      "which agent" do not exist yet.
+    signatures:
+      - concurrent_sessions_per_agent_identity
+      - agent_behavioural_fingerprint_drift
+      - mandate_signature_valid
+      - agentic_indicator_without_mandate
+      - machine_normal_velocity_flag
+    verify: [Liability allocation between agent operators]
+
+  # ================= Attacks on the defence itself ========================================
+  - id: ATK-Z1
+    name: Label-latency burst
+    grammar: ACCESS=stolen-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=label-attack/MONETISATION=goods-resale/LABEL=label-delayed
+    stages: [establish, extract]
+    observer: [I, N]
+    genai_delta: >
+      Hundreds of merchant and checkout automations spread a burst wide in hours rather than weeks.
+    why_hard: >
+      BY THE TIME LABELS MATURE THE CAMPAIGN IS OVER. No supervised signal exists at attack time,
+      which is exactly why the conformal and unsupervised channels carry this row.
+    signatures:
+      - cohort_approval_then_dispute_rate
+      - inter_arrival_microstructure_similarity
+      - label_maturity_fraction
+      - time_to_dispute_days
+      - inter_arrival_regularity
+      - vel_pan_canonical_1h_count_ratio
+
+  - id: ATK-Z2
+    name: Retrain-window straddle / slow-drip novelty contamination
+    grammar: ACCESS=synthetic-identity/TRUST=aged-account/RAIL=upi-pay/EVASION=label-attack/MONETISATION=mule-chain-cashout/LABEL=never-labelled
+    stages: [establish, cultivate, extract]
+    observer: [I, B]
+    genai_delta: >
+      Schedules a gradual interpolation from benign to attack behaviour across many entities and
+      generates cheap cover traffic.
+    why_hard: >
+      THE POISONING IS INDISTINGUISHABLE FROM LEGITIMATE GROWTH IN-WINDOW, and unsupervised
+      models are retrained on unfiltered production data with no immune memory. Our frozen canary
+      probe suite exists for this row specifically.
+    signatures:
+      - canary_probe_score_trend
+      - feature_support_width_delta
+      - cohort_percentile_monotone_drift
+      - conformal_p_mass_shift
+      - amount_ratio_to_own_baseline
+      - mcc_habit_probability
+      - vel_pan_canonical_30d_count_ratio
+
+  - id: ATK-Z3
+    name: Review-queue exhaustion
+    grammar: ACCESS=enumerated-credential/TRUST=aged-account/RAIL=card-cnp-keyed/EVASION=label-attack/MONETISATION=goods-resale/LABEL=label-delayed
+    stages: [probe, flood, extract]
+    observer: [I]
+    genai_delta: >
+      Mass-produces plausible-but-ambiguous transactions that land exactly in the manual-review band.
+    why_hard: >
+      ANALYST CAPACITY IS A HARD HUMAN CONSTRAINT and the defensive control is itself the target.
+      This row is only testable because our analyst is MODELLED with a wrong-disposition rate
+      that degrades under queue pressure.
+    signatures:
+      - review_band_score_mass
+      - alert_volume_delta
+      - queue_age_distribution_shift
+      - analyst_disposition_accuracy
+      - disposition_time_seconds
+      - amount_uniformity_score
+      - single_field_delta_retry_chain
+      - distance_to_nearest_threshold
+      - inter_arrival_regularity
+
+  - id: ATK-Z4
+    name: Consortium / federated blinding
+    grammar: ACCESS=synthetic-identity/TRUST=kyc-passed/RAIL=a2a-credit-transfer/EVASION=label-attack/MONETISATION=mule-chain-cashout/LABEL=label-poisoned
+    stages: [establish, probe, extract]
+    observer: [N]
+    double_dagger: true
+    genai_delta: >
+      Helps craft update perturbations and probe queries efficiently against a shared model.
+    why_hard: >
+      SECURE AGGREGATION IS DESIGNED TO HIDE INDIVIDUAL UPDATES, which is exactly what auditing
+      them requires.
+    signatures:
+      - participant_update_norm_outlier
+      - segment_validation_loss_regression
+      - canary_local_global_disagreement
+      - bloom_exchange_query_pattern
+    excluded_from_scoring_reason: >
+      Per-participant update norms are network/consortium-side and outside both shipped personae.
+      This row is a design-level entry in the AUTOIMMUNE suite, not a scored family.

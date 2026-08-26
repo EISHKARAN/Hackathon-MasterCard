@@ -1,0 +1,43 @@
+# VAJRA master seed and RNG stream policy.
+#
+# One master seed derives every named stream via the KDF in core/rng.py
+# (BLAKE2b over b"VAJRA/v1|" + stream_name + b"|" + master_seed).  Adding a stream or
+# reordering execution therefore cannot perturb another stream's draws, which is the
+# property the sealed-family holdout protocol depends on: a held-out family's random
+# numbers are not a function of how much training data was drawn before it.
+#
+# See docs/CONTRACTS.md section "Determinism" for the guarantees we assert in CI and
+# the two we explicitly do not claim (GRU/RGCN bitwise reproducibility across BLAS).
+
+master_seed: 20260909
+
+# Streams are declared here for documentation and for the CI test that asserts no
+# module derives an undeclared stream (tests/test_rng_streams.py). The list is
+# authoritative; core.rng.stream() raises on an unregistered name.
+streams:
+  - sim.graph
+  - sim.habits
+  - sim.calendar
+  - sim.benign
+  - sim.cohorts.hard_benign_12
+  - sim.cohorts.hard_benign_b
+  - sim.onboarding
+  - sim.incumbent
+  - sim.labels
+  - sim.analyst
+  - sim.rails
+  - generator_b.benign
+  - generator_b.attack
+  - attack.bandit
+  - attack.composer
+  - attack.campaign
+  - archive.mapelites
+  - eval.splits
+  - eval.bootstrap
+  - eval.permutation
+  - loop.tick
+  - loop.autoimmune
+  - bench.load
+  # Per-attack-family streams are derived as "attack.family.<family_id>" and are
+  # validated against grammar/sealed_manifest.yaml + grammar/seeds.yaml rather than
+  # being enumerated here; core.rng.stream() accepts the "attack.family." prefix.

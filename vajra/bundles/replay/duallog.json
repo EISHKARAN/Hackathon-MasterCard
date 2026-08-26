@@ -1,0 +1,58 @@
+{
+  "rules": [
+    {
+      "id": "DU-01",
+      "rationale": "Names a control and describes defeating it \u2014 that is a bypass procedure, not a signature."
+    },
+    {
+      "id": "DU-02",
+      "rationale": "Reads as INSTRUCTION rather than as signature. The archive describes shapes, not recipes."
+    },
+    {
+      "id": "DU-03",
+      "rationale": "Executable code inside an archive entry."
+    },
+    {
+      "id": "DU-04",
+      "rationale": "Matches a real-scheme IIN/BIN range and card-number length. Our identifiers are drawn from reserved non-routable prefixes and are deliberately non-Luhn-valid."
+    },
+    {
+      "id": "DU-05",
+      "rationale": "Matches a plausible Indian mobile number. No real PII, ever."
+    },
+    {
+      "id": "DU-06",
+      "rationale": "Matches a plausible IFSC code shape. No real institutional identifiers."
+    },
+    {
+      "id": "DU-07",
+      "rationale": "An enumeration PROCEDURE. Card testing is in the taxonomy as a signature; the procedure is not."
+    },
+    {
+      "id": "DU-08",
+      "rationale": "Vendor- or scheme-named vulnerability claim. We make no claims about any named product's security."
+    },
+    {
+      "id": "DU-09",
+      "rationale": "Persuasive scam copy / smishing template. We generate template FAMILIES with labelled generators, never persuasion."
+    },
+    {
+      "id": "DU-10",
+      "rationale": "Describes building a deepfake or voice-cloning capability. We build none of that."
+    },
+    {
+      "id": "DU-11",
+      "rationale": "A concrete credential value."
+    },
+    {
+      "id": "DU-12",
+      "rationale": "A plausible Aadhaar number shape. No real or realistic national identifiers."
+    }
+  ],
+  "summary": {
+    "n_entries": 80,
+    "n_rejected": 0,
+    "n_rules": 12,
+    "rejections_per_rule": {}
+  }
+}

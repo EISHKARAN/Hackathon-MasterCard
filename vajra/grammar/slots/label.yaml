@@ -1,0 +1,74 @@
+# LABEL — how ground truth is avoided or corrupted.
+#
+# ALWAYS CELL-PRESERVING. But unlike MONETISATION this slot is far from behaviour-inert: it
+# changes WHICH CHANNEL a label arrives on and WHEN, which changes the training set, which
+# changes the meaning of every recall number. A submission that starts from a flat `isFraud`
+# column has made an architectural commitment on day 1 that forecloses this slot entirely.
+#
+# `channels` names which of the three label channels can fire, and `max_visible_channel_latency`
+# is what sim/labels/ uses to decide when (or whether) supervision arrives. The label table is
+# keyed (event_id, channel, as_of_ts, label) and is append-only; labels are NEVER a column on
+# the event.
+#
+# Arbitration precedence, applied only among labels already visible at the as-of instant:
+#     chargeback/network report  >  issuer fraud tag  >  analyst disposition
+# Disagreement between channels is exported as an audit field, not a feature, because
+# disagreement is the observable that ATK-D3 attacks.
+
+slot: LABEL
+count: 5
+
+values:
+  - id: victim-complains
+    label: Victim complains, label arrives
+    description: >
+      The ordinary case. A victim notices, complains, and all three channels eventually fire.
+      This is the only value under which a fully matured label is reliably available.
+    channels: [analyst, issuer_tag, chargeback]
+    max_visible_channel_latency: chargeback
+    never_labelled_share: 0.0
+
+  - id: victim-blames-self
+    label: Unreported loss
+    description: >
+      The victim authorised the payment, believes it was their own decision or is too
+      embarrassed to report, and no complaint is filed. A large share of authorised-push-payment
+      loss behaves this way. The analyst channel may still fire if an alert was raised
+      independently; the dispute channel does not.
+    channels: [analyst]
+    max_visible_channel_latency: analyst
+    never_labelled_share: 0.55
+
+  - id: never-labelled
+    label: Never labelled, books as credit loss
+    description: >
+      No victim exists, so no fraud-coded dispute ever arrives and the loss books as credit
+      loss. This is what makes the synthetic-identity families structurally invisible to any
+      model trained on network fraud reports -- and it is why our label process is NOT SCAR:
+      labelling is class-conditional, and we say so before claiming any PU-learning result.
+    channels: []
+    max_visible_channel_latency: null
+    never_labelled_share: 1.0
+
+  - id: label-poisoned
+    label: Label channel actively corrupted
+    description: >
+      Individually credible fraud-coded disputes, false complaints, or review-band flooding
+      shift the label distribution the retraining pipeline consumes. Any metric computed
+      against these labels is compromised, and every figure that touches them is flagged as
+      such in the same table rather than in a footnote.
+    channels: [analyst, issuer_tag, chargeback]
+    max_visible_channel_latency: chargeback
+    never_labelled_share: 0.0
+    poisons_label_channel: true
+
+  - id: label-delayed
+    label: Label only via the slow channel
+    description: >
+      No analyst alert and no issuer tag; the only supervision is a chargeback or network
+      report at 45-120+ days [VERIFY current semantics and deadlines]. By the time labels
+      mature the campaign is over, so no supervised signal exists AT ATTACK TIME -- which is
+      exactly why the unsupervised and conformal channels (G2) carry the load here.
+    channels: [chargeback]
+    max_visible_channel_latency: chargeback
+    never_labelled_share: 0.15

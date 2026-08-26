@@ -1,0 +1,13 @@
+.venv/
+data/
+reports/*.json
+reports/*.md
+reports/*.html
+reports/figures/
+ui/node_modules/
+ui/.next/
+__pycache__/
+*.pyc
+.DS_Store
+# Committed deliberately (the demo artifacts): bundles/, attack/cache/, grammar/, config/, docs/.
+!bundles/

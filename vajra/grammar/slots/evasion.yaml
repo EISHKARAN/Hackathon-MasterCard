@@ -1,0 +1,99 @@
+# EVASION — the detector-facing mechanism.
+#
+# THIS IS THE ONE SLOT WITH AN IDENTITY MAPPING ONTO AN ARCHIVE AXIS. An EVASION mutation is
+# therefore ALWAYS cell-crossing, which is what makes it the hardest single-morpheme move and
+# why the headline sibling-transfer number we quote is a CROSS-CELL sibling whose EVASION
+# morpheme is mutated. Every other slot either preserves the cell always (MONETISATION, LABEL,
+# TRUST) or conditionally (ACCESS, RAIL).
+#
+# Two former attack-table rows live here as exemplars rather than as rows, because each was a
+# single morpheme sold twice -- once as a slot value and once as a vector -- which
+# double-counts the very axis the grammar already prices:
+#   ATK-C6 decline-oracle surrogate  -> `oracle-probing`
+#   ATK-G3 entity-splitting          -> `cohort-splitting`
+# Their observable signatures survive here and in grammar/seeds.yaml.
+#
+# The `rl_tactics` field names which Level-2 tactics (docs/RL_LOOP.md) serve this morpheme.
+# The action mask is derived from THIS field rather than hand-listed per family, so the RL
+# agent cannot learn a tactic its own composition does not license.
+
+slot: EVASION
+count: 8
+axis_mapping: identity   # EVASION morpheme == EVASION-MECHANISM cell axis value
+
+values:
+  - id: velocity-splitting
+    label: Velocity splitting
+    description: >
+      Same extracted value, spread across more transactions and more entity keys so that every
+      per-key counter stays sub-threshold. Defeated only by the DUAL encoding of every velocity
+      feature -- ratio to the entity's own trailing baseline AND peer-cohort percentile.
+    signatures: [multi_key_velocity_ratio, per_key_subthreshold_share, inter_arrival_regularity]
+    rl_tactics: [split_velocity, rotate_entity, deescalate_amount]
+
+  - id: threshold-hugging
+    label: Threshold hugging
+    description: >
+      Amount mass placed immediately below a policy threshold, exemption band or cap, with
+      cumulative-count resets. Thresholds are regulatory rather than tunable in several cases
+      [VERIFY per jurisdiction], which is what makes this durable.
+    signatures: [distance_to_nearest_threshold, amount_mass_below_cap, exemption_flag_rate]
+    rl_tactics: [hug_threshold, deescalate_amount]
+
+  - id: trust-inheritance
+    label: Trust inheritance
+    description: >
+      Route through the highest-trust envelope available so downstream models are structurally
+      predisposed to approve. The tell is DATA QUALITY rather than anomaly: a synthesised
+      authentication telemetry bundle is internally implausible before it is unusual.
+    signatures: [threeds_field_population_score, field_combination_implausibility, token_assurance_vs_device_age]
+    rl_tactics: [inherit_trust, escalate_amount]
+
+  - id: graph-camouflage
+    label: Graph camouflage
+    description: >
+      Make the mule subgraph's degree distribution, communities and motif census mimic
+      families, gig workers and small merchants. Static graph features are exactly what the
+      generator optimises against; only TEMPORAL and VALUE-CONSERVATION structure survives.
+      Requires at least two hops, so depth 1 is infeasible for this morpheme.
+    signatures: [in_out_skew, pass_through_dwell_seconds, motif_census_deviation, k_core_acquisition_rate]
+    rl_tactics: [extend_dwell, pad_payer_set, rotate_entity]
+
+  - id: label-attack
+    label: Label-channel attack
+    description: >
+      Corrupt the supervision the retraining pipeline consumes -- coordinated fraud-coded
+      disputes, false complaints, or flooding the review band so the modelled analyst's
+      wrong-disposition rate rises. The poisoned data IS the label source, so it is invisible
+      to any metric computed using those labels.
+    signatures: [reason_code_mix_skew, label_flip_rate, channel_disagreement_rate, review_band_score_mass]
+    rl_tactics: [probe, split_velocity, cash_out]
+
+  - id: oracle-probing
+    label: Response-oracle probing
+    description: >
+      Iterate against the response channel -- decline reason codes, AVS/CVV2 result
+      trajectories, issuer latency, mandate enforcement boundaries -- to learn the envelope
+      before spending. Each attempt is a legitimate-shaped authorisation; the oracle behaviour
+      is a SEQUENCE property only. (Absorbs the former ATK-C6 decline-oracle surrogate row.)
+    signatures: [decline_reason_entropy, avs_trajectory_shape, single_field_delta_retry_chain, response_latency_probe_pattern]
+    rl_tactics: [probe, escalate_amount, switch_acquirer]
+
+  - id: low-visibility-rail
+    label: Low-visibility rail routing
+    description: >
+      Move onto a rail or channel where central velocity visibility is weakest -- on-device
+      ledgers with delayed reconciliation, assisted terminals, agentic hops, or a different
+      acquirer population. The signal is a COHORT RATIO against a peer group, not an event
+      property.
+    signatures: [rail_ratio_vs_peer_cohort, reconciliation_lag, acquirer_population_shift]
+    rl_tactics: [switch_acquirer, rotate_entity]
+
+  - id: cohort-splitting
+    label: Cohort and entity splitting
+    description: >
+      Split the campaign across many entities, applications or identities so that no single
+      entity crosses a threshold and entity resolution never joins them. Only population-level
+      statistics reveal the cohort. (Absorbs the former ATK-G3 entity-splitting row.)
+    signatures: [onboarding_batch_timing_cluster, device_os_entropy_collapse, asn_reuse_rate, fingerprint_collision_degree]
+    rl_tactics: [rotate_entity, pad_payer_set, split_velocity]
