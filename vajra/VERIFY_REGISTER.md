@@ -4,18 +4,23 @@ Every `[VERIFY]` marker in the repo. Each is a verifiable claim we REFUSED TO FA
 against a field that would state the same claim as fact without checking. Not knowing
 is not the failure; asserting is.
 
-**58 markers.** Machine-counted by `make verify`.
+**65 markers.** Machine-counted by `make verify`.
 
 | File | Line | Claim |
 |---|---|---|
+| README.md | 73 | make money duallog verify report bundle # the MONEY data, the dual-use reject log, [VERIFY] register, roll-up, replay bundle |
+| README.md | 117 | - **`VERIFY_REGISTER.md`** — every `[VERIFY]` marker, each a claim we refused to fake. |
 | attack/dual_use_lint.py | 102 | "Describe the mechanism generically and mark the specifics [VERIFY].", |
+| bench/harness.py | 6 | it measures. We do NOT extrapolate to network scale [VERIFY on real hardware]. |
+| bench/harness.py | 114 | "[VERIFY on real hardware]. The predictor is named because claiming the Treelite fast " |
+| bundles/replay/report.md | 43 | - [VERIFY] markers: 58 — verifiable claims we refused to fake |
 | config/ops.yaml | 6 | # Nothing in this file is [VERIFY]-clean: it is all stipulated. It is stated as |
 | config/ops.yaml | 40 | # All three channels' timings are [VERIFY] against network reporting semantics and |
 | config/ops.yaml | 65 | # because added UPI friction is bounded by NPCI UX rules [VERIFY scope] and the PIN |
 | config/scenario.yaml | 46 | # choice: no public UPI transaction-level corpus exists to fit this to [VERIFY]. |
 | docs/RESEARCH.md | 10 | details as `[VERIFY]`; the *claim* attributed to it is standard enough that the |
 | docs/RESEARCH.md | 165 | transaction-level UPI/RTP fraud corpus we are aware of `[VERIFY]`, so 3DS field |
-| features/builder.py | 1088 | # are [VERIFY]; the no-exchange fallback is published as its own view in the ablation, so this |
+| features/builder.py | 1109 | # are [VERIFY]; the no-exchange fallback is published as its own view in the ablation, so this |
 | features/registry.yaml | 187 | - {name: mandate_amount_vs_afa_band, lineage: "distance to the AFA-exempt band. The band value is [VERIFY] and swept"} |
 | features/registry.yaml | 208 | swept config parameters and are [VERIFY] where they correspond to regulatory bands. |
 | features/registry.yaml | 285 | - {name: creditor_name_match_score, lineage: "confirmation-of-payee outcome. Whether an equivalent exists per rail is [VERIFY]"} |
@@ -32,6 +37,7 @@ is not the failure; asserting is.
 | gate/views.yaml | 33 | returning a score in a private-use field, ASSIGNMENT PER NETWORK [VERIFY]. We deliberately do |
 | gate/views.yaml | 86 | placement: Network-side advice, returning a score in a private-use field [VERIFY assignment]. |
 | gate/views.yaml | 100 | Real-world availability and regulatory permissibility are UNVERIFIED [VERIFY]. We do not claim |
+| governance/model_card.md | 23 | network scale [VERIFY on real hardware]. Circularity is bounded, not eliminated. |
 | grammar/enumerate_space.py | 5 | provenance and [VERIFY] fields, and (c) the LLM Composer, which is invoked ONLY on a Gap Miner |
 | grammar/signatures.yaml | 245 | reason: "Secure-remote-commerce recognition flow is [VERIFY] and not modelled (ATK-T3)." |
 | grammar/slots/evasion.yaml | 39 | [VERIFY per jurisdiction], which is what makes this durable. |
@@ -45,6 +51,7 @@ is not the failure; asserting is.
 | grammar/slots/rail.yaml | 159 | UI. THIN EMITTER [VERIFY agentic field naming and protocol status as of 2026]. |
 | grammar/slots/trust.yaml | 62 | reputation bureau exists and attribution across protocol hops is unsettled [VERIFY]. |
 | grammar/slots/trust.yaml | 64 | provenance_note: Field naming is ILLUSTRATIVE, declared so in the schema and in the UI [VERIFY agentic field naming and protocol status as of 2026]. |
+| scripts/report.py | 95 | A(f"- [VERIFY] markers: {v['n_markers']} — verifiable claims we refused to fake") |
 | scripts/verify_register.py | 1 | """`make verify` — scan the repo for [VERIFY] markers and render VERIFY_REGISTER.md. |
 | scripts/verify_register.py | 3 | The design's posture: 25 [VERIFY] markers are 25 verifiable claims we REFUSED TO FAKE, each naming the |
 | scripts/verify_register.py | 15 | _RX = re.compile(r"\[VERIFY[^\]]*\]") |
@@ -65,4 +72,4 @@ is not the failure; asserting is.
 | sim/rails/thin.py | 17 | There is no standard we are asserting conformance to [VERIFY protocol status as of 2026]. |
 | sim/rails/upi.py | 30 | #: Rupee thresholds that matter on UPI. ALL [VERIFY] and all swept config-shaped values; here |
 | sim/rails/upi.py | 34 | #: The AFA-exempt band an e-mandate debit can be pinned under. [VERIFY current threshold] — |
-| sim/rails/upi.py | 484 | # [VERIFY] and swept; what we model is the PINNING, not the number. |
+| sim/rails/upi.py | 496 | # [VERIFY] and swept; what we model is the PINNING, not the number. |

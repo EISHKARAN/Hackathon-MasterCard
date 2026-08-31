@@ -1,0 +1,919 @@
+[
+  {
+    "stage": "grammar",
+    "seconds": 0.972,
+    "ok": false,
+    "detail": "ParserError: while parsing a block mapping\n  in \"/Users/eish/Downloads/Hackathon/vajra/grammar/seeds.yaml\", line 482, column 5\nexpected <block end>, but found '<scalar>'\n  in \"/Users/eish/Downloads/Hackathon/vajra/grammar/seeds.yaml\", line 483, column 28",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 260.771,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"failures\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 1.243,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"failures\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.662,
+    "ok": true,
+    "detail": "{\"n_events\": 51266, \"n_attack_events\": 393, \"f1_violations\": 18770, \"events_hash\": \"b50526feb4699ce597b5fb263f7f752b\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 0.643,
+    "ok": false,
+    "detail": "AttributeError: 'AuthRecord' object has no attribute 'token_requestor_id'",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 0.582,
+    "ok": false,
+    "detail": "TypeError: AuthRecord.__init__() missing 1 required positional argument: 'token_requestor_id'",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.134,
+    "ok": true,
+    "detail": "{\"n_events\": 51381, \"n_attack_events\": 405, \"f1_violations\": 0, \"events_hash\": \"ed196733a1f889bcd02d16af9e557362\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.054,
+    "ok": true,
+    "detail": "{\"n_events\": 51381, \"n_attack_events\": 405, \"f1_violations\": 0, \"events_hash\": \"ed196733a1f889bcd02d16af9e557362\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.016,
+    "ok": true,
+    "detail": "{\"n_events\": 51211, \"n_attack_events\": 195, \"f1_violations\": 0, \"events_hash\": \"faedc79c93fabc042e3ff17100aa01ac\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "train",
+    "seconds": 23.125,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 54926, \"n_train_positives\": 119, \"best_iteration\": 32}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "train",
+    "seconds": 11.706,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 54926, \"n_train_positives\": 119, \"best_iteration\": 32}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "eval",
+    "seconds": 7.884,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.079,
+    "ok": true,
+    "detail": "{\"n_events\": 51024, \"n_attack_events\": 202, \"f1_violations\": 0, \"events_hash\": \"6c492cf23aadcb45003a4880db2b897e\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "train",
+    "seconds": 13.474,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 45488, \"n_train_positives\": 102, \"best_iteration\": 97}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "eval",
+    "seconds": 39.944,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 13777, \"recall_at_fpr\": 0.0, \"pr_auc\": 0.022583693391224357, \"leakage_passed\": true}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "train",
+    "seconds": 11.842,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 45488, \"n_train_positives\": 102, \"best_iteration\": 14}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "eval",
+    "seconds": 29.165,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 13777, \"recall_at_fpr\": 0.008333333333333333, \"pr_auc\": 0.01926024362912077, \"leakage_passed\": true}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.367,
+    "ok": true,
+    "detail": "{\"n_events\": 51024, \"n_attack_events\": 202, \"f1_violations\": 0, \"events_hash\": \"9c34de526c4f5c577042a672b530e1a2\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "train",
+    "seconds": 12.694,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 45488, \"n_train_positives\": 102, \"best_iteration\": 43}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "loop",
+    "seconds": 0.657,
+    "ok": true,
+    "detail": "{\"n_ticks\": 2, \"arms\": 4, \"full_coverage_cells\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 0.995,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"unresolved_signatures\": 0, \"design_only_signatures\": 63, \"failures\": 1}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 0.978,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"unresolved_signatures\": 0, \"design_only_signatures\": 63, \"failures\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "loop",
+    "seconds": 0.827,
+    "ok": true,
+    "detail": "{\"n_ticks\": 3, \"arms\": 4, \"full_coverage_cells\": 4}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "loop",
+    "seconds": 1.202,
+    "ok": true,
+    "detail": "{\"n_ticks\": 3, \"arms\": 4, \"full_coverage_cells\": 4}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "fidelity",
+    "seconds": 4.001,
+    "ok": true,
+    "detail": "{\"f1_violations\": 0, \"f3f5f6_pass_rate\": 0.7692307692307693, \"f2_power_ok\": false}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "fidelity",
+    "seconds": 3.825,
+    "ok": true,
+    "detail": "{\"f1_violations\": 0, \"f3f5f6_pass_rate\": 0.7692307692307693, \"f2_power_ok\": false}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "duallog",
+    "seconds": 0.002,
+    "ok": true,
+    "detail": "{\"n_rules\": 12, \"n_rejected\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "verify",
+    "seconds": 0.54,
+    "ok": true,
+    "detail": "{\"n_markers\": 58}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "bench",
+    "seconds": 7.532,
+    "ok": false,
+    "detail": "KeyError: \"guard G0-01 reads column 'rail' which is absent from the prepared row. G0 must be evaluable from the canonical schema alone \u2014 it is the kill-switch fallback and cannot depend on a feature pipeline.\"",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "bench",
+    "seconds": 11.783,
+    "ok": true,
+    "detail": "{\"p99_ms\": 16.774158187909045, \"meets_target\": true}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.013,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "money",
+    "seconds": 11.66,
+    "ok": true,
+    "detail": "{\"n_scored\": 13727, \"n_attack\": 18}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "archive-report",
+    "seconds": 0.069,
+    "ok": true,
+    "detail": "{\"pre_merge_cells\": 4, \"post_merge_cells\": 1, \"coverage_all\": 0.010526315789473684}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.017,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sensitivity",
+    "seconds": 0.608,
+    "ok": true,
+    "detail": "{\"coverage_range\": [0.12631578947368421, 0.12631578947368421]}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "train",
+    "seconds": 10.691,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 45488, \"n_train_positives\": 102, \"best_iteration\": 43}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "eval",
+    "seconds": 27.712,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 13777, \"recall_at_fpr\": 0.041666666666666664, \"pr_auc\": 0.020101991202423633, \"leakage_passed\": true}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.027,
+    "ok": true,
+    "detail": "{\"n_events\": 51024, \"n_attack_events\": 202, \"f1_violations\": 0, \"events_hash\": \"9c34de526c4f5c577042a672b530e1a2\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "generator-b",
+    "seconds": 0.197,
+    "ok": true,
+    "detail": "{\"n_events\": 2858, \"f1_violations\": 21}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "generator-b",
+    "seconds": 0.172,
+    "ok": true,
+    "detail": "{\"n_events\": 2858, \"f1_violations\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 4.047,
+    "ok": true,
+    "detail": "{\"n_events\": 51024, \"n_attack_events\": 202, \"f1_violations\": 0, \"events_hash\": \"9c34de526c4f5c577042a672b530e1a2\"}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 1.078,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"unresolved_signatures\": 0, \"design_only_signatures\": 63, \"failures\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 459.103,
+    "ok": false,
+    "detail": "KeyboardInterrupt: ",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 1.102,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"unresolved_signatures\": 0, \"design_only_signatures\": 63, \"failures\": 0}",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "sim",
+    "seconds": 166.426,
+    "ok": false,
+    "detail": "KeyboardInterrupt: ",
+    "hardware": "Darwin 25.5.0 / arm64 / python 3.13.9 / cpus=14"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 2.776,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"unresolved_signatures\": 0, \"design_only_signatures\": 63, \"failures\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "sim",
+    "seconds": 3149.834,
+    "ok": true,
+    "detail": "{\"n_events\": 10039134, \"n_attack_events\": 204067, \"f1_violations\": 13009, \"events_hash\": \"10b8ab4c7dd9a101f8909592650cf4d7\"}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "grammar",
+    "seconds": 2.787,
+    "ok": true,
+    "detail": "{\"type_legal\": 15271, \"feasible_cells\": 380, \"reachable_cells\": 268, \"seeds\": 51, \"sealed_families\": 12, \"unresolved_signatures\": 0, \"design_only_signatures\": 63, \"failures\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "sim",
+    "seconds": 3091.65,
+    "ok": true,
+    "detail": "{\"n_events\": 9899667, \"n_attack_events\": 68170, \"f1_violations\": 0, \"events_hash\": \"f78a17b59801bb282198a716dc3004c4\"}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "generator-b",
+    "seconds": 123.188,
+    "ok": true,
+    "detail": "{\"n_events\": 539120, \"f1_violations\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "fidelity",
+    "seconds": 2673.623,
+    "ok": true,
+    "detail": "{\"f1_violations\": 0, \"f3f5f6_pass_rate\": 0.8461538461538461, \"f2_power_ok\": false}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4211.691,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 950199, \"n_train_positives\": 19733, \"best_iteration\": 264}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4165.088,
+    "ok": true,
+    "detail": "{\"view\": \"acquirer\", \"n_features\": 210, \"n_train_rows\": 950199, \"n_train_positives\": 19733, \"best_iteration\": 264}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4151.461,
+    "ok": true,
+    "detail": "{\"view\": \"payee_psp\", \"n_features\": 188, \"n_train_rows\": 950199, \"n_train_positives\": 19733, \"best_iteration\": 349}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4374.297,
+    "ok": true,
+    "detail": "{\"view\": \"network\", \"n_features\": 311, \"n_train_rows\": 950199, \"n_train_positives\": 19733, \"best_iteration\": 404}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 10173.633,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 2672910, \"recall_at_fpr\": 0.07549601804538968, \"pr_auc\": 0.06683494132785096, \"leakage_passed\": true}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "loop",
+    "seconds": 2.032,
+    "ok": true,
+    "detail": "{\"n_ticks\": 3, \"arms\": 4, \"full_coverage_cells\": 4}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "archive-report",
+    "seconds": 0.124,
+    "ok": true,
+    "detail": "{\"pre_merge_cells\": 4, \"post_merge_cells\": 1, \"coverage_all\": 0.010526315789473684}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "money",
+    "seconds": 4976.821,
+    "ok": true,
+    "detail": "{\"n_scored\": 2665777, \"n_attack\": 7785}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "verify",
+    "seconds": 0.739,
+    "ok": true,
+    "detail": "{\"n_markers\": 65}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bench",
+    "seconds": 5502.051,
+    "ok": true,
+    "detail": "{\"p99_ms\": 891.6472657723352, \"meets_target\": false}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.007,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.005,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "loop",
+    "seconds": 111.89,
+    "ok": true,
+    "detail": "{\"n_ticks\": 500, \"arms\": 4, \"full_coverage_cells\": 144}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "archive-report",
+    "seconds": 1.439,
+    "ok": true,
+    "detail": "{\"pre_merge_cells\": 144, \"post_merge_cells\": 1, \"coverage_all\": 0.37894736842105264}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.408,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.113,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 61.859,
+    "ok": false,
+    "detail": "KeyboardInterrupt: ",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4155.061,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 153}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "quick-eval",
+    "seconds": 4266.058,
+    "ok": false,
+    "detail": "AttributeError: 'ScoreBatch' object has no attribute 'fused_rank'",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4306.686,
+    "ok": true,
+    "detail": "{\"view\": \"acquirer\", \"n_features\": 210, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 402}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4107.461,
+    "ok": true,
+    "detail": "{\"view\": \"payee_psp\", \"n_features\": 188, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 146}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4207.33,
+    "ok": true,
+    "detail": "{\"view\": \"network\", \"n_features\": 311, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 241}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 10053.774,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 2672910, \"recall_at_fpr\": 0.0806058095106569, \"pr_auc\": 0.07428065344934524, \"leakage_passed\": true}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.397,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.118,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "loop",
+    "seconds": 111.269,
+    "ok": true,
+    "detail": "{\"n_ticks\": 500, \"arms\": 4, \"full_coverage_cells\": 144}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "archive-report",
+    "seconds": 1.405,
+    "ok": true,
+    "detail": "{\"pre_merge_cells\": 144, \"post_merge_cells\": 1, \"coverage_all\": 0.37894736842105264}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.395,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.122,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4143.967,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 314, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 167}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "quick-eval",
+    "seconds": 4298.95,
+    "ok": true,
+    "detail": "{\"n_test\": 2672910, \"pr_auc\": 0.08618539732532783}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4503.508,
+    "ok": true,
+    "detail": "{\"chosen\": \"fisher_drop_dead\", \"test_pr_auc_best_arm_rank\": 0.3504650307362748}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 81.677,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.3504650307362748}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 81.63,
+    "ok": false,
+    "detail": "SystemExit: REFUSING TO COMMIT: the refitted action table has a collapsed band, so the friction <= review <= decline guarantee no longer holds for the rails listed above. Either pick a different arm, or pass --allow-band-collapse to commit anyway (the collapse is then recorded in action_table.json and surfaces in `make report`).",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 82.388,
+    "ok": false,
+    "detail": "SystemExit: REFUSING TO COMMIT: the refitted action table has a collapsed band, so the friction <= review <= decline guarantee no longer holds for the rails listed above. Either pick a different arm, or pass --allow-band-collapse to commit anyway (the collapse is then recorded in action_table.json and surfaces in `make report`).",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 94.124,
+    "ok": true,
+    "detail": "{\"chosen\": \"current\", \"test_pr_auc_best_arm_rank\": 0.3504650307362748}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 96.072,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.3504650307362748}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 159.453,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.3504650307362748}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "quick-eval",
+    "seconds": 4293.837,
+    "ok": true,
+    "detail": "{\"n_test\": 2672910, \"pr_auc\": 0.3503951999207449}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4418.706,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.21861964851527751}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 146.541,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.21861964851527751}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4415.561,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.24942188105138366}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 153.053,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.24942188105138366}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4471.982,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.3195862595809821}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 165.706,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.3195862595809821}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 10104.439,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 2672910, \"recall_at_fpr\": 0.21659071030704782, \"pr_auc\": 0.25727963685024113, \"leakage_passed\": true}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.398,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.125,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 1415.161,
+    "ok": false,
+    "detail": "KeyboardInterrupt: ",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 10201.36,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 2672910, \"recall_at_fpr\": 0.31485453814184206, \"pr_auc\": 0.35112112759495956, \"leakage_passed\": true}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.401,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.128,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 10163.648,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 2672910, \"recall_at_fpr\": 0.31485453814184206, \"pr_auc\": 0.35112112759495956, \"leakage_passed\": true}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.399,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.121,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 10116.834,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 2672910, \"recall_at_fpr\": 0.31485453814184206, \"pr_auc\": 0.35112112759495956, \"leakage_passed\": true}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.4,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4372.64,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 319, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 221}",
+    "hardware": "Linux 5.10.260-264.1061.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4542.508,
+    "ok": true,
+    "detail": "{\"view\": \"issuer\", \"n_features\": 319, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 221}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4185.181,
+    "ok": true,
+    "detail": "{\"view\": \"acquirer\", \"n_features\": 212, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 222}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4045.611,
+    "ok": true,
+    "detail": "{\"view\": \"payee_psp\", \"n_features\": 191, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 130}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "train",
+    "seconds": 4258.814,
+    "ok": true,
+    "detail": "{\"view\": \"network\", \"n_features\": 316, \"n_train_rows\": 952117, \"n_train_positives\": 21006, \"best_iteration\": 288}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4545.175,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.35150417226586983}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 161.448,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.35150417226586983}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4501.732,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.2359429310883181}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 146.622,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.2359429310883181}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4421.753,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.2506664686915523}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 152.073,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.2506664686915523}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 4580.901,
+    "ok": true,
+    "detail": "{\"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.32518281404494837}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "refit-fusion",
+    "seconds": 163.76,
+    "ok": true,
+    "detail": "{\"committed\": \"g1_only\", \"chosen\": \"g1_only\", \"test_pr_auc_best_arm_rank\": 0.32518281404494837}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "eval",
+    "seconds": 10105.682,
+    "ok": true,
+    "detail": "{\"n_test_rows\": 2672910, \"recall_at_fpr\": 0.31418420699825717, \"pr_auc\": 0.3511559328787159, \"leakage_passed\": true}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.465,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.157,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "artifact-audit",
+    "seconds": 3956.794,
+    "ok": true,
+    "detail": "{\"n_audited\": 25, \"n_flagged\": 0}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "loop",
+    "seconds": 118.293,
+    "ok": true,
+    "detail": "{\"n_ticks\": 500, \"arms\": 4, \"full_coverage_cells\": 144}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "archive-report",
+    "seconds": 1.42,
+    "ok": true,
+    "detail": "{\"pre_merge_cells\": 144, \"post_merge_cells\": 1, \"coverage_all\": 0.37894736842105264}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "money",
+    "seconds": 5389.305,
+    "ok": true,
+    "detail": "{\"n_scored\": 2665777, \"n_attack\": 7785}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bench",
+    "seconds": 5783.514,
+    "ok": true,
+    "detail": "{\"p99_ms\": 911.5479023207445, \"meets_target\": false}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "report",
+    "seconds": 0.422,
+    "ok": true,
+    "detail": "{}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  },
+  {
+    "stage": "bundle",
+    "seconds": 0.134,
+    "ok": true,
+    "detail": "{\"n_files\": 12, \"n_missing\": 0}",
+    "hardware": "Linux 5.10.262-267.1063.amzn2int.x86_64 / x86_64 / python 3.13.15 / cpus=48"
+  }
+]

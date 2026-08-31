@@ -1,0 +1,1584 @@
+{
+  "action_table": {
+    "band_distinctness": {
+      "any_collapsed": false,
+      "collapsed": [],
+      "note": "A collapsed band empties part of the three-band decomposition. Reported rather than silently tolerated."
+    },
+    "band_pinning": {
+      "decline": "cost minimisation, floored at friction (narrowest, highest)",
+      "friction": "per-rail friction cap (BROADEST band, lowest threshold)",
+      "ordering": "t_friction <= t_review <= t_decline, enforced",
+      "review": "staffed alert budget, spent on the band [t_review, t_decline)",
+      "why": "Each band is pinned by the constraint that governs it. Deriving all three from one quantile collapses them into a single threshold and empties the three-band decomposition the metrics table requires."
+    },
+    "capacity_report": {
+      "budget_share": 0.002814515739988678,
+      "constraint": "staffed alert budget (config/ops.yaml)",
+      "declined_share_excluded_from_budget": 0.002574515739988678,
+      "n": 812580,
+      "n_alerts": 2287,
+      "realised_review_band_note": "The REVIEW BAND is [t_review, t_decline). The budget is spent on the band, not on the whole tail, because rows at or above t_decline are declined rather than queued.",
+      "realised_review_band_share": 0.00023997637155726204,
+      "realised_share": 0.00281449211154594,
+      "target_tail_share": 0.002814515739988678
+    },
+    "decline_report": {
+      "chosen_threshold": 0.258956213533818,
+      "constraint": "total cost minimisation subject to t_decline >= t_friction",
+      "cost_terms": "chargeback loss + handling + interchange forgone + friction abandonment + review cost + THE LIFETIME COST OF A FALSE DECLINE, which is the term most models omit and the term an issuer cares about most.",
+      "n_candidates": 40,
+      "total_cost_at_choice": 14680049.3654014
+    },
+    "fitted_on_population": "stats/calibration window at operating prevalence (n=812580)",
+    "fitted_on_scale": "fused_calibrated",
+    "friction_report": {
+      "constraint": "per-rail friction cap spent on the BAND [t_friction, t_review), not on the whole rail tail, then clamped to t_review so the cap can never escalate a rail",
+      "per_rail": {
+        "a2a-credit-transfer": {
+          "budget_share": 0.024780407127564373,
+          "clamped_to_review": false,
+          "friction_cap": 0.02,
+          "n": 88277,
+          "n_alerts": 2187,
+          "realised_friction_band_share": 0.019993882891353353,
+          "realised_share": 0.024774290018917726,
+          "share_at_or_above_review_excluded_from_cap": 0.004780407127564371,
+          "target_tail_share": 0.024780407127564373
+        },
+        "aeps-microatm": {
+          "budget_share": 0.01,
+          "clamped_to_review": false,
+          "friction_cap": 0.01,
+          "n": 10109,
+          "n_alerts": 101,
+          "realised_friction_band_share": 0.009991097042239588,
+          "realised_share": 0.009991097042239588,
+          "share_at_or_above_review_excluded_from_cap": 0.0,
+          "target_tail_share": 0.01
+        },
+        "agentic-commerce": {
+          "budget_share": 0.03,
+          "clamped_to_review": false,
+          "friction_cap": 0.03,
+          "n": 3644,
+          "n_alerts": 109,
+          "realised_friction_band_share": 0.02991218441273326,
+          "realised_share": 0.02991218441273326,
+          "share_at_or_above_review_excluded_from_cap": 0.0,
+          "target_tail_share": 0.03
+        },
+        "card-clearing-dispute": {
+          "budget_share": 0.02,
+          "clamped_to_review": false,
+          "friction_cap": 0.02,
+          "n": 65598,
+          "n_alerts": 1311,
+          "realised_friction_band_share": 0.019985365407481935,
+          "realised_share": 0.019985365407481935,
+          "share_at_or_above_review_excluded_from_cap": 0.0,
+          "target_tail_share": 0.02
+        },
+        "card-cnp-3ds": {
+          "budget_share": 0.06,
+          "clamped_to_review": false,
+          "friction_cap": 0.06,
+          "n": 47751,
+          "n_alerts": 2865,
+          "realised_friction_band_share": 0.059998743481811896,
+          "realised_share": 0.059998743481811896,
+          "share_at_or_above_review_excluded_from_cap": 0.0,
+          "target_tail_share": 0.06
+        },
+        "card-cnp-keyed": {
+          "budget_share": 0.06,
+          "clamped_to_review": false,
+          "friction_cap": 0.06,
+          "n": 24165,
+          "n_alerts": 1449,
+          "realised_friction_band_share": 0.059962756052141526,
+          "realised_share": 0.059962756052141526,
+          "share_at_or_above_review_excluded_from_cap": 0.0,
+          "target_tail_share": 0.06
+        },
+        "card-cp-emv": {
+          "budget_share": 0.01,
+          "clamped_to_review": false,
+          "friction_cap": 0.01,
+          "n": 36328,
+          "n_alerts": 363,
+          "realised_friction_band_share": 0.009992292446597665,
+          "realised_share": 0.009992292446597665,
+          "share_at_or_above_review_excluded_from_cap": 0.0,
+          "target_tail_share": 0.01
+        },
+        "card-token-provisioning": {
+          "budget_share": 0.04,
+          "clamped_to_review": false,
+          "friction_cap": 0.04,
+          "n": 14308,
+          "n_alerts": 572,
+          "realised_friction_band_share": 0.03997763488957227,
+          "realised_share": 0.03997763488957227,
+          "share_at_or_above_review_excluded_from_cap": 0.0,
+          "target_tail_share": 0.04
+        },
+        "upi-autopay-mandate": {
+          "budget_share": 0.011045244139166792,
+          "clamped_to_review": false,
+          "friction_cap": 0.01,
+          "n": 120546,
+          "n_alerts": 1331,
+          "realised_friction_band_share": 0.0099961840293332,
+          "realised_share": 0.011041428168499992,
+          "share_at_or_above_review_excluded_from_cap": 0.001045244139166791,
+          "target_tail_share": 0.011045244139166792
+        },
+        "upi-collect": {
+          "budget_share": 0.02061969960151221,
+          "clamped_to_review": false,
+          "friction_cap": 0.015,
+          "n": 58722,
+          "n_alerts": 1210,
+          "realised_friction_band_share": 0.01498586560403256,
+          "realised_share": 0.02060556520554477,
+          "share_at_or_above_review_excluded_from_cap": 0.00561969960151221,
+          "target_tail_share": 0.02061969960151221
+        },
+        "upi-lite-offline": {
+          "budget_share": 0.016995846187480262,
+          "clamped_to_review": false,
+          "friction_cap": 0.004,
+          "n": 41167,
+          "n_alerts": 699,
+          "realised_friction_band_share": 0.003983773410741614,
+          "realised_share": 0.016979619598221876,
+          "share_at_or_above_review_excluded_from_cap": 0.012995846187480264,
+          "target_tail_share": 0.016995846187480262
+        },
+        "upi-pay": {
+          "budget_share": 0.010894375175930986,
+          "clamped_to_review": false,
+          "friction_cap": 0.008,
+          "n": 301965,
+          "n_alerts": 3289,
+          "realised_friction_band_share": 0.007997615617704039,
+          "realised_share": 0.010891990793635025,
+          "share_at_or_above_review_excluded_from_cap": 0.0028943751759309853,
+          "target_tail_share": 0.010894375175930986
+        }
+      },
+      "provisional_pass": {
+        "a2a-credit-transfer": {
+          "budget_share": 0.02,
+          "friction_cap": 0.02,
+          "n": 88277,
+          "n_alerts": 1765,
+          "realised_share": 0.019993882891353353
+        },
+        "aeps-microatm": {
+          "budget_share": 0.01,
+          "friction_cap": 0.01,
+          "n": 10109,
+          "n_alerts": 101,
+          "realised_share": 0.009991097042239588
+        },
+        "agentic-commerce": {
+          "budget_share": 0.03,
+          "friction_cap": 0.03,
+          "n": 3644,
+          "n_alerts": 109,
+          "realised_share": 0.02991218441273326
+        },
+        "card-clearing-dispute": {
+          "budget_share": 0.02,
+          "friction_cap": 0.02,
+          "n": 65598,
+          "n_alerts": 1311,
+          "realised_share": 0.019985365407481935
+        },
+        "card-cnp-3ds": {
+          "budget_share": 0.06,
+          "friction_cap": 0.06,
+          "n": 47751,
+          "n_alerts": 2865,
+          "realised_share": 0.059998743481811896
+        },
+        "card-cnp-keyed": {
+          "budget_share": 0.06,
+          "friction_cap": 0.06,
+          "n": 24165,
+          "n_alerts": 1449,
+          "realised_share": 0.059962756052141526
+        },
+        "card-cp-emv": {
+          "budget_share": 0.01,
+          "friction_cap": 0.01,
+          "n": 36328,
+          "n_alerts": 363,
+          "realised_share": 0.009992292446597665
+        },
+        "card-token-provisioning": {
+          "budget_share": 0.04,
+          "friction_cap": 0.04,
+          "n": 14308,
+          "n_alerts": 572,
+          "realised_share": 0.03997763488957227
+        },
+        "upi-autopay-mandate": {
+          "budget_share": 0.01,
+          "friction_cap": 0.01,
+          "n": 120546,
+          "n_alerts": 1205,
+          "realised_share": 0.0099961840293332
+        },
+        "upi-collect": {
+          "budget_share": 0.015,
+          "friction_cap": 0.015,
+          "n": 58722,
+          "n_alerts": 880,
+          "realised_share": 0.01498586560403256
+        },
+        "upi-lite-offline": {
+          "budget_share": 0.004,
+          "friction_cap": 0.004,
+          "n": 41167,
+          "n_alerts": 164,
+          "realised_share": 0.003983773410741614
+        },
+        "upi-pay": {
+          "budget_share": 0.008,
+          "friction_cap": 0.008,
+          "n": 301965,
+          "n_alerts": 2415,
+          "realised_share": 0.007997615617704039
+        }
+      }
+    },
+    "global_thresholds": {
+      "decline": 0.258956213533818,
+      "friction": 0.15097211517334141,
+      "review": 0.25319552130020806
+    },
+    "per_rail": {
+      "a2a-credit-transfer": {
+        "decline": 0.258956213533818,
+        "friction": 0.17357474140004736,
+        "review": 0.25319552130020806
+      },
+      "aeps-microatm": {
+        "decline": 0.258956213533818,
+        "friction": 0.14653827776127917,
+        "review": 0.25319552130020806
+      },
+      "agentic-commerce": {
+        "decline": 0.258956213533818,
+        "friction": 0.1476684350307445,
+        "review": 0.25319552130020806
+      },
+      "card-clearing-dispute": {
+        "decline": 0.258956213533818,
+        "friction": 0.14769389218663617,
+        "review": 0.25319552130020806
+      },
+      "card-cnp-3ds": {
+        "decline": 0.258956213533818,
+        "friction": 0.14966387318997304,
+        "review": 0.25319552130020806
+      },
+      "card-cnp-keyed": {
+        "decline": 0.258956213533818,
+        "friction": 0.1515768153025117,
+        "review": 0.25319552130020806
+      },
+      "card-cp-emv": {
+        "decline": 0.258956213533818,
+        "friction": 0.15206892172754952,
+        "review": 0.25319552130020806
+      },
+      "card-token-provisioning": {
+        "decline": 0.258956213533818,
+        "friction": 0.15036741504417114,
+        "review": 0.25319552130020806
+      },
+      "upi-autopay-mandate": {
+        "decline": 0.258956213533818,
+        "friction": 0.14938173019584752,
+        "review": 0.25319552130020806
+      },
+      "upi-collect": {
+        "decline": 0.258956213533818,
+        "friction": 0.17401265652470857,
+        "review": 0.25319552130020806
+      },
+      "upi-lite-offline": {
+        "decline": 0.258956213533818,
+        "friction": 0.22937692242578434,
+        "review": 0.25319552130020806
+      },
+      "upi-pay": {
+        "decline": 0.258956213533818,
+        "friction": 0.17390042342464176,
+        "review": 0.25319552130020806
+      }
+    }
+  },
+  "bloom_exchange": {
+    "expected_false_positive_rate": 0.03564609605948117,
+    "implemented": true,
+    "n_bits": 65536,
+    "n_hashes": 4,
+    "n_inserted": 9340,
+    "shares_pii": false,
+    "status": "STUB",
+    "verified": false,
+    "verify_note": "Real-world availability and regulatory permissibility are UNVERIFIED. If shared beneficiary signals are unobtainable, GATE-B degrades to a single-institution inbound-credit scorer with materially weaker recall, and the visibility ablation is the thing that quantifies exactly how much weaker."
+  },
+  "conformal": {
+    "merge_ladder": [
+      "full",
+      "channel_mcc",
+      "channel",
+      "global"
+    ],
+    "min_calibration_per_stratum": 200,
+    "n_calibration_rows": 809571,
+    "n_strata": 208,
+    "n_thin_strata": 69,
+    "smallest_strata": {
+      "aeps-microatm|health_education|gc02": 2,
+      "aeps-microatm|quasi_cash|gc02": 5,
+      "aeps-microatm|travel|gc02": 3,
+      "agentic-commerce|quasi_cash|gc01": 4,
+      "card-clearing-dispute|travel|gc02": 4,
+      "card-cnp-keyed|health_education|gc02": 4,
+      "card-cp-emv|quasi_cash|gc02": 4,
+      "card-cp-emv|travel|gc02": 5,
+      "card-token-provisioning|health_education|gc02": 3,
+      "card-token-provisioning|travel|gc02": 4
+    }
+  },
+  "conformal_coverage": {
+    "alpha": 0.05,
+    "empirical_coverage_overall": 0.9501316129159765,
+    "exchangeability_note": "Time-forward payment data VIOLATES exchangeability (Barber, Candes, Ramdas & Tibshirani, Annals of Statistics 2023), so the nominal conformal guarantee does not hold here. We therefore MEASURE coverage rather than assume it, and publish the gap per stratum.",
+    "min_calibration_per_stratum": 200,
+    "n_strata_used": 133,
+    "n_thin_strata_merged": 69,
+    "nominal_coverage": 0.95,
+    "per_stratum": {
+      "a2a-credit-transfer|none|gc00": {
+        "empirical_coverage": 0.9500223669168447,
+        "gap": 2.2366916844762663e-05,
+        "n": 80476.0,
+        "nominal_coverage": 0.95
+      },
+      "a2a-credit-transfer|none|gc01": {
+        "empirical_coverage": 0.9502099580083984,
+        "gap": 0.00020995800839840317,
+        "n": 6668.0,
+        "nominal_coverage": 0.95
+      },
+      "a2a-credit-transfer|none|gc02": {
+        "empirical_coverage": 0.9512448132780082,
+        "gap": 0.0012448132780082943,
+        "n": 964.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|grocery_dining|*": {
+        "empirical_coverage": 1.0,
+        "gap": 0.050000000000000044,
+        "n": 21.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|grocery_dining|gc00": {
+        "empirical_coverage": 0.9504834456489891,
+        "gap": 0.000483445648989167,
+        "n": 3413.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|grocery_dining|gc01": {
+        "empirical_coverage": 0.953416149068323,
+        "gap": 0.0034161490683229934,
+        "n": 322.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|health_education|*": {
+        "empirical_coverage": 0.9722222222222222,
+        "gap": 0.022222222222222254,
+        "n": 36.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|health_education|gc00": {
+        "empirical_coverage": 0.955026455026455,
+        "gap": 0.005026455026455046,
+        "n": 378.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|other|*": {
+        "empirical_coverage": 0.9653179190751445,
+        "gap": 0.01531791907514457,
+        "n": 173.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|other|gc00": {
+        "empirical_coverage": 0.9507758159443552,
+        "gap": 0.0007758159443552737,
+        "n": 1869.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|quasi_cash|*": {
+        "empirical_coverage": 0.9811320754716981,
+        "gap": 0.031132075471698162,
+        "n": 53.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|quasi_cash|gc00": {
+        "empirical_coverage": 0.9521800281293952,
+        "gap": 0.0021800281293952173,
+        "n": 711.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|retail|*": {
+        "empirical_coverage": 0.958139534883721,
+        "gap": 0.008139534883720989,
+        "n": 215.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|retail|gc00": {
+        "empirical_coverage": 0.9505081749889527,
+        "gap": 0.0005081749889527254,
+        "n": 2263.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|travel|*": {
+        "empirical_coverage": 0.9259259259259259,
+        "gap": -0.024074074074074026,
+        "n": 54.0,
+        "nominal_coverage": 0.95
+      },
+      "aeps-microatm|travel|gc00": {
+        "empirical_coverage": 0.9530434782608695,
+        "gap": 0.003043478260869592,
+        "n": 575.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|*|*": {
+        "empirical_coverage": 0.9779411764705882,
+        "gap": 0.027941176470588247,
+        "n": 136.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|grocery_dining|*": {
+        "empirical_coverage": 1.0,
+        "gap": 0.050000000000000044,
+        "n": 10.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|grocery_dining|gc00": {
+        "empirical_coverage": 0.9511305616338439,
+        "gap": 0.0011305616338439517,
+        "n": 1371.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|other|*": {
+        "empirical_coverage": 0.9830508474576272,
+        "gap": 0.03305084745762721,
+        "n": 59.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|other|gc00": {
+        "empirical_coverage": 0.9529780564263323,
+        "gap": 0.0029780564263323095,
+        "n": 638.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|quasi_cash|*": {
+        "empirical_coverage": 1.0,
+        "gap": 0.050000000000000044,
+        "n": 4.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|quasi_cash|gc00": {
+        "empirical_coverage": 0.956,
+        "gap": 0.006000000000000005,
+        "n": 250.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|retail|*": {
+        "empirical_coverage": 0.9178082191780822,
+        "gap": -0.03219178082191776,
+        "n": 146.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|retail|gc00": {
+        "empirical_coverage": 0.9515706806282722,
+        "gap": 0.0015706806282722585,
+        "n": 764.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|travel|*": {
+        "empirical_coverage": 0.9545454545454546,
+        "gap": 0.00454545454545463,
+        "n": 22.0,
+        "nominal_coverage": 0.95
+      },
+      "agentic-commerce|travel|gc00": {
+        "empirical_coverage": 0.9572649572649573,
+        "gap": 0.00726495726495735,
+        "n": 234.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|grocery_dining|*": {
+        "empirical_coverage": 0.8695652173913043,
+        "gap": -0.08043478260869563,
+        "n": 23.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|grocery_dining|gc00": {
+        "empirical_coverage": 0.9500694064695242,
+        "gap": 6.94064695242469e-05,
+        "n": 23773.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|grocery_dining|gc01": {
+        "empirical_coverage": 0.9521640091116174,
+        "gap": 0.0021640091116174043,
+        "n": 439.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|health_education|*": {
+        "empirical_coverage": 0.9647058823529412,
+        "gap": 0.014705882352941235,
+        "n": 85.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|health_education|gc00": {
+        "empirical_coverage": 0.9503982621288921,
+        "gap": 0.0003982621288921573,
+        "n": 2762.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|other|*": {
+        "empirical_coverage": 0.8478260869565217,
+        "gap": -0.10217391304347823,
+        "n": 46.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|other|gc00": {
+        "empirical_coverage": 0.9500794380801071,
+        "gap": 7.943808010713038e-05,
+        "n": 11959.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|other|gc01": {
+        "empirical_coverage": 0.9516908212560387,
+        "gap": 0.0016908212560386993,
+        "n": 1035.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|quasi_cash|*": {
+        "empirical_coverage": 0.9795918367346939,
+        "gap": 0.0295918367346939,
+        "n": 98.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|quasi_cash|gc00": {
+        "empirical_coverage": 0.9503257328990228,
+        "gap": 0.00032573289902282365,
+        "n": 4912.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|retail|gc00": {
+        "empirical_coverage": 0.9501281581838155,
+        "gap": 0.0001281581838155077,
+        "n": 13655.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|retail|gc01": {
+        "empirical_coverage": 0.9505938242280285,
+        "gap": 0.000593824228028561,
+        "n": 2105.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|retail|gc02": {
+        "empirical_coverage": 0.956140350877193,
+        "gap": 0.0061403508771930015,
+        "n": 228.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|travel|*": {
+        "empirical_coverage": 1.0,
+        "gap": 0.050000000000000044,
+        "n": 4.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|travel|gc00": {
+        "empirical_coverage": 0.9502747971735148,
+        "gap": 0.00027479717351486244,
+        "n": 3821.0,
+        "nominal_coverage": 0.95
+      },
+      "card-clearing-dispute|travel|gc01": {
+        "empirical_coverage": 0.9547169811320755,
+        "gap": 0.004716981132075526,
+        "n": 265.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|grocery_dining|*": {
+        "empirical_coverage": 0.9534883720930233,
+        "gap": 0.0034883720930233286,
+        "n": 129.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|grocery_dining|gc00": {
+        "empirical_coverage": 0.9500887990691408,
+        "gap": 8.879906914083247e-05,
+        "n": 16329.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|grocery_dining|gc01": {
+        "empirical_coverage": 0.951048951048951,
+        "gap": 0.0010489510489510856,
+        "n": 1144.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|health_education|*": {
+        "empirical_coverage": 0.9333333333333333,
+        "gap": -0.016666666666666607,
+        "n": 180.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|health_education|gc00": {
+        "empirical_coverage": 0.9510250569476082,
+        "gap": 0.0010250569476082383,
+        "n": 1756.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|other|*": {
+        "empirical_coverage": 0.9459459459459459,
+        "gap": -0.004054054054054013,
+        "n": 74.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|other|gc00": {
+        "empirical_coverage": 0.9501593081474738,
+        "gap": 0.0001593081474738911,
+        "n": 8788.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|other|gc01": {
+        "empirical_coverage": 0.951715374841169,
+        "gap": 0.001715374841169015,
+        "n": 787.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|quasi_cash|*": {
+        "empirical_coverage": 1.0,
+        "gap": 0.050000000000000044,
+        "n": 28.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|quasi_cash|gc00": {
+        "empirical_coverage": 0.9504439988541965,
+        "gap": 0.00044399885419654783,
+        "n": 3491.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|quasi_cash|gc01": {
+        "empirical_coverage": 0.9559471365638766,
+        "gap": 0.005947136563876687,
+        "n": 227.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|retail|*": {
+        "empirical_coverage": 0.9504132231404959,
+        "gap": 0.0004132231404959663,
+        "n": 121.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|retail|gc00": {
+        "empirical_coverage": 0.9501509103300555,
+        "gap": 0.00015091033005554255,
+        "n": 10271.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|retail|gc01": {
+        "empirical_coverage": 0.9512843224092117,
+        "gap": 0.0012843224092117245,
+        "n": 1129.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|travel|*": {
+        "empirical_coverage": 0.8928571428571429,
+        "gap": -0.05714285714285705,
+        "n": 28.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|travel|gc00": {
+        "empirical_coverage": 0.9504914452129596,
+        "gap": 0.0004914452129596292,
+        "n": 2747.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-3ds|travel|gc01": {
+        "empirical_coverage": 0.9551020408163265,
+        "gap": 0.005102040816326592,
+        "n": 245.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|grocery_dining|*": {
+        "empirical_coverage": 0.9508196721311475,
+        "gap": 0.0008196721311475308,
+        "n": 61.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|grocery_dining|gc00": {
+        "empirical_coverage": 0.9502273565196018,
+        "gap": 0.0002273565196018179,
+        "n": 8137.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|grocery_dining|gc01": {
+        "empirical_coverage": 0.9530956848030019,
+        "gap": 0.00309568480300193,
+        "n": 533.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|health_education|*": {
+        "empirical_coverage": 0.9420289855072463,
+        "gap": -0.007971014492753614,
+        "n": 69.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|health_education|gc00": {
+        "empirical_coverage": 0.95097037793667,
+        "gap": 0.0009703779366700971,
+        "n": 979.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|other|*": {
+        "empirical_coverage": 0.8703703703703703,
+        "gap": -0.0796296296296296,
+        "n": 54.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|other|gc00": {
+        "empirical_coverage": 0.9503981797497156,
+        "gap": 0.00039817974971567693,
+        "n": 4395.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|other|gc01": {
+        "empirical_coverage": 0.9528795811518325,
+        "gap": 0.002879581151832511,
+        "n": 382.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|quasi_cash|*": {
+        "empirical_coverage": 0.9716312056737588,
+        "gap": 0.02163120567375887,
+        "n": 141.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|quasi_cash|gc00": {
+        "empirical_coverage": 0.9508009153318078,
+        "gap": 0.0008009153318078166,
+        "n": 1748.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|retail|*": {
+        "empirical_coverage": 0.9342105263157895,
+        "gap": -0.015789473684210464,
+        "n": 76.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|retail|gc00": {
+        "empirical_coverage": 0.9502647503782148,
+        "gap": 0.0002647503782148286,
+        "n": 5288.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|retail|gc01": {
+        "empirical_coverage": 0.9527145359019265,
+        "gap": 0.002714535901926496,
+        "n": 571.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|travel|*": {
+        "empirical_coverage": 0.8561151079136691,
+        "gap": -0.09388489208633088,
+        "n": 139.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cnp-keyed|travel|gc00": {
+        "empirical_coverage": 0.9512915129151291,
+        "gap": 0.0012915129151291893,
+        "n": 1355.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|grocery_dining|*": {
+        "empirical_coverage": 0.7647058823529411,
+        "gap": -0.18529411764705883,
+        "n": 17.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|grocery_dining|gc00": {
+        "empirical_coverage": 0.9501214697843912,
+        "gap": 0.00012146978439120382,
+        "n": 13172.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|grocery_dining|gc01": {
+        "empirical_coverage": 0.9549180327868853,
+        "gap": 0.004918032786885296,
+        "n": 244.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|health_education|*": {
+        "empirical_coverage": 0.9,
+        "gap": -0.04999999999999993,
+        "n": 40.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|health_education|gc00": {
+        "empirical_coverage": 0.9506849315068493,
+        "gap": 0.00068493150684934,
+        "n": 1460.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|other|*": {
+        "empirical_coverage": 0.7931034482758621,
+        "gap": -0.15689655172413786,
+        "n": 29.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|other|gc00": {
+        "empirical_coverage": 0.9502193977908913,
+        "gap": 0.00021939779089130695,
+        "n": 6609.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|other|gc01": {
+        "empirical_coverage": 0.9524564183835182,
+        "gap": 0.0024564183835182885,
+        "n": 631.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|quasi_cash|*": {
+        "empirical_coverage": 0.8846153846153846,
+        "gap": -0.06538461538461537,
+        "n": 52.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|quasi_cash|gc00": {
+        "empirical_coverage": 0.9504666188083274,
+        "gap": 0.00046661880832743474,
+        "n": 2786.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|retail|*": {
+        "empirical_coverage": 0.9465648854961832,
+        "gap": -0.0034351145038167274,
+        "n": 131.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|retail|gc00": {
+        "empirical_coverage": 0.9501329787234043,
+        "gap": 0.00013297872340434225,
+        "n": 7520.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|retail|gc01": {
+        "empirical_coverage": 0.9515989628349178,
+        "gap": 0.0015989628349178941,
+        "n": 1157.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|travel|*": {
+        "empirical_coverage": 0.9349112426035503,
+        "gap": -0.015088757396449659,
+        "n": 169.0,
+        "nominal_coverage": 0.95
+      },
+      "card-cp-emv|travel|gc00": {
+        "empirical_coverage": 0.9507177033492823,
+        "gap": 0.0007177033492823393,
+        "n": 2090.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|grocery_dining|*": {
+        "empirical_coverage": 0.9411764705882353,
+        "gap": -0.008823529411764675,
+        "n": 34.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|grocery_dining|gc00": {
+        "empirical_coverage": 0.9502016129032258,
+        "gap": 0.00020161290322584513,
+        "n": 4960.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|grocery_dining|gc01": {
+        "empirical_coverage": 0.9546925566343042,
+        "gap": 0.004692556634304235,
+        "n": 309.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|health_education|*": {
+        "empirical_coverage": 0.9714285714285714,
+        "gap": 0.021428571428571463,
+        "n": 35.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|health_education|gc00": {
+        "empirical_coverage": 0.9524647887323944,
+        "gap": 0.0024647887323944184,
+        "n": 568.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|other|*": {
+        "empirical_coverage": 0.9642857142857143,
+        "gap": 0.014285714285714346,
+        "n": 28.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|other|gc00": {
+        "empirical_coverage": 0.9505600617999227,
+        "gap": 0.0005600617999227397,
+        "n": 2589.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|other|gc01": {
+        "empirical_coverage": 0.954954954954955,
+        "gap": 0.004954954954955015,
+        "n": 222.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|quasi_cash|*": {
+        "empirical_coverage": 0.9642857142857143,
+        "gap": 0.014285714285714346,
+        "n": 84.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|quasi_cash|gc00": {
+        "empirical_coverage": 0.9511737089201878,
+        "gap": 0.0011737089201878659,
+        "n": 1065.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|retail|*": {
+        "empirical_coverage": 0.9767441860465116,
+        "gap": 0.02674418604651163,
+        "n": 43.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|retail|gc00": {
+        "empirical_coverage": 0.9503916449086162,
+        "gap": 0.0003916449086162066,
+        "n": 3064.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|retail|gc01": {
+        "empirical_coverage": 0.9552715654952076,
+        "gap": 0.005271565495207686,
+        "n": 313.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|travel|*": {
+        "empirical_coverage": 0.9873417721518988,
+        "gap": 0.03734177215189882,
+        "n": 79.0,
+        "nominal_coverage": 0.95
+      },
+      "card-token-provisioning|travel|gc00": {
+        "empirical_coverage": 0.9517766497461929,
+        "gap": 0.0017766497461929598,
+        "n": 788.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|grocery_dining|*": {
+        "empirical_coverage": 0.9411764705882353,
+        "gap": -0.008823529411764675,
+        "n": 102.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|grocery_dining|gc00": {
+        "empirical_coverage": 0.9501272744414067,
+        "gap": 0.00012727444140669952,
+        "n": 10607.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|grocery_dining|gc01": {
+        "empirical_coverage": 0.9512953367875647,
+        "gap": 0.0012953367875647714,
+        "n": 965.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|health_education|*": {
+        "empirical_coverage": 0.9714285714285714,
+        "gap": 0.021428571428571463,
+        "n": 105.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|health_education|gc00": {
+        "empirical_coverage": 0.9514066496163683,
+        "gap": 0.0014066496163683828,
+        "n": 1173.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|none|gc00": {
+        "empirical_coverage": 0.9500223336145714,
+        "gap": 2.23336145714903e-05,
+        "n": 80596.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|none|gc01": {
+        "empirical_coverage": 0.9501596556990143,
+        "gap": 0.0001596556990143272,
+        "n": 7203.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|none|gc02": {
+        "empirical_coverage": 0.9518518518518518,
+        "gap": 0.0018518518518518823,
+        "n": 810.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|other|*": {
+        "empirical_coverage": 0.9206349206349206,
+        "gap": -0.029365079365079372,
+        "n": 63.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|other|gc00": {
+        "empirical_coverage": 0.9502385821404227,
+        "gap": 0.0002385821404227162,
+        "n": 5868.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|other|gc01": {
+        "empirical_coverage": 0.9523809523809523,
+        "gap": 0.0023809523809523725,
+        "n": 525.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|quasi_cash|*": {
+        "empirical_coverage": 0.96,
+        "gap": 0.010000000000000009,
+        "n": 25.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|quasi_cash|gc00": {
+        "empirical_coverage": 0.9507829977628636,
+        "gap": 0.0007829977628636131,
+        "n": 2235.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|quasi_cash|gc01": {
+        "empirical_coverage": 0.9577464788732394,
+        "gap": 0.007746478873239426,
+        "n": 213.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|retail|*": {
+        "empirical_coverage": 0.967741935483871,
+        "gap": 0.01774193548387104,
+        "n": 62.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|retail|gc00": {
+        "empirical_coverage": 0.950246652572234,
+        "gap": 0.0002466525722339963,
+        "n": 7095.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|retail|gc01": {
+        "empirical_coverage": 0.9528301886792453,
+        "gap": 0.002830188679245338,
+        "n": 636.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|travel|*": {
+        "empirical_coverage": 0.9735099337748344,
+        "gap": 0.023509933774834457,
+        "n": 151.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-autopay-mandate|travel|gc00": {
+        "empirical_coverage": 0.9506726457399103,
+        "gap": 0.0006726457399103269,
+        "n": 1784.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-collect|none|gc00": {
+        "empirical_coverage": 0.950021542438604,
+        "gap": 2.1542438604083003e-05,
+        "n": 53383.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-collect|none|gc01": {
+        "empirical_coverage": 0.950321579064094,
+        "gap": 0.00032157906409402415,
+        "n": 4509.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-collect|none|gc02": {
+        "empirical_coverage": 0.9527326440177253,
+        "gap": 0.0027326440177253275,
+        "n": 677.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-lite-offline|none|gc00": {
+        "empirical_coverage": 0.9500347909864583,
+        "gap": 3.479098645831069e-05,
+        "n": 37366.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-lite-offline|none|gc01": {
+        "empirical_coverage": 0.9505761067313523,
+        "gap": 0.0005761067313523327,
+        "n": 3298.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-lite-offline|none|gc02": {
+        "empirical_coverage": 0.954954954954955,
+        "gap": 0.004954954954955015,
+        "n": 333.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-pay|none|gc00": {
+        "empirical_coverage": 0.9500063656039139,
+        "gap": 6.365603913982554e-06,
+        "n": 274915.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-pay|none|gc01": {
+        "empirical_coverage": 0.9500641299700727,
+        "gap": 6.412997007276822e-05,
+        "n": 23390.0,
+        "nominal_coverage": 0.95
+      },
+      "upi-pay|none|gc02": {
+        "empirical_coverage": 0.9506710192237939,
+        "gap": 0.0006710192237939783,
+        "n": 2757.0,
+        "nominal_coverage": 0.95
+      }
+    },
+    "thin_strata_sample": [
+      "aeps-microatm|grocery_dining|gc02",
+      "aeps-microatm|health_education|gc01",
+      "aeps-microatm|health_education|gc02",
+      "aeps-microatm|other|gc01",
+      "aeps-microatm|other|gc02",
+      "aeps-microatm|quasi_cash|gc01",
+      "aeps-microatm|quasi_cash|gc02",
+      "aeps-microatm|retail|gc01",
+      "aeps-microatm|retail|gc02",
+      "aeps-microatm|travel|gc01",
+      "aeps-microatm|travel|gc02",
+      "agentic-commerce|grocery_dining|gc01",
+      "agentic-commerce|health_education|gc00",
+      "agentic-commerce|health_education|gc01",
+      "agentic-commerce|other|gc01",
+      "agentic-commerce|other|gc02",
+      "agentic-commerce|quasi_cash|gc01",
+      "agentic-commerce|retail|gc01",
+      "agentic-commerce|retail|gc02",
+      "agentic-commerce|travel|gc01"
+    ]
+  },
+  "density": {
+    "calibrated": true,
+    "n_features": 191,
+    "n_train": 809571,
+    "raw_mean": 154.42428011265764,
+    "raw_std": 18.214561789893704,
+    "unit_note": "The RAW score is a SUM of per-feature negative-log tail probabilities over 191 features, so its natural scale is ~154, NOT a z-score. Comparing the raw score against a z-threshold flags every row. Use score_z() or score_quantile()."
+  },
+  "fusion": {
+    "calibrator": {
+      "fit_prevalence": 0.11797686728092531,
+      "fitted": true,
+      "n_breakpoints": 51,
+      "n_fit": 25505,
+      "note": "Applied AFTER the undersampling prior correction. An uncalibrated score cannot be fed a cost matrix, and an unfitted calibrator acts as the identity rather than inventing a mapping."
+    },
+    "combine_rule": "weighted arithmetic mean of ECDF ranks",
+    "components_with_ecdf": [
+      "g1",
+      "g2_conformal",
+      "g2_density",
+      "gate_b",
+      "sketch"
+    ],
+    "design_position": "Rank-average plus isotonic, DELIBERATELY not a learned stacker. With simulator-derived fraud counts a stacker overfits, and a promotion gate judged against a false-positive budget we generated ourselves is not a gate.",
+    "n_fit_rows": 812580,
+    "tail_eps": 0.001,
+    "tail_transform": false,
+    "use_max_rule": false,
+    "weights": {
+      "g1": 0.62,
+      "g2_conformal": 0.1,
+      "g2_density": 0.06,
+      "gate_b": 0.12,
+      "sketch": 0.1
+    }
+  },
+  "g1": {
+    "best_iteration": 130,
+    "config": {
+      "colsample_bytree": 0.7,
+      "early_stopping_rounds": 60,
+      "is_unbalance": true,
+      "learning_rate": 0.05,
+      "max_depth": -1,
+      "min_child_samples": 40,
+      "monotone_features": [
+        [
+          "bin_issuer_prior_fraud_rate",
+          1
+        ],
+        [
+          "peer_cohort_prior_fraud_rate",
+          1
+        ],
+        [
+          "geo_cell_prior_fraud_rate",
+          1
+        ],
+        [
+          "incumbent_score",
+          1
+        ],
+        [
+          "field_combination_implausibility",
+          1
+        ],
+        [
+          "cryptogram_present_but_unverified",
+          1
+        ],
+        [
+          "refund_without_original_auth",
+          1
+        ],
+        [
+          "mandate_mcc_drift",
+          1
+        ],
+        [
+          "creditor_name_match_score",
+          -1
+        ]
+      ],
+      "n_estimators": 600,
+      "nnpu_max_unlabelled": 400000,
+      "num_leaves": 63,
+      "num_threads": 1,
+      "reg_alpha": 0.5,
+      "reg_lambda": 5.0,
+      "seed": 20260909,
+      "subsample": 0.85,
+      "subsample_freq": 1,
+      "undersample_negatives": false,
+      "undersample_ratio": 0.0
+    },
+    "n_train_positives": 21006,
+    "n_train_rows": 952117,
+    "n_train_unlabelled": 4307166,
+    "pi_positive": 0.006886090208892885,
+    "prior_correction": 1.0,
+    "row_cap_applied": 0,
+    "top_importance": {
+      "account_age_days": 741.5028832554817,
+      "amount_pct_in_peer_cohort": 27062.451903939247,
+      "amount_ratio_to_own_baseline": 4816.780148744583,
+      "amount_vs_vendor_history": 2884.630921661854,
+      "amount_zscore_to_own_baseline": 2608.0057095885277,
+      "beneficiary_account_age_days": 4782.022085726261,
+      "beneficiary_category_ordinal": 1381.1847560405731,
+      "bin_issuer_prior_fraud_rate": 4054.052253842354,
+      "creditor_name_match_score": 1398.0958162546158,
+      "device_age_days": 6553.857622921467,
+      "entry_mode_ordinal": 1194.745894908905,
+      "first_credit_source_concentration": 1364.0681792497635,
+      "incumbent_rule_count": 1641.6823918819427,
+      "incumbent_score": 15679.997607409954,
+      "inter_arrival_zscore_vs_habit": 2177.9745205640793,
+      "mcc_habit_probability": 2865.1260776519775,
+      "merchant_age_days": 891.7473877668381,
+      "message_kind_is_credit_leg": 5683.3718366622925,
+      "min_entity_age_days": 2957.8011870384216,
+      "pan_age_days": 2788.801569700241,
+      "pass_through_dwell_seconds": 951.8634823560715,
+      "payee_vpa_age_days": 4436.794985413551,
+      "rail_is_a2a_credit_transfer": 10373.13151717186,
+      "rail_is_card_clearing_dispute": 1726.0632684230804,
+      "rail_is_card_cnp_3ds": 1169.3863372802734,
+      "rail_is_card_cnp_keyed": 3189.0958782434464,
+      "rail_is_card_token_provisioning": 2117.6477337777615,
+      "rail_is_upi_autopay_mandate": 6014.32857465744,
+      "rail_novelty": 922.3231182098389,
+      "session_duration_minutes": 14107.099754333496,
+      "sketch_beneficiary_fanin_degree": 2429.173839569092,
+      "sketch_device_shared_entity_count": 876.1725670099258,
+      "sketch_first_txn_at_acceptor_share_24h": 1308.6980177164078,
+      "sketch_geohash_distinct_payer_devices": 1281.1741619110107,
+      "sketch_pan_token_fanout_7d": 2179.2578481435776,
+      "sketch_payer_fanout_degree_24h": 1628.751270890236,
+      "tier_is_b": 746.1766014099121,
+      "vel_beneficiary_id_30d_amount_sum_ratio": 1226.02001953125,
+      "vel_device_fingerprint_id_30d_amount_sum_pct": 1409.3763947486877,
+      "vel_device_fingerprint_id_30d_count_pct": 960.4151581525803
+    },
+    "train_prevalence": 0.13809107463334144
+  },
+  "generator": "vajra-sim",
+  "label_maturity_stats": {
+    "median_days_to_label": 0.26844511477483646,
+    "n_rows": 9899667,
+    "n_unlabelled": 9666040,
+    "n_visible_positives": 35203,
+    "note": "Reported with EVERY window. Recall against 30% matured labels and recall against 100% are not the same metric; the unlabelled share is what the nnPU / Elkan-Noto correction is applied to, because absence of a label is not evidence of legitimacy.",
+    "share_unlabelled": 0.9764005193305997,
+    "share_with_any_visible_label": 0.023599480669400295,
+    "window_end_ts": 1779399126.8610232
+  },
+  "label_maturity_train": {
+    "median_days_to_label": 0.2688379506435659,
+    "n_rows": 9899667,
+    "n_unlabelled": 9652602,
+    "n_visible_positives": 37289,
+    "note": "Reported with EVERY window. Recall against 30% matured labels and recall against 100% are not the same metric; the unlabelled share is what the nnPU / Elkan-Noto correction is applied to, because absence of a label is not evidence of legitimacy.",
+    "share_unlabelled": 0.9750430999345736,
+    "share_with_any_visible_label": 0.024956900065426443,
+    "window_end_ts": 1779849603.9085047
+  },
+  "model_version": "payee_psp-vajra-sim-1777814153",
+  "n_events": 9899667,
+  "nearline": {
+    "consequence": "The mimicry flag (G3) and learned graph embeddings (G4) are absent. The inline sketch counters still provide graph SIGNAL at t=0 \u2014 that is the cold-graph fix and it does not depend on G4. The delta is reported rather than the claim restated.",
+    "g3_sequence_gru": "SKIPPED-DEPENDENCY-ABSENT (torch not installed)",
+    "g4_graph_rgcn": "SKIPPED-DEPENDENCY-ABSENT (torch not installed)"
+  },
+  "onboarding_scorer": {
+    "design_only_note": "The list above is NOT IN THE ARTIFACT and is badged design-only in the UI and on the slide. Those signals are real observables and belong in the taxonomy; we do not build liveness or document forensics and we produce no bypass knowledge.",
+    "design_only_signals_not_built": [
+      "virtual_camera_artefact",
+      "frame_timing_regularity",
+      "sensor_noise_absence",
+      "lipsync_offset",
+      "capture_geometry_reuse",
+      "document_embedding_near_duplicate"
+    ],
+    "features_used": [
+      "address_geocode_density",
+      "asn_reuse_rate",
+      "batch_kyc_tier_uniformity",
+      "device_os_entropy_collapse",
+      "first_credit_source_concentration_batch",
+      "name_ngram_unlikelihood",
+      "onboarding_batch_timing_cluster"
+    ],
+    "features_with_edges": [],
+    "fitted": false,
+    "unit": "population-level cohort statistic; NEVER per-application"
+  },
+  "queue_ceiling": {
+    "alert_budget_share": 0.00024,
+    "base_rate": 0.005,
+    "implied_frauds_per_day": 50000,
+    "note": "The review band alone cannot exceed this recall BEFORE precision is even discussed. Reported at every swept base rate, because the ceiling moves with the base rate.",
+    "reference_volume_per_day": 10000000,
+    "review_band_recall_ceiling": 0.048,
+    "staffed_alert_budget_per_day": 2400,
+    "staffing": {
+      "analysts": 40,
+      "cases_per_analyst_per_shift": 60,
+      "shifts_per_day": 1
+    }
+  },
+  "reference_stats": {
+    "causality_note": "Fitted on the TRAINING WINDOW ONLY with holdout-family rows excluded, then frozen and applied forward. eval/leakage/statistic_fit.py asserts it.",
+    "fitted_on_n_rows": 4459283,
+    "fitted_window_end_ts": 1777814151.758546,
+    "global_prior_rate": 0.13809107463334144,
+    "holdout_rows_excluded": 985534,
+    "modal_inter_arrival_log": 8.453585112882843,
+    "n_bin_priors": 8,
+    "n_cohort_priors": 33,
+    "n_geo_priors": 217,
+    "n_mcc_medians": 34
+  },
+  "registry": {
+    "audit_only": [
+      "label_channel_disagreement"
+    ],
+    "features_per_family": {
+      "beneficiary_side": 23,
+      "channel_context": 10,
+      "cross_message": 11,
+      "device_session": 15,
+      "entity_age": 12,
+      "graph_sketches": 16,
+      "habit_deviation": 12,
+      "mandate_deltas": 11,
+      "merchant_side": 14,
+      "onboarding_cohort": 10,
+      "rail_context": 12,
+      "sequence_artefacts": 13,
+      "temporal": 18,
+      "thin_rail_observables": 5,
+      "threshold_geometry": 9,
+      "trust_envelope": 22,
+      "velocity_distinct": 36,
+      "velocity_panel": 144
+    },
+    "n_audit_only": 1,
+    "n_features_in_model_matrix": 392,
+    "n_features_total": 393,
+    "note": "This count is MACHINE-COUNTED from features/registry.yaml. The design's ~380 is a planned budget; what ships is whatever this prints.",
+    "protected_attribute_policy": {
+      "asserted": "No feature in this registry encodes age, gender, religion, caste, income, or any direct proxy for them. Geography features are TRANSACTION geography (acceptor geo cell, geohash of the payment) rather than residence, and issuer/BIN features are institutional rather than personal.",
+      "checked_by": "tests/test_no_protected_attributes.py",
+      "residual_risk": "Geography and device tier CAN correlate with socio-economic status. We do not claim otherwise; we publish a disparate-impact table over decline, friction AND beneficiary-side hold/freeze rates by segment, geography and device tier so the correlation is measurable rather than denied. That table's segments are synthetic attributes we generated, so it demonstrates the reporting machinery exists \u2014 not that a real portfolio is fair."
+    },
+    "version": 1,
+    "view_coverage": {
+      "acquirer": {
+        "missing": 180,
+        "n_features": 212,
+        "share_of_full": 0.5408
+      },
+      "issuer": {
+        "missing": 73,
+        "n_features": 319,
+        "share_of_full": 0.8138
+      },
+      "network": {
+        "missing": 76,
+        "n_features": 316,
+        "share_of_full": 0.8061
+      },
+      "payee_psp": {
+        "missing": 201,
+        "n_features": 191,
+        "share_of_full": 0.4872
+      }
+    }
+  },
+  "reject_inference_ipw": {
+    "max_weight": 5.181825210073305,
+    "mean_weight": 1.069829030940665,
+    "n_declined_excluded": 132313.0,
+    "n_rows": 4459283.0,
+    "n_weights_clipped": 0.0,
+    "share_clipped": 0.0
+  },
+  "sealed_manifest_sha256": "950d31c9fd74e4ebaf2eead7320e0f7f69f2a0457cdb053e5078f4138c9bc48e",
+  "sealed_rows_excluded": 1791118,
+  "sketch_footprint": {
+    "batched_fetch": {
+      "keys_per_fetch": 9.0,
+      "n_fetches": 812580,
+      "n_keys_fetched": 7313220,
+      "note": "ONE round trip for all nine keys. This is the decision that makes the latency target reachable at all; bench/ measures the unbatched cost for comparison."
+    },
+    "degradation_policy": "Feature-fetch timeout at N ms -> the NAMED reduced feature vector -> G0-only. p99 is re-measured under injected store latency so the fallback has a number.",
+    "entity_key_types": 9,
+    "footprint_statement": "Footprint is reported as values-per-entity-per-key-type x active entities, never as a round total, because a round total hides which key type dominates.",
+    "per_key_type": {
+      "beneficiary_id": {
+        "active_entities": 157817.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 1578170.0
+      },
+      "bin_prefix": {
+        "active_entities": 0.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 0.0
+      },
+      "device_fingerprint_id": {
+        "active_entities": 27604.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 276040.0
+      },
+      "merchant_id": {
+        "active_entities": 3190.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 31900.0
+      },
+      "pan_canonical": {
+        "active_entities": 0.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 0.0
+      },
+      "terminal_id": {
+        "active_entities": 0.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 0.0
+      },
+      "token_id": {
+        "active_entities": 0.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 0.0
+      },
+      "token_requestor_id": {
+        "active_entities": 0.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 0.0
+      },
+      "vpa": {
+        "active_entities": 0.0,
+        "hll_bytes_per_entity": 64.0,
+        "values_per_entity": 10.0,
+        "values_total": 0.0
+      }
+    },
+    "windows": [
+      "1h",
+      "24h",
+      "7d",
+      "30d"
+    ]
+  },
+  "split": {
+    "boundaries_ts": {
+      "embargo": 1779849603.1043105,
+      "purge": 1778270842.282744,
+      "stats": 1779399127.2664917,
+      "test": 1783178033.057568,
+      "train": 1777814154.1509447
+    },
+    "counts": {
+      "embargo_dropped": 395987,
+      "purge_dropped": 395986,
+      "stats": 989967,
+      "test": 2672910,
+      "train": 5444817
+    },
+    "embargo_days": 5.213840715496077,
+    "n_total": 9899667,
+    "policy": "TIME-FORWARD ONLY. No random splits anywhere. The STATS window is a fifth holdout channel used only for reference statistics, the calibrator and the conformal calibration set, so no threshold inherits the training window's prevalence.",
+    "purge_days": 5.285742266194688,
+    "shares": {
+      "embargo": 0.0400000323243196,
+      "purge": 0.03999993131082086,
+      "stats": 0.10000003030404962,
+      "test": 0.2699999909087851,
+      "train": 0.5500000151520248
+    }
+  },
+  "view": "payee_psp",
+  "withheld_evasion_morpheme": "low-visibility-rail"
+}

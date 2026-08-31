@@ -21,7 +21,8 @@ VIEW ?= issuer
 VIEWS ?= issuer acquirer payee_psp network
 
 .PHONY: help venv grammar sim fidelity train train-views eval loop archive-report duallog verify \
-        bench money report bundle all demo api ui test clean sensitivity no-attacks-null generator-b quick-eval
+        bench money report bundle all demo api ui ui-build test clean sensitivity no-attacks-null \
+        generator-b
 
 help:
 	@echo "VAJRA make targets:"
@@ -43,14 +44,16 @@ help:
 	@echo "  make bundle         assemble the committed offline replay bundle"
 	@echo "  make all            everything above, in order, seeded"
 	@echo "  make api            serve the FastAPI backend on :8000"
+	@echo "  make ui             next dev on :3000 (resolves a Node >= 18.17 that runs here)"
+	@echo "  make ui-build       next build (production bundle)"
 	@echo "  make demo           bring up the UI against the replay bundle (no training)"
 	@echo "  make test           run the test suite"
 	@echo "  make sensitivity    0.33x/1x/3x mule-cost sweep (SLOW, excluded from make all)"
 
+# Picks plain venv+pip, or conda-forge when the host glibc is too old for the current
+# manylinux_2_28 numpy / lightgbm / duckdb wheels. Force with VAJRA_ENV_BACKEND=venv|conda.
 venv:
-	python3 -m venv .venv
-	$(PY) -m pip install --quiet --upgrade pip
-	$(PY) -m pip install --quiet -r requirements.txt
+	./scripts/setup_env.sh
 	@echo "venv ready. Optional near-line/Treelite/CTGAN deps: pip install -r requirements-optional.txt"
 
 grammar:
@@ -149,15 +152,22 @@ sensitivity:
 api:
 	$(PY) -m uvicorn api.app:app --host 0.0.0.0 --port 8000
 
+# Resolves a Node >= 18.17 that actually runs on this host before starting next dev; see the
+# header of scripts/ui.sh for why "installed" and "runnable" differ on older glibc.
 ui:
-	cd ui && npm install && npm run dev
+	./scripts/ui.sh dev
+
+# Production build. Go through scripts/ui.sh rather than a bare `npm run build`, or npm picks
+# whatever Node is on PATH and next refuses to run on anything older than 18.17.
+ui-build:
+	./scripts/ui.sh build
 
 # The five-minute demo path: the UI against the committed replay bundle, no training, no network.
 demo:
 	@echo "Serving the API against the committed replay bundle on :8000, and the UI on :3000."
 	@echo "This path touches ONLY committed artifacts, so it works on venue wifi that does not exist."
 	$(PY) -m uvicorn api.app:app --host 0.0.0.0 --port 8000 & \
-	cd ui && npm install && npm run dev
+	./scripts/ui.sh dev
 
 test:
 	$(PY) -m pytest -q tests/

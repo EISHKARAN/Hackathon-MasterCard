@@ -159,10 +159,6 @@ def main(argv: list[str] | None = None) -> int:
         scorer = Scorer(bundle, cfg=cfg, store=OnlineStore())
         print(f"\n  scoring {len(fm_test):,} test rows ...")
         batch = scorer.score_batch(fm_test)
-        # NOTE: metrics are computed on the CALIBRATED score. `batch.fused_rank` carries the
-        # full-resolution pre-calibration score and is available for diagnosis; substituting it was
-        # measured and moves PR-AUC by ~0.001 while degrading recall@FPR, so the calibrated axis
-        # stays. See gate/scorer.py::ScoreBatch.fused_rank.
         s_gate = batch.fused
         y_test = y_test_pit[test_idx]
         amounts = fm_test.meta["amount_inr"]
@@ -190,6 +186,7 @@ def main(argv: list[str] | None = None) -> int:
         # `headline_label_channel_agreement` below. It is NOT deleted: it is the right answer to a
         # question a reviewer will ask. It is simply not the headline.
         y_union = np.where(oracle, 1, np.where(y_test == 1, 1, 0)).astype(int)
+
 
         mat = maturity_report(ts[test_idx], a_test[test_idx], y_test, window_end_ts=test_end)
 
@@ -455,6 +452,7 @@ def main(argv: list[str] | None = None) -> int:
             "per_sealed_family_recall": _per_sealed_family,
         }
 
+
         # ---- visibility ablation (NEVER CUT) --------------------------------------------
         print("\n  --- VISIBILITY ABLATION (never cut) ---")
         per_view: dict[str, float] = {}
@@ -521,6 +519,8 @@ def main(argv: list[str] | None = None) -> int:
             print("    ^ THIS is the head-to-head to quote. The whole-window numbers above flatter "
                   "the replica by construction.")
 
+
+
         sh = metrics["sealed_holdout_recall"]
         print("\n  --- GENERALISATION TO COMPOSITIONS NEVER TRAINED ON ---")
         print(f"    sealed compositions    : recall {_fmt(sh['sealed_compositions']['recall'])} "
@@ -538,6 +538,7 @@ def main(argv: list[str] | None = None) -> int:
               f"{ag['n_positives_that_are_not_attacks']:,} are NOT attacks")
         print("    ^ the ATTACK-DETECTION headline above is measured on ORACLE truth. This line "
               "answers a different question and is reported so neither hides inside the other.")
+
 
         write_json(metrics, paths.reports / f"metrics_{args.view}.json")
         _write_markdown(metrics, args, cfg, k)

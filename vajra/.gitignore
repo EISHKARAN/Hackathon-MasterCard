@@ -1,13 +1,55 @@
+# =========================================================================================
+# What is committed, and why.
+#
+# THE RULE: anything a reviewer needs in order to check a claim is committed. Anything that can be
+# regenerated from what is committed is not. The two exceptions to "regenerable means excluded" are
+# the replay bundle and one model bundle, because the live demo has to score something and a demo
+# that requires a 12-hour training run before it works is not a demo.
+# =========================================================================================
+
+# ---- toolchains and caches: never committed ---------------------------------------------
 .venv/
-data/
-reports/*.json
-reports/*.md
-reports/*.html
-reports/figures/
+.node/
 ui/node_modules/
 ui/.next/
+ui/tsconfig.tsbuildinfo
 __pycache__/
 *.pyc
+.pytest_cache/
 .DS_Store
-# Committed deliberately (the demo artifacts): bundles/, attack/cache/, grammar/, config/, docs/.
+
+# ---- generated data: excluded, with ONE deliberate exception ----------------------------
+# The event stream is ~1.1 GB and the fusion component caches are ~216 MB each. Both regenerate
+# from committed configuration, so they stay out.
+#
+# `data/models/gate-i_issuer/` is the exception. It is the CURRENT PROMOTED bundle, and it is what
+# the live composer scores against — the service resolves the issuer view to exactly this directory.
+# Committing it means the demo works on a fresh clone with no training step and no external
+# download. The other fifteen bundles exist to support the deployment-position ablation, whose
+# results are already in the committed evidence records, so they are regenerable and excluded.
+#
+# NOTE ON THE NEGATION SYNTAX: git cannot re-include a path whose parent directory is excluded, so
+# `data/` is NOT excluded as a directory. Its contents are excluded level by level and the one
+# wanted path is re-included at each level. Changing this to a plain `data/` would silently drop
+# the model bundle.
+data/*
+!data/models/
+data/models/*
+!data/models/gate-i_issuer/
+
+# ---- evidence records: COMMITTED ---------------------------------------------------------
+# These were previously ignored. They are now committed, for two reasons. They are the artefacts
+# that back every number in the deck and the technical document, so a reviewer who cannot read them
+# cannot check us. And the read-only screens render by reading them directly from disk, so without
+# them a deployed build has nothing to show.
+#
+# Rendered report bodies stay out — they are formatted views over the JSON, not new evidence.
+reports/*.html
+reports/figures/
+reports/_tmp_*.json
+
+# ---- committed deliberately ------------------------------------------------------------
+# bundles/     the offline replay bundle the demo path reads
+# attack/cache/  the composed-attack cache, part of the reproducible run
+# grammar/ config/ docs/  the specification the whole system is generated from
 !bundles/

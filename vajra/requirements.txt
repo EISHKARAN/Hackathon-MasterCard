@@ -6,7 +6,13 @@
 # recorded, visible SKIP rather than a crash.
 #
 # Pinned to lower bounds that ship cp313 wheels so `pip install -r requirements.txt`
-# needs no compiler on macOS arm64 or linux x86_64.
+# needs no compiler on macOS arm64 or on linux x86_64 with glibc >= 2.28.
+#
+# GLIBC CAVEAT. Current numpy / lightgbm / duckdb linux wheels are tagged
+# manylinux_2_28_x86_64. On older hosts (Amazon Linux 2 is glibc 2.26) pip finds no
+# compatible wheel, falls back to an sdist, and fails on the system GCC. Do not install
+# this file directly there -- run `make venv`, which delegates to scripts/setup_env.sh and
+# sources the compiled packages from conda-forge (glibc 2.17 builds) at the same versions.
 
 numpy>=2.0,<3
 scipy>=1.14

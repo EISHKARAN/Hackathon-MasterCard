@@ -1,0 +1,1658 @@
+[
+  {
+    "description": "event_id is non-empty",
+    "group": "structural",
+    "id": "F1-STR-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "rail is a declared rail",
+    "group": "structural",
+    "id": "F1-STR-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "message_kind is declared",
+    "group": "structural",
+    "id": "F1-STR-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "tier is A or B",
+    "group": "structural",
+    "id": "F1-STR-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "hour_ist is within the declared [0, HOUR_MAX] convention",
+    "group": "structural",
+    "id": "F1-STR-22",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "tier matches the rail's declared tier",
+    "group": "structural",
+    "id": "F1-STR-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "amount is non-negative",
+    "group": "structural",
+    "id": "F1-STR-06",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "currency is INR",
+    "group": "structural",
+    "id": "F1-STR-07",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "hour_ist is in [0, 24)",
+    "group": "structural",
+    "id": "F1-STR-08",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "dow is in [0, 6]",
+    "group": "structural",
+    "id": "F1-STR-09",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "day_index is non-negative",
+    "group": "structural",
+    "id": "F1-STR-10",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "pos_entry_mode is a declared semantic mode",
+    "group": "structural",
+    "id": "F1-STR-11",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "cvm_result is declared",
+    "group": "structural",
+    "id": "F1-STR-12",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "avs_result is declared",
+    "group": "structural",
+    "id": "F1-STR-13",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "cvv2_result is declared",
+    "group": "structural",
+    "id": "F1-STR-14",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "threeds_authentication_result is declared",
+    "group": "structural",
+    "id": "F1-STR-15",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "threeds_eci is a declared semantic band",
+    "group": "structural",
+    "id": "F1-STR-16",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "response_code is declared",
+    "group": "structural",
+    "id": "F1-STR-17",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "token_assurance_level is declared",
+    "group": "structural",
+    "id": "F1-STR-18",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "dispute_reason_code is declared",
+    "group": "structural",
+    "id": "F1-STR-19",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "upi_initiation_mode is declared",
+    "group": "structural",
+    "id": "F1-STR-20",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "cohort_tag is declared",
+    "group": "structural",
+    "id": "F1-STR-21",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "device_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-device_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "pan_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-pan_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "vpa_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-vpa_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "account_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-account_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "merchant_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-merchant_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "payee_vpa_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-payee_vpa_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "beneficiary_account_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-beneficiary_account_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "agent_endpoint_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-agent_endpoint_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "presentment_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-presentment_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "referrer_domain_age_days is non-negative or the sentinel",
+    "group": "structural",
+    "id": "F1-STR-AGE-referrer_domain_age_days",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a keyed/e-commerce CNP authorisation carries NO EMV cryptogram",
+    "group": "card",
+    "id": "F1-CARD-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "card-cnp-3ds",
+      "card-cnp-keyed",
+      "card-token-provisioning"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "card-cnp-keyed carries NO 3DS authentication result (it is the non-authenticated path)",
+    "group": "card",
+    "id": "F1-CARD-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "card-cnp-keyed"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "card-cnp-keyed carries no 3DS ECI band",
+    "group": "card",
+    "id": "F1-CARD-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "card-cnp-keyed"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an EMV cryptogram, when present, carries an application transaction counter",
+    "group": "card",
+    "id": "F1-CARD-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an EMV cryptogram, when present, carries an unpredictable number",
+    "group": "card",
+    "id": "F1-CARD-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a magstripe-fallback authorisation carries NO cryptogram (that is the downgrade)",
+    "group": "card",
+    "id": "F1-CARD-06",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "card-present rails carry NO 3DS block",
+    "group": "card",
+    "id": "F1-CARD-07",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "card-cp-emv"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "card-present rails do not request AVS or CVV2",
+    "group": "card",
+    "id": "F1-CARD-08",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "card-cp-emv"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a chip or contactless entry mode carries a cryptogram",
+    "group": "card",
+    "id": "F1-CARD-09",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "card-cp-emv"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "contactless_no_cvm carries cvm_result == none",
+    "group": "card",
+    "id": "F1-CARD-10",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a 3DS-authenticated ECI band implies a successful authentication result",
+    "group": "card",
+    "id": "F1-CARD-11",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a 3DS challenge result implies the challenge was requested (on the authorisation)",
+    "group": "card",
+    "id": "F1-CARD-12",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation",
+      "provisioning_request"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a populated 3DS block carries an ACS identifier (on the authorisation)",
+    "group": "card",
+    "id": "F1-CARD-13",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation",
+      "provisioning_request"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a token assurance level implies a token id",
+    "group": "card",
+    "id": "F1-CARD-14",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a token id implies a token requestor id",
+    "group": "card",
+    "id": "F1-CARD-15",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a card rail authorisation carries a PAN-canonical key",
+    "group": "card",
+    "id": "F1-CARD-16",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation"
+    ],
+    "rails": [
+      "card-cnp-3ds",
+      "card-cnp-keyed",
+      "card-cp-emv"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a card-present authorisation carries a terminal id",
+    "group": "card",
+    "id": "F1-CARD-17",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation"
+    ],
+    "rails": [
+      "card-cp-emv"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a first tokenised spend carries a provisioning-to-first-spend latency",
+    "group": "card",
+    "id": "F1-CARD-18",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation"
+    ],
+    "rails": [
+      "card-token-provisioning"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a provisioning request carries zero amount",
+    "group": "card",
+    "id": "F1-CARD-19",
+    "kind": "per-event",
+    "message_kinds": [
+      "provisioning_request"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "UPI rails carry NO card constructs (no cryptogram)",
+    "group": "upi",
+    "id": "F1-UPI-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "upi-autopay-mandate",
+      "upi-collect",
+      "upi-lite-offline",
+      "upi-pay"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "UPI rails carry NO 3DS block",
+    "group": "upi",
+    "id": "F1-UPI-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "upi-autopay-mandate",
+      "upi-collect",
+      "upi-lite-offline",
+      "upi-pay"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "UPI rails do not request AVS or CVV2",
+    "group": "upi",
+    "id": "F1-UPI-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "upi-autopay-mandate",
+      "upi-collect",
+      "upi-lite-offline",
+      "upi-pay"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a UPI PAY authorisation carries a payer VPA",
+    "group": "upi",
+    "id": "F1-UPI-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation"
+    ],
+    "rails": [
+      "upi-pay"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a UPI PAY authorisation carries a payee VPA",
+    "group": "upi",
+    "id": "F1-UPI-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation"
+    ],
+    "rails": [
+      "upi-pay"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a UPI PAY authorisation declares an initiation mode",
+    "group": "upi",
+    "id": "F1-UPI-06",
+    "kind": "per-event",
+    "message_kinds": [
+      "authorisation"
+    ],
+    "rails": [
+      "upi-pay"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a UPI Lite PAYER-SIDE leg uses the on-device-ledger entry mode, not `intent`",
+    "group": "upi",
+    "id": "F1-UPI-07",
+    "kind": "per-event",
+    "message_kinds": [
+      "lite_debit",
+      "lite_topup"
+    ],
+    "rails": [
+      "upi-lite-offline"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a UPI Lite PAYER-SIDE leg is PIN-free by design, so cvm_result is none",
+    "group": "upi",
+    "id": "F1-UPI-08",
+    "kind": "per-event",
+    "message_kinds": [
+      "lite_debit",
+      "lite_topup"
+    ],
+    "rails": [
+      "upi-lite-offline"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a collect response references its collect request",
+    "group": "upi",
+    "id": "F1-UPI-09",
+    "kind": "per-event",
+    "message_kinds": [
+      "collect_response"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an unaccepted collect response is not approved",
+    "group": "upi",
+    "id": "F1-UPI-10",
+    "kind": "per-event",
+    "message_kinds": [
+      "collect_response"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an accepted collect response carries a CVM (the PIN was entered)",
+    "group": "upi",
+    "id": "F1-UPI-11",
+    "kind": "per-event",
+    "message_kinds": [
+      "collect_response"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a collect request is not itself a debit, so it carries no CVM",
+    "group": "upi",
+    "id": "F1-UPI-12",
+    "kind": "per-event",
+    "message_kinds": [
+      "collect_request"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a credit transfer carries an end-to-end identifier",
+    "group": "a2a",
+    "id": "F1-A2A-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "credit_transfer"
+    ],
+    "rails": [
+      "a2a-credit-transfer"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a status report carries a status code and references its transfer",
+    "group": "a2a",
+    "id": "F1-A2A-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "credit_transfer_status"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a status code of ACSC implies approved and RJCT implies not approved",
+    "group": "a2a",
+    "id": "F1-A2A-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "credit_transfer_status"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a credit transfer carries a creditor name",
+    "group": "a2a",
+    "id": "F1-A2A-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "credit_transfer"
+    ],
+    "rails": [
+      "a2a-credit-transfer"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a mandate debit references a mandate id",
+    "group": "mandate",
+    "id": "F1-MND-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_debit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a mandate debit declares the stored cap",
+    "group": "mandate",
+    "id": "F1-MND-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_debit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an APPROVED mandate debit is within its envelope; an over-cap debit MUST be declined",
+    "group": "mandate",
+    "id": "F1-MND-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_debit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an over-cap debit carries the mandate-scope decline code",
+    "group": "mandate",
+    "id": "F1-MND-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_debit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a mandate debit is merchant-initiated",
+    "group": "mandate",
+    "id": "F1-MND-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_debit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a merchant-initiated debit has no cardholder present, so no CVM",
+    "group": "mandate",
+    "id": "F1-MND-06",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a mandate debit was pre-notified",
+    "group": "mandate",
+    "id": "F1-MND-07",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_debit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a mandate creation is cardholder-initiated",
+    "group": "mandate",
+    "id": "F1-MND-08",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_creation"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a mandate creation carries zero amount",
+    "group": "mandate",
+    "id": "F1-MND-09",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_creation"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a mandate debit occurs at or after its mandate's creation",
+    "group": "mandate",
+    "id": "F1-MND-10",
+    "kind": "per-event",
+    "message_kinds": [
+      "mandate_debit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an agent authorisation within mandate scope is not scope-declined",
+    "group": "mandate",
+    "id": "F1-MND-11",
+    "kind": "per-event",
+    "message_kinds": [
+      "agent_authorisation"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an agentic event declares the agentic indicator",
+    "group": "agentic",
+    "id": "F1-AGT-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "agentic-commerce"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an agentic event names an agent identity",
+    "group": "agentic",
+    "id": "F1-AGT-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "agentic-commerce"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "no consumer device is present, so no CVM and no cryptogram",
+    "group": "agentic",
+    "id": "F1-AGT-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "agentic-commerce"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an agent authorisation carries a quoted amount to compare against",
+    "group": "agentic",
+    "id": "F1-AGT-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "agent_authorisation"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an assisted withdrawal is biometric-verified",
+    "group": "aeps",
+    "id": "F1-AEPS-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "aeps-microatm"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an AePS event names a terminal",
+    "group": "aeps",
+    "id": "F1-AEPS-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "aeps-microatm"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "AePS terminates in cash, so there is NO beneficiary leg",
+    "group": "aeps",
+    "id": "F1-AEPS-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "aeps-microatm"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a balance enquiry carries zero amount",
+    "group": "aeps",
+    "id": "F1-AEPS-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "balance_enquiry"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "approved implies an approving response code",
+    "group": "response",
+    "id": "F1-RESP-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a declining or step-up response code implies not approved",
+    "group": "response",
+    "id": "F1-RESP-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an incumbent decline is not approved",
+    "group": "response",
+    "id": "F1-RESP-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "the logged accept probability is strictly inside (0, 1)",
+    "group": "response",
+    "id": "F1-RESP-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an event that reached the incumbent has a logged propensity",
+    "group": "response",
+    "id": "F1-RESP-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a decided event has a measured response latency",
+    "group": "response",
+    "id": "F1-RESP-06",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a step-up response occurs only on a rail with a step-up lever",
+    "group": "response",
+    "id": "F1-RESP-07",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an inbound credit names a beneficiary",
+    "group": "beneficiary",
+    "id": "F1-BEN-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "inbound_credit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an inbound credit references its payer leg",
+    "group": "beneficiary",
+    "id": "F1-BEN-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "inbound_credit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an inbound credit is approved (it landed)",
+    "group": "beneficiary",
+    "id": "F1-BEN-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "inbound_credit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an onward send names a beneficiary and references its credit",
+    "group": "beneficiary",
+    "id": "F1-BEN-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "onward_send"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a beneficiary leg only exists on a rail that has one",
+    "group": "beneficiary",
+    "id": "F1-BEN-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "inbound_credit",
+      "onward_send"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "dwell and onward-send latency agree (dwell/60 == minutes)",
+    "group": "beneficiary",
+    "id": "F1-BEN-06",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "fan-in degree is at least the distinct-payer count",
+    "group": "beneficiary",
+    "id": "F1-BEN-07",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a provisioning request names the token it provisions",
+    "group": "provisioning",
+    "id": "F1-PROV-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "provisioning_request"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a provisioning request declares its own provisioning event id",
+    "group": "provisioning",
+    "id": "F1-PROV-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "provisioning_request"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a chargeback carries a dispute reason code",
+    "group": "dispute",
+    "id": "F1-DSP-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "chargeback"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a chargeback carries a filing timestamp at or after the event",
+    "group": "dispute",
+    "id": "F1-DSP-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "chargeback"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "representment_won implies representment_filed",
+    "group": "dispute",
+    "id": "F1-DSP-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a dispute reason code appears only on a dispute-bearing message",
+    "group": "dispute",
+    "id": "F1-DSP-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a presentment carries a settlement amount",
+    "group": "clearing",
+    "id": "F1-CLR-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "presentment"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a presentment carries a non-negative age",
+    "group": "clearing",
+    "id": "F1-CLR-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "presentment"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "the auth-to-presentment ratio agrees with the two amounts",
+    "group": "clearing",
+    "id": "F1-CLR-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "presentment"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a refund credit records its refund amount",
+    "group": "clearing",
+    "id": "F1-CLR-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "refund_credit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "the refund amount equals the message amount",
+    "group": "clearing",
+    "id": "F1-CLR-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "refund_credit"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "an attack event names its campaign",
+    "group": "oracle",
+    "id": "F1-ORC-01",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a non-attack event carries no campaign id",
+    "group": "oracle",
+    "id": "F1-ORC-02",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a GRAMMAR-DRIVEN attack event names its grammar composition",
+    "group": "oracle",
+    "id": "F1-ORC-03",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "sealed_holdout implies an attack event",
+    "group": "oracle",
+    "id": "F1-ORC-04",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a HARD-BENIGN cohort event is NEVER an attack",
+    "group": "oracle",
+    "id": "F1-ORC-05",
+    "kind": "per-event",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "every derived message resolves to an antecedent authorisation",
+    "group": "pairing",
+    "id": "F1-PAIR-01",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "non-attack events only"
+  },
+  {
+    "description": "a derived message shares its antecedent's retrieval reference",
+    "group": "pairing",
+    "id": "F1-PAIR-02",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "non-attack events only"
+  },
+  {
+    "description": "a presentment resolves to an APPROVED authorisation",
+    "group": "pairing",
+    "id": "F1-PAIR-03",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a chargeback resolves to a presented authorisation",
+    "group": "pairing",
+    "id": "F1-PAIR-04",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "event ids are unique across the stream",
+    "group": "pairing",
+    "id": "F1-PAIR-05",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "a derived message's timestamp is strictly after its antecedent's",
+    "group": "pairing",
+    "id": "F1-PAIR-06",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "non-attack events only"
+  },
+  {
+    "description": "cumulative refunds do not exceed the original authorisation",
+    "group": "amount",
+    "id": "F1-AMT-01",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "non-attack events only"
+  },
+  {
+    "description": "a presentment settlement amount is within tolerance of its auth",
+    "group": "amount",
+    "id": "F1-AMT-02",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  },
+  {
+    "description": "the application transaction counter is monotone per card",
+    "group": "counter",
+    "id": "F1-ATC-01",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "non-attack events only"
+  },
+  {
+    "description": "beneficiary outflow never exceeds inflow",
+    "group": "beneficiary",
+    "id": "F1-BEN-08",
+    "kind": "stream",
+    "message_kinds": [
+      "all"
+    ],
+    "rails": [
+      "all"
+    ],
+    "scope": "all events"
+  }
+]

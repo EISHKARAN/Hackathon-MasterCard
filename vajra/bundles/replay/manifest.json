@@ -2,27 +2,27 @@
   "files": [
     {
       "name": "money.json",
-      "sha256": "ed7bfed5d4383956f0944e01eb549d65fce33180f3a6789f3bf995374190c144"
+      "sha256": "85c68bd2ea64b619d945332e72a34472b317e318a5149c442170950052b5bb78"
     },
     {
       "name": "loop_report.json",
-      "sha256": "d76cd36c63a9540efe77fcdf523f14437b65531a35185b0716eb4512dfe50842"
+      "sha256": "c892cdf28d5bd38ada3401bc2f74244cd3f607506794fc36dceb088b0195e568"
     },
     {
       "name": "metrics_issuer.json",
-      "sha256": "d86663874718dd9f3960ccf4a4f1e275ab6b68b02a71f7f4e9b4a144080aea4b"
+      "sha256": "7369a38742a44c462ca52244860b23525f49b7488501cd21c608271cba64ed52"
     },
     {
       "name": "archive_report.json",
-      "sha256": "44075f63e1b10b81e9e840649df88da7937ec9247f752bc619f977798c053c15"
+      "sha256": "b3514bbd35c280bfdfadcea98fd51a7cca79a703235a9adac524829242630d27"
     },
     {
       "name": "fidelity.json",
-      "sha256": "2f8f8dbcf41dc0f97e727d676429252442ba588c9a11985125837b656e93334e"
+      "sha256": "d3ab5120dae77450459cc639a83841f4724dc803e69f742c0820d903e1e1fd2d"
     },
     {
       "name": "fidelity.html",
-      "sha256": "1c961b55a0d5083ebbd3739edf061ebea6c5ed2285a9805b1205820a87c8bdd4"
+      "sha256": "023a5eee9f0b39a86c1e34c9453ecd710336a33328fb61b505c4fcb72a296354"
     },
     {
       "name": "grammar_census.json",
@@ -30,23 +30,23 @@
     },
     {
       "name": "bench.json",
-      "sha256": "5ad5d1cd7a5dd55504d73c0ac970a08295173d5e9a33d5a720a75eae8af0ae9f"
+      "sha256": "80e4a3e41f8ce2ec65cda721ef4649d0a48cb7d148d1dc2d7afa52bdb11dcce6"
     },
     {
       "name": "verify_register.json",
-      "sha256": "749d3afcb9ce1957209db873736ad5d8935e152104afd2a07b42e89ef26261c4"
+      "sha256": "8360a700952937107aba8b95be576e57c65a61650e1e6048320cbce69f7b8e69"
     },
     {
       "name": "duallog.json",
-      "sha256": "590992cdfcfdff1a278cfe1a4270982900bc3a3545847d41c400fb9e054f4767"
+      "sha256": "4a31de6ff0f80d10684ee9cea7ffcc5d464428ae8912447e0672385ba7f33073"
     },
     {
       "name": "report.md",
-      "sha256": "74b1fcb874febe30d042f2fad0593958ae93670df3817a260642ac3b0b31831d"
+      "sha256": "d9568e45ad2bf228697f35b1359e89b4b0d0950b718e35f419680d52b55b52d8"
     },
     {
       "name": "dual_use_reject_log.json",
-      "sha256": "14cc11160a970c83da4564a1810faff7d38a6832d7d2a7955f24e3bb7dd9eb02"
+      "sha256": "7f430197001830b922589ac8234d8b57a565e92a3ef304c6ccc1ede56c429dcc"
     }
   ],
   "missing": [],

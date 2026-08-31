@@ -126,20 +126,7 @@ class GateBundle:
 class ScoreBatch:
     """Batch scoring output. Arrays aligned to the input matrix's row order."""
 
-    #: The CALIBRATED probability. This is what the action table bands and what a cost matrix may
-    #: consume, because a cost matrix needs a probability.
     fused: np.ndarray
-    #: The PRE-CALIBRATION rank-fused score, at full resolution. THIS is what every RANKING metric
-    #: must use -- PR-AUC, ROC-AUC, recall@FPR, precision@k.
-    #:
-    #: Isotonic calibration is monotone, so in theory it preserves ordering and cannot change an
-    #: AUC. In practice it maps to a STEP FUNCTION: the issuer fit produced 26 breakpoints, so 2.67M
-    #: test rows collapsed onto ~26 distinct score values. Ranking inside a plateau is then
-    #: impossible, and PR-AUC -- which is precisely a statement about ranking resolution -- craters.
-    #: That single substitution is why the full stack scored PR-AUC 0.067 against a plain LightGBM
-    #: baseline's 0.225 on the same rows: we were not measuring a worse model, we were measuring a
-    #: quantised score.
-    fused_rank: np.ndarray
     bands: np.ndarray
     actions: np.ndarray
     conformal_p: np.ndarray
@@ -301,7 +288,7 @@ class Scorer:
             )
             lat = np.full(n, (time.perf_counter() - t0) * 1000.0 / max(n, 1))
             return ScoreBatch(
-                fused=fused, fused_rank=fused, bands=bands, actions=actions,
+                fused=fused, bands=bands, actions=actions,
                 conformal_p=np.ones(n), abstained=np.zeros(n, dtype=bool),
                 components={"g0": guard_refuse.astype(np.float64)},
                 guard_refuse=guard_refuse, guard_codes=guard_codes,
@@ -325,10 +312,7 @@ class Scorer:
         }
 
         # ---- fusion --------------------------------------------------------------------
-        # Computed as two steps rather than via `fusion.score()` so the full-resolution rank score
-        # survives for the ranking metrics instead of being discarded at the calibration step.
-        fused_rank = self.bundle.fusion.combine(components)
-        fused = self.bundle.fusion.calibrator.transform(fused_rank)
+        fused = self.bundle.fusion.score(components)
 
         # ---- abstention (PRICED, not free) ---------------------------------------------
         abstained = p_conf <= self.conformal_alpha
@@ -354,7 +338,7 @@ class Scorer:
         elapsed_ms = (time.perf_counter() - t0) * 1000.0
         lat = np.full(n, elapsed_ms / max(n, 1), dtype=np.float64)
         return ScoreBatch(
-            fused=fused, fused_rank=fused_rank, bands=bands, actions=actions, conformal_p=p_conf,
+            fused=fused, bands=bands, actions=actions, conformal_p=p_conf,
             abstained=abstained, components=components, guard_refuse=guard_refuse,
             guard_codes=guard_codes, reason_codes=reason_codes, latency_ms=lat,
         )

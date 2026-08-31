@@ -1,0 +1,23 @@
+{
+  "prompt": "You are composing a payment-fraud ATTACK COMPOSITION for a DEFENSIVE red-team archive.\n\nOUTPUT FORMAT \u2014 JSON only, no prose outside it:\n  {\"grammar_str\": \"ACCESS=.../TRUST=.../RAIL=.../EVASION=.../MONETISATION=.../LABEL=...\",\n   \"stages\": [\"...\"], \"expected_signatures\": [\"schema_field_name\", ...],\n   \"arm\": {\"amount_band\": \"...\", \"fan_out\": 3}, \"rationale\": \"one sentence\"}\n\"\nHARD CONSTRAINTS:\n  * Use ONLY the morpheme values listed below. Inventing one is a failure.\n  * `expected_signatures` must be FIELD NAMES from the canonical payment schema.\n  * Emit NO tradecraft, NO procedures, NO code, NO real identifiers, NO persuasive copy.\n    The unit of content is a kill-chain SHAPE and a set of OBSERVABLE SIGNATURES.\n  * You may use only the escape-region description below. You have no model internals.\n\nMORPHEME VOCABULARIES:\n  ACCESS: stolen-credential, enumerated-credential, synthetic-identity, authorised-but-deceived-payer, account-takeover, merchant-onboarding-fraud, delegated-agent-mandate, first-party-misuse\n  TRUST: tokenised, threeds-authenticated, mandated, cdcvm, agent-attested, kyc-passed, aged-account\n  RAIL: card-cnp-3ds, card-cnp-keyed, card-cp-emv, card-clearing-dispute, card-token-provisioning, upi-pay, upi-collect, upi-autopay-mandate, a2a-credit-transfer, upi-lite-offline, aeps-microatm, agentic-commerce\n  EVASION: velocity-splitting, threshold-hugging, trust-inheritance, graph-camouflage, label-attack, oracle-probing, low-visibility-rail, cohort-splitting\n  MONETISATION: goods-resale, mule-chain-cashout, biller-giftcard-resale, merchant-settlement, credit-line-drawdown, refund-chargeback-recovery, crypto-offramp\n  LABEL: victim-complains, victim-blames-self, never-labelled, label-poisoned, label-delayed\n\nTARGET ARCHIVE CELL: a2a-assisted|authorised-but-deceived-victim|cohort-splitting|d2\nPARENT COMPOSITION: ACCESS=authorised-but-deceived-payer/TRUST=kyc-passed/RAIL=aeps-microatm/EVASION=cohort-splitting/MONETISATION=mule-chain-cashout/LABEL=never-labelled\nDETECTOR ESCAPE REGION (plain English, from the Gap Miner):\n  no prior escape region (first tick): targeting under-occupied feasible cells\nSIGNATURES THE REGION IS EXPRESSED OVER: (none)\n",
+  "response": {
+    "grammar_str": "ACCESS=authorised-but-deceived-payer/TRUST=aged-account/RAIL=a2a-credit-transfer/EVASION=cohort-splitting/MONETISATION=refund-chargeback-recovery/LABEL=victim-complains",
+    "stages": [
+      "recon",
+      "establish"
+    ],
+    "expected_signatures": [
+      "onboarding_batch_timing_cluster",
+      "device_os_entropy_collapse",
+      "asn_reuse_rate",
+      "fingerprint_collision_degree",
+      "refund_without_original_auth",
+      "credit_to_debit_ratio_per_acceptor"
+    ],
+    "arm": {
+      "amount_band": "micro",
+      "fan_out": 3
+    },
+    "rationale": "heuristic variation: selected a type-legal composition for the target cell whose EVASION morpheme's declared signatures overlap the escape region"
+  }
+}

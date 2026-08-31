@@ -1,0 +1,579 @@
+{
+  "arms": [
+    {
+      "combine_rule": "weighted arithmetic mean of ECDF ranks",
+      "name": "current",
+      "reason": "the shipped DEFAULT_WEIGHTS. The baseline every other arm must beat.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.21716563822450824,
+          "precision_at_k": 0.6666666666666666,
+          "realised_fpr": 0.0008445945945945946,
+          "recall_at_target_fpr": 0.026254569624459954,
+          "roc_auc": 0.6029073238440203
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.21749507220160558,
+          "precision_at_k": 0.6666666666666666,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.028580923894981722,
+          "roc_auc": 0.6029053220849543
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.08165690912389731,
+          "precision_at_k": 0.17628705148205928,
+          "realised_fpr": 0.0005270896225421295,
+          "recall_at_target_fpr": 0.0864727175224561,
+          "roc_auc": 0.7002902364992328
+        },
+        "distinct_calibrated_values": 2115271,
+        "n_breakpoints": 29,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.08423802203225189,
+          "precision_at_k": 0.17628705148205928,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.11502882423917415,
+          "roc_auc": 0.7002952665829357
+        }
+      },
+      "weights": {
+        "g1": 0.62,
+        "g2_conformal": 0.1,
+        "g2_density": 0.06,
+        "gate_b": 0.12,
+        "sketch": 0.1
+      }
+    },
+    {
+      "combine_rule": "weighted arithmetic mean of ECDF ranks",
+      "name": "g1_only",
+      "reason": "IMPLEMENTS THE MODULE'S OWN DOCSTRING. gate/fusion.py:43-53 argues that G1 is the only supervised channel, that letting the unsupervised channels hold a majority of the score means the ranking is decided by channels that have never seen a label, and that their real work is the SEPARATE abstention path. The code then hands them 0.38. This arm needs no label-based justification: it is the stated design.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.36606011203207567,
+          "precision_at_k": 0.8333333333333334,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.1751412429378531,
+          "roc_auc": 0.6213442856589075
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.36606011203207567,
+          "precision_at_k": 0.8333333333333334,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.1751412429378531,
+          "roc_auc": 0.6213442856589075
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.35150416849878985,
+          "precision_at_k": 0.9953198127925117,
+          "realised_fpr": 0.0009977456666536242,
+          "recall_at_target_fpr": 0.31405014076954013,
+          "roc_auc": 0.7218552055623577
+        },
+        "distinct_calibrated_values": 623207,
+        "n_breakpoints": 30,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.35150417226586983,
+          "precision_at_k": 0.9953198127925117,
+          "realised_fpr": 0.0009977456666536242,
+          "recall_at_target_fpr": 0.31405014076954013,
+          "roc_auc": 0.7218551657282257
+        }
+      },
+      "weights": {
+        "g1": 1.0,
+        "g2_conformal": 0.0,
+        "g2_density": 0.0,
+        "gate_b": 0.0,
+        "sketch": 0.0
+      }
+    },
+    {
+      "combine_rule": "weighted arithmetic mean of ECDF ranks",
+      "name": "drop_dead_channels",
+      "reason": "Zeroes only the two channels that are DEFECTIVE rather than merely weak, on evidence that requires no tuning. `gate_b` is identically constant on this view: _gate_b_component (gate/scorer.py:245-256) returns zeros when none of its five beneficiary features is present, and they are among the 73 features ABSENT at the issuer view -- hence ROC-AUC exactly 0.5000. `sketch` is ANTI-predictive at full scale (ROC-AUC 0.3632), so its 0.10 actively inverts ordering. Between them they hold 0.22 of the weight. Keeps the shipped ratio among the surviving channels.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.31323355543448134,
+          "precision_at_k": 1.0,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.045862412761714856,
+          "roc_auc": 0.6198806230667883
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.31323355543448134,
+          "precision_at_k": 1.0,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.045862412761714856,
+          "roc_auc": 0.6198806230667883
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.17585172522964143,
+          "precision_at_k": 0.6443057722308893,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.16087947446038342,
+          "roc_auc": 0.7198923795160759
+        },
+        "distinct_calibrated_values": 1852757,
+        "n_breakpoints": 94,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.18653899841241559,
+          "precision_at_k": 0.8049921996879875,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.16087947446038342,
+          "roc_auc": 0.7199296352234045
+        }
+      },
+      "weights": {
+        "g1": 0.62,
+        "g2_conformal": 0.1,
+        "g2_density": 0.06,
+        "gate_b": 0.0,
+        "sketch": 0.0
+      }
+    },
+    {
+      "combine_rule": "weighted arithmetic mean of ECDF ranks",
+      "name": "g1_conformal_90_10",
+      "reason": "Does the second-strongest channel (PR-AUC 0.2753) add anything at a weight small enough that it cannot reorder the top-k? k/n = 2.4e-4 << 0.10, so this is a real question, not a rhetorical one.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.36312961743310185,
+          "precision_at_k": 0.8333333333333334,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.17082087072116983,
+          "roc_auc": 0.6214307158538609
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.36312961743310185,
+          "precision_at_k": 0.8333333333333334,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.17082087072116983,
+          "roc_auc": 0.6214307010807313
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.3509071483705859,
+          "precision_at_k": 0.982839313572543,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.3167984984582384,
+          "roc_auc": 0.7207660508775683
+        },
+        "distinct_calibrated_values": 1675991,
+        "n_breakpoints": 26,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.35090715208475376,
+          "precision_at_k": 0.982839313572543,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.3167984984582384,
+          "roc_auc": 0.7207659916244545
+        }
+      },
+      "weights": {
+        "g1": 0.9,
+        "g2_conformal": 0.1,
+        "g2_density": 0.0,
+        "gate_b": 0.0,
+        "sketch": 0.0
+      }
+    },
+    {
+      "combine_rule": "weighted arithmetic mean of ECDF ranks",
+      "name": "g1_conformal_75_25",
+      "reason": "The two channels have near-identical ROC-AUC (0.7234 vs 0.7233) but differ in PR-AUC, which means they disagree about the TAIL. If the disagreement is complementary this arm wins; if conformal is a noisier copy of G1 it loses.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.3580500758440807,
+          "precision_at_k": 0.8333333333333334,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.1638418079096045,
+          "roc_auc": 0.6213931330120591
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.35805068306245375,
+          "precision_at_k": 0.8333333333333334,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.1638418079096045,
+          "roc_auc": 0.6213931403986239
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.3450326173715261,
+          "precision_at_k": 0.9797191887675507,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.31203914733878535,
+          "roc_auc": 0.7196809148753871
+        },
+        "distinct_calibrated_values": 1474918,
+        "n_breakpoints": 39,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.34503351310743763,
+          "precision_at_k": 0.9797191887675507,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.31203914733878535,
+          "roc_auc": 0.7196810321458611
+        }
+      },
+      "weights": {
+        "g1": 0.75,
+        "g2_conformal": 0.25,
+        "g2_density": 0.0,
+        "gate_b": 0.0,
+        "sketch": 0.0
+      }
+    },
+    {
+      "combine_rule": "weighted arithmetic mean of ECDF ranks",
+      "name": "equal",
+      "reason": "The equal-weight ablation arm. gate/fusion.py:57 claims `eval/ablations.py` publishes this; that file DOES NOT EXIST (eval/ablations/ is an empty directory), so the claim has never been true. Including it here makes the citation honest.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.17248640816479974,
+          "precision_at_k": 0.3333333333333333,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.0036556995679627785,
+          "roc_auc": 0.5791816037780447
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.17249804361564694,
+          "precision_at_k": 0.3333333333333333,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.0036556995679627785,
+          "roc_auc": 0.5791814708198779
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.03159804747576514,
+          "precision_at_k": 0.0686427457098284,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.01233409304196273,
+          "roc_auc": 0.66259948260858
+        },
+        "distinct_calibrated_values": 1543698,
+        "n_breakpoints": 25,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.03171318812809135,
+          "precision_at_k": 0.0686427457098284,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.01233409304196273,
+          "roc_auc": 0.6618581764991035
+        }
+      },
+      "weights": {
+        "g1": 1.0,
+        "g2_conformal": 1.0,
+        "g2_density": 1.0,
+        "gate_b": 1.0,
+        "sketch": 1.0
+      }
+    },
+    {
+      "combine_rule": "weighted Fisher combination of one-sided empirical p-values (-log(1-rank))",
+      "name": "fisher_current_weights",
+      "reason": "WEIGHTED FISHER COMBINATION at the shipped weights: -log(1-rank) instead of rank. Attacks the pathology at its cause rather than by muting channels -- a weak channel keeps its weight but can only spend it near its OWN extreme, so it can no longer reorder G1's top-k from the middle of its distribution. Parameter-free (Fisher 1932), fits nothing, so the no-tuning position survives.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.36511919840976115,
+          "precision_at_k": 1.0,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.17048853439680958,
+          "roc_auc": 0.6210758431202362
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.36512073854142824,
+          "precision_at_k": 1.0,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.17048853439680958,
+          "roc_auc": 0.6210758283471066
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.33435569278928795,
+          "precision_at_k": 0.9453978159126365,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.3104303525941815,
+          "roc_auc": 0.712959824970873
+        },
+        "distinct_calibrated_values": 1976045,
+        "n_breakpoints": 60,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.33539589866811276,
+          "precision_at_k": 0.9485179407176287,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.3104303525941815,
+          "roc_auc": 0.7134364398682318
+        }
+      },
+      "weights": {
+        "g1": 0.62,
+        "g2_conformal": 0.1,
+        "g2_density": 0.06,
+        "gate_b": 0.12,
+        "sketch": 0.1
+      }
+    },
+    {
+      "combine_rule": "weighted Fisher combination of one-sided empirical p-values (-log(1-rank))",
+      "name": "fisher_drop_dead",
+      "reason": "Fisher combination AND the two defective channels zeroed. The tail transform cannot rescue a channel that is constant (gate_b) or inverted (sketch); it only stops them reordering from mid-distribution.",
+      "stats": {
+        "bands": {
+          "collapsed_rails": [],
+          "n_collapsed_rails": 0,
+          "ok": true
+        },
+        "calibrated": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.36726808960123514,
+          "precision_at_k": 1.0,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.17347956131605186,
+          "roc_auc": 0.6219432031076046
+        },
+        "rank": {
+          "degenerate": false,
+          "n": 25505,
+          "n_pos": 3009,
+          "pr_auc": 0.367280102086036,
+          "precision_at_k": 1.0,
+          "realised_fpr": 0.0009779516358463726,
+          "recall_at_target_fpr": 0.17347956131605186,
+          "roc_auc": 0.6219429667375305
+        }
+      },
+      "test": {
+        "calibrated": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.3244594631977521,
+          "precision_at_k": 0.8330733229329174,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.3104303525941815,
+          "roc_auc": 0.7251004691811195
+        },
+        "distinct_calibrated_values": 1845178,
+        "n_breakpoints": 63,
+        "rank": {
+          "degenerate": false,
+          "n": 2672910,
+          "n_pos": 14918,
+          "pr_auc": 0.32641816089011716,
+          "precision_at_k": 0.8533541341653667,
+          "realised_fpr": 0.0009996267859346455,
+          "recall_at_target_fpr": 0.3104303525941815,
+          "roc_auc": 0.7252699647997637
+        }
+      },
+      "weights": {
+        "g1": 0.62,
+        "g2_conformal": 0.1,
+        "g2_density": 0.06,
+        "gate_b": 0.0,
+        "sketch": 0.0
+      }
+    }
+  ],
+  "channel_saturation_test": {
+    "channels": {
+      "g1": {
+        "max_tail_value": 6.907755278982137,
+        "n": 2672910,
+        "n_distinct_ranks": 624434,
+        "share_at_rank_1": 7.482481639860676e-07
+      },
+      "g2_conformal": {
+        "max_tail_value": 6.907755278982137,
+        "n": 2672910,
+        "n_distinct_ranks": 610716,
+        "share_at_rank_1": 1.870620409965169e-06
+      },
+      "g2_density": {
+        "max_tail_value": 6.907755278982137,
+        "n": 2672910,
+        "n_distinct_ranks": 177186,
+        "share_at_rank_1": 0.0006449899173559903
+      },
+      "gate_b": {
+        "max_tail_value": 6.907755278982137,
+        "n": 2672910,
+        "n_distinct_ranks": 1,
+        "share_at_rank_1": 0.0
+      },
+      "sketch": {
+        "max_tail_value": 6.907755278982137,
+        "n": 2672910,
+        "n_distinct_ranks": 9001,
+        "share_at_rank_1": 0.0
+      }
+    },
+    "tail_eps": 0.001
+  },
+  "gap_attribution_test_pr_auc": {
+    "attributable_to_calibration": 0.0025811129083545825,
+    "attributable_to_weights": 0.26726615023361794,
+    "chosen_rank": 0.35150417226586983,
+    "g1_alone": 0.3515669915594999,
+    "shipped_calibrated": 0.08165690912389731,
+    "shipped_rank": 0.08423802203225189
+  },
+  "generator": "vajra-sim",
+  "reference_g1_alone_test": {
+    "degenerate": false,
+    "n": 2672910,
+    "n_pos": 14918,
+    "pr_auc": 0.3515669915594999,
+    "precision_at_k": 0.9953198127925117,
+    "realised_fpr": 0.0009996267859346455,
+    "recall_at_target_fpr": 0.31431827322697414,
+    "roc_auc": 0.7218551613022111
+  },
+  "reportable": {
+    "is_reportable": false,
+    "why": "no baseline replica, no leakage suite, no confidence intervals. Run `make eval` after committing an arm."
+  },
+  "selection": {
+    "best_arm_on_test_for_reference_only": "g1_only",
+    "chosen": "g1_only",
+    "committed": "g1_only",
+    "committed_arm_was_selected_by_protocol": true,
+    "criterion": "PR-AUC on the pre-calibration rank axis",
+    "min_stats_positives_required": 200,
+    "n_stats_visible_positives": 3009,
+    "stats_selection_agrees_with_test": true,
+    "why": "highest stats-window PR-AUC on the rank axis (0.3661 vs best 0.3673) over 3,009 visible positives; 3 arms were within 1% of the best (g1_only, fisher_drop_dead, fisher_current_weights) and the SIMPLICITY tiebreak chose this one",
+    "window": "stats (point-in-time labels at stats_end, sealed entities excluded)"
+  },
+  "view": "issuer"
+}

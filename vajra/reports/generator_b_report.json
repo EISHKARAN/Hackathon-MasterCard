@@ -1,0 +1,16 @@
+{
+  "events_logical_hash": "06f9c87c7e69351303be05358533696d",
+  "f1": {
+    "passed": true,
+    "violations": 0
+  },
+  "generator": "generator-b",
+  "n_attack": 2674,
+  "n_events": 539120,
+  "rails": [
+    "card-cnp-keyed",
+    "upi-pay"
+  ],
+  "scope_note": "card-CNP + UPI-PAY ONLY, independently authored. Different amount law (mixture-of-Gaussians vs the main sim's lognormal-with-atoms), different diurnal shape (two-state HMM vs von Mises), disjoint identifier space, NOT grammar-driven. The only shared thing is sim/schema.py -- same contract, independent construction.",
+  "what_it_replaces": "the cross-generator arm of F2 and the artifact-independence check. NOT a second full-rail simulator; a second full-rail generator is not a two-day job."
+}

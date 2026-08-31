@@ -1,0 +1,62 @@
+{
+  "abstention": {
+    "attack": 0.47720874111811235,
+    "benign": 0.054761639613663246
+  },
+  "component:g1": {
+    "lift_over_base_rate": 62.80649846860451,
+    "pr_auc": 0.3505345650076666,
+    "realised_fpr": 0.0009996267859346455,
+    "recall_at_target_fpr": 0.3133127765115967,
+    "roc_auc": 0.7233981266066895
+  },
+  "component:g2_conformal": {
+    "lift_over_base_rate": 49.32074463635767,
+    "pr_auc": 0.2752681042329086,
+    "realised_fpr": 0.000998874338222237,
+    "recall_at_target_fpr": 0.23803458908700897,
+    "roc_auc": 0.7233220826686926
+  },
+  "component:g2_density": {
+    "lift_over_base_rate": 1.4856360352249487,
+    "pr_auc": 0.008291606665950513,
+    "realised_fpr": 0.0009996267859346455,
+    "recall_at_target_fpr": 0.001474728515886848,
+    "roc_auc": 0.6404263085160846
+  },
+  "component:gate_b": {
+    "lift_over_base_rate": 1.0,
+    "pr_auc": 0.005581183055172079,
+    "realised_fpr": 1.0,
+    "recall_at_target_fpr": 1.0,
+    "roc_auc": 0.5
+  },
+  "component:sketch": {
+    "lift_over_base_rate": 0.7807126548679587,
+    "pr_auc": 0.0043573002403074585,
+    "realised_fpr": 0.0001858545849648908,
+    "recall_at_target_fpr": 0.0003351655717924655,
+    "roc_auc": 0.3631957533446192
+  },
+  "fused_calibrated": {
+    "lift_over_base_rate": 62.781527940753335,
+    "pr_auc": 0.3503951999207449,
+    "realised_fpr": 0.0009992505620784412,
+    "recall_at_target_fpr": 0.3133127765115967,
+    "roc_auc": 0.721030270965014
+  },
+  "precision_at_k": {
+    "ci_hi": 0.9997245575763449,
+    "ci_lo": 0.9912166904765065,
+    "hits": 640,
+    "k_effective": 641,
+    "k_provenance": "staffed alert budget from config/ops.yaml",
+    "k_requested": 641,
+    "note": "k is DERIVED from staffing in config/ops.yaml, never chosen to flatter a curve. Alerts above review capacity are not alerts, they are a backlog.",
+    "precision_at_k": 0.9984399375975039
+  },
+  "reportable": {
+    "is_reportable": false,
+    "why": "quick-eval omits the baseline replica, the leakage suite, the ablation and all confidence intervals. Use `make eval` for any number that leaves the building."
+  }
+}

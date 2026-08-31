@@ -1,0 +1,166 @@
+{
+  "findings": [
+    {
+      "control": "commit_order_audit",
+      "detail": "not a git repository, so commit order cannot be verified. This is reported as a SKIP rather than a PASS: the sealing claim rests on `git log`, and without a repo there is no evidence either way.",
+      "evidence": {
+        "how_to_make_it_real": "git init; git add grammar/ config/ docs/ sim/schema.py; git commit -m 'grammar + sealed manifest, before any modelling'; then git add features/ gate/ and commit separately. See README section 'Making the seal real'."
+      },
+      "level": "simulator",
+      "status": "SKIPPED-UNVERIFIABLE"
+    },
+    {
+      "control": "rng_stream_audit",
+      "detail": "all 24 families derive distinct KDF-derived RNG streams",
+      "evidence": {
+        "n_distinct_seeds": 24,
+        "n_families": 24,
+        "why": "Separate streams are what make adding a training campaign unable to shift a held-out family's draws. With one global generator, 'held out' would silently become 'generated from a state the training data determined'."
+      },
+      "level": "simulator",
+      "status": "PASS"
+    },
+    {
+      "control": "label_time_audit",
+      "detail": "every resolved label arrived within the window and after its own event",
+      "evidence": {
+        "max_as_of_ts": 1773995182.2133906,
+        "n_backwards_labels": 0,
+        "n_future_labels": 0,
+        "n_resolved": 2478,
+        "n_rows": 51211,
+        "window_end_ts": 1774001395.6330707
+      },
+      "level": "label",
+      "status": "PASS"
+    },
+    {
+      "control": "entity_audit",
+      "detail": "43+ entity ids are shared between the training rows and holdout-family rows across 3 key types",
+      "evidence": {
+        "keys_checked": [
+          "beneficiary_id",
+          "campaign_id",
+          "cardholder_id",
+          "device_fingerprint_id"
+        ],
+        "n_holdout_rows": 87,
+        "n_train_rows": 28117,
+        "shared_sample": {
+          "beneficiary_id": [
+            "BENX0000031427",
+            "BENX0000031433",
+            "BENX0000036721"
+          ],
+          "cardholder_id": [
+            "CH0000014",
+            "CH0000061",
+            "CH0000076",
+            "CH0000080",
+            "CH0000092",
+            "CH0000112",
+            "CH0000123",
+            "CH0000138",
+            "CH0000159",
+            "CH0000176",
+            "CH0000178",
+            "CH0000188",
+            "CH0000208",
+            "CH0000211",
+            "CH0000225",
+            "CH0000243",
+            "CH0000254",
+            "CH0000257",
+            "CH0000258",
+            "CH0000277"
+          ],
+          "device_fingerprint_id": [
+            "DEV00000025",
+            "DEV00000034",
+            "DEV00000104",
+            "DEV00000131",
+            "DEV00000136",
+            "DEV00000151",
+            "DEV00000183",
+            "DEV00000207",
+            "DEV00000236",
+            "DEV00000270",
+            "DEV00000293",
+            "DEV00000295",
+            "DEV00000315",
+            "DEV00000344",
+            "DEV00000351",
+            "DEV00000372",
+            "DEV00000373",
+            "DEV00000401",
+            "DEV00000420",
+            "DEV00000423"
+          ]
+        },
+        "why_it_matters": "Withholding the label while training on the same device node is not a holdout. The aggregate carries the information even when no row crosses the boundary."
+      },
+      "level": "aggregate",
+      "status": "FAIL"
+    },
+    {
+      "control": "statistic_fit_audit",
+      "detail": "cohort baselines, quantile edges and cold-start priors were fitted causally on the training window with holdout-family rows excluded",
+      "evidence": {
+        "exclusions_note": "The features listed above are structural graph or modal-comparison properties rather than time series. They are NOT strictly point-in-time, and the exclusion is listed here so it is auditable rather than discovered.",
+        "reference_stats": {
+          "causality_note": "Fitted on the TRAINING WINDOW ONLY with holdout-family rows excluded, then frozen and applied forward. eval/leakage/statistic_fit.py asserts it.",
+          "fitted_on_n_rows": 28117,
+          "fitted_window_end_ts": 1773071329.4009957,
+          "global_prior_rate": 0.09097859327217125,
+          "holdout_rows_excluded": 49,
+          "modal_inter_arrival_log": 7.707828696017011,
+          "n_bin_priors": 8,
+          "n_cohort_priors": 17,
+          "n_geo_priors": 7,
+          "n_mcc_medians": 24
+        },
+        "strict_causality_exclusions": {
+          "acceptor_descriptor_mismatch": "compares against the acceptor's MODAL descriptor over its history",
+          "sketch_address_node_density": "structural graph property, not a time series",
+          "sketch_device_shared_entity_count": "structural graph property, not a time series",
+          "sketch_fingerprint_collision_degree": "structural graph property, not a time series",
+          "traffic_geo_vs_registered_geo": "compares against the acceptor's MODAL geo cell over its history",
+          "txn_note_template_score": "compares against the payee's MODAL transaction note"
+        },
+        "train_boundary_ts": 1773071339.5583777
+      },
+      "level": "statistic",
+      "status": "PASS"
+    },
+    {
+      "control": "leakage_linter",
+      "detail": "no feature name, detector config or rule string references a held-out family id",
+      "evidence": {
+        "hits": [],
+        "n_features_scanned": 388,
+        "tokens_checked": [
+          "SEALED-01",
+          "SEALED-02",
+          "SEALED-03",
+          "SEALED-04",
+          "SEALED-05",
+          "SEALED-06",
+          "SEALED-07",
+          "SEALED-08",
+          "SEALED-09",
+          "SEALED-10",
+          "SEALED-11",
+          "SEALED-12",
+          "low-visibility-rail"
+        ]
+      },
+      "level": "feature",
+      "status": "PASS"
+    }
+  ],
+  "n_controls": 6,
+  "n_failed": 1,
+  "n_skipped_unverifiable": 1,
+  "passed": false,
+  "policy": "Any FAIL fails the build. A SKIPPED-UNVERIFIABLE is reported as a skip and never counted as a pass \u2014 a pass we did not earn would be the most misleading line in the whole report."
+}

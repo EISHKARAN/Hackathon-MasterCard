@@ -1,0 +1,21 @@
+{
+  "design_only_by_group": {
+    "app_sdk": 1,
+    "consortium": 4,
+    "loop_telemetry": 4,
+    "mechanism_covered": 2,
+    "ops_telemetry": 9,
+    "outside_personae": 27,
+    "refused_by_policy": 12,
+    "tier_b_thin": 4
+  },
+  "design_only_meaning": "REAL observables that belong in the taxonomy and that we do not build. Every entry carries a reason, grouped by WHY: refused_by_policy (no deepfake / voice / document forensics / narrative embeddings, ever), outside_personae (held by nobody in GATE-I or GATE-B), consortium, ops_telemetry and loop_telemetry (measured as report series rather than as per-event features), tier_b_thin (no message-level fidelity claim), app_sdk, and mechanism_covered (the attack IS detectable through what we build; this exact statistic is not one of our columns).",
+  "n_aliases": 63,
+  "n_design_only": 63,
+  "n_distinct_signatures": 236,
+  "n_feature": 115,
+  "n_schema": 58,
+  "n_unknown": 0,
+  "policy": "Only `schema` and `feature` count toward the >= 3 admission criterion. A composition whose signatures are ALL design-only cannot be archived, which is what stops the design-only tier from being a loophole. An `unknown` fails the build.",
+  "unknown": []
+}

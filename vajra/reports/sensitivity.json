@@ -1,0 +1,35 @@
+{
+  "coverage_all_range": [
+    0.12631578947368421,
+    0.12631578947368421
+  ],
+  "coverage_solvent_range": [
+    0.1,
+    0.12631578947368421
+  ],
+  "note": "The attacker cost constants are STIPULATED GUESSES. Coverage is reported AS A RANGE across the 0.33x/1x/3x mule-cost sweep because the constants shape the archive; the solvent-only range shows how many cells' attacks stop being economically viable as mule cost rises. Ruin is a flag, never a deletion, so cells persist and a number moves instead of a cell emptying.",
+  "reduced_form_caveat": "This re-prices the seed population at each multiplier rather than re-running sim+train+eval three times (the hours-scale full path). It shows the direction and magnitude of the economic sensitivity, which is the sweep's purpose.",
+  "sweep": [
+    {
+      "coverage_all": 0.12631578947368421,
+      "coverage_solvent": 0.12631578947368421,
+      "mule_multiplier": 0.33,
+      "occupied_cells": 48,
+      "solvent_elites": 48
+    },
+    {
+      "coverage_all": 0.12631578947368421,
+      "coverage_solvent": 0.12105263157894737,
+      "mule_multiplier": 1.0,
+      "occupied_cells": 48,
+      "solvent_elites": 46
+    },
+    {
+      "coverage_all": 0.12631578947368421,
+      "coverage_solvent": 0.1,
+      "mule_multiplier": 3.0,
+      "occupied_cells": 48,
+      "solvent_elites": 38
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "families": [
+    {
+      "cells": [
+        "card-auth|stolen-credential|trust-inheritance|d2"
+      ],
+      "depth": 2,
+      "id": "SEALED-01",
+      "label": "Frictionless-path gaming on authenticated card CNP",
+      "n_members": 128,
+      "pattern": {
+        "ACCESS": "stolen-credential",
+        "EVASION": "trust-inheritance",
+        "RAIL": "card-cnp-3ds"
+      },
+      "rationale": "The highest-value card family and the one whose whole mechanism is that successful cases carry AUTHENTICATED indicators. If the detector cannot generalise here, the trust-envelope feature family is decoration.",
+      "related_seed": "ATK-C4"
+    },
+    {
+      "cells": [
+        "card-auth|stolen-credential|oracle-probing|d3"
+      ],
+      "depth": 3,
+      "id": "SEALED-02",
+      "label": "Response-oracle probing on keyed CNP",
+      "n_members": 56,
+      "pattern": {
+        "ACCESS": "enumerated-credential",
+        "EVASION": "oracle-probing",
+        "RAIL": "card-cnp-keyed"
+      },
+      "rationale": "Tests whether the sequence-artefact features (retry chains, decline-reason entropy, AVS trajectory) generalise, since the oracle behaviour is a sequence property only and no per-event feature can see it.",
+      "related_seed": "ATK-C1"
+    },
+    {
+      "cells": [
+        "card-token|stolen-credential|graph-camouflage|d2"
+      ],
+      "depth": 2,
+      "id": "SEALED-03",
+      "label": "Token-graph fragmentation across requestors",
+      "n_members": 64,
+      "pattern": {
+        "ACCESS": "stolen-credential",
+        "EVASION": "graph-camouflage",
+        "RAIL": "card-token-provisioning"
+      },
+      "rationale": "The canonical PAN-canonical-aggregation family. Sealed because it is also the family the visibility ablation hurts most -- an acquirer or PSP holds no token-to-PAN map -- so the sealed result and the ablation result read against each other.",
+      "related_seed": "ATK-T2"
+    },
+    {
+      "cells": [
+        "a2a-assisted|authorised-but-deceived-victim|graph-camouflage|d3"
+      ],
+      "depth": 3,
+      "id": "SEALED-04",
+      "label": "Authorised push under coercion, corporate/A2A shape",
+      "n_members": 45,
+      "pattern": {
+        "ACCESS": "authorised-but-deceived-payer",
+        "EVASION": "graph-camouflage",
+        "RAIL": "a2a-credit-transfer"
+      },
+      "rationale": "The loss category that dominates India and the one with NO payer-side artefact at all. This is the family that tests whether GATE-B's beneficiary prior actually carries GATE-I.",
+      "related_seed": "ATK-U1"
+    },
+    {
+      "cells": [
+        "upi-realtime|authorised-but-deceived-victim|graph-camouflage|d3"
+      ],
+      "depth": 3,
+      "id": "SEALED-05",
+      "label": "QR-overlay / payee substitution on UPI PAY",
+      "n_members": 98,
+      "pattern": {
+        "ACCESS": "authorised-but-deceived-payer",
+        "EVASION": "graph-camouflage",
+        "RAIL": "upi-pay"
+      },
+      "rationale": "Sealed to test the beneficiary-age and geohash-density features on the rail that carries the most volume, where the merchant who loses the revenue is not the complainant.",
+      "related_seed": "ATK-U3"
+    },
+    {
+      "cells": [
+        "upi-realtime|synthetic-identity|cohort-splitting|d2"
+      ],
+      "depth": 2,
+      "id": "SEALED-06",
+      "label": "Onboarding-cohort flood into mule supply",
+      "n_members": 50,
+      "pattern": {
+        "ACCESS": "synthetic-identity",
+        "EVASION": "cohort-splitting",
+        "RAIL": "upi-pay"
+      },
+      "rationale": "The only family the onboarding-cohort scorer can see at all, and a family where no label ever arrives. Sealing it tests the cohort-statistics layer independently of supervision.",
+      "related_seed": "ATK-K3"
+    },
+    {
+      "cells": [
+        "a2a-assisted|synthetic-identity|graph-camouflage|d3"
+      ],
+      "depth": 3,
+      "id": "SEALED-07",
+      "label": "Policy-aware mule layering to biller inventory",
+      "n_members": 15,
+      "pattern": {
+        "ACCESS": "synthetic-identity",
+        "EVASION": "graph-camouflage",
+        "RAIL": "a2a-credit-transfer"
+      },
+      "rationale": "Tests value-conservation and dwell features rather than static graph features -- which is the distinction the ATK-G2 mechanism is specifically designed to defeat.",
+      "related_seed": "ATK-G1"
+    },
+    {
+      "cells": [
+        "mandate-recurring|stolen-credential|threshold-hugging|d2"
+      ],
+      "depth": 2,
+      "id": "SEALED-08",
+      "label": "Mandate-scope escalation on AutoPay",
+      "n_members": 24,
+      "pattern": {
+        "ACCESS": "stolen-credential",
+        "EVASION": "threshold-hugging",
+        "RAIL": "upi-autopay-mandate"
+      },
+      "rationale": "Every authorisation here is individually valid; the violation exists only against the mandate object. Sealing it tests whether the mandate-delta feature family is doing work.",
+      "related_seed": "ATK-M2"
+    },
+    {
+      "cells": [
+        "card-post-auth|stolen-credential|label-attack|d2"
+      ],
+      "depth": 2,
+      "id": "SEALED-09",
+      "label": "Dispute-channel label poisoning",
+      "n_members": 30,
+      "pattern": {
+        "ACCESS": "stolen-credential",
+        "EVASION": "label-attack",
+        "RAIL": "card-clearing-dispute"
+      },
+      "rationale": "Deliberately included even though the metric computed against its labels is compromised, because that compromise is the finding. Every figure touching this family is flagged in the same table, never in a footnote.",
+      "related_seed": "ATK-D3"
+    },
+    {
+      "cells": [
+        "mandate-recurring|delegated-agent-mandate|trust-inheritance|d2"
+      ],
+      "depth": 2,
+      "id": "SEALED-10",
+      "label": "Agentic mandate-vs-execution divergence",
+      "n_members": 39,
+      "pattern": {
+        "ACCESS": "delegated-agent-mandate",
+        "EVASION": "trust-inheritance",
+        "RAIL": "agentic-commerce"
+      },
+      "rationale": "A Tier-B rail, sealed deliberately: it tests whether mandate-conformance guards generalise on a rail where we make NO message-level fidelity claim. We expect this row to be weak and we publish it anyway.",
+      "related_seed": "ATK-X1"
+    },
+    {
+      "cells": [
+        "a2a-assisted|stolen-credential|low-visibility-rail|d2"
+      ],
+      "depth": 2,
+      "id": "SEALED-11",
+      "label": "Assisted-terminal cash-out on a low-visibility rail",
+      "n_members": 4,
+      "pattern": {
+        "ACCESS": "stolen-credential",
+        "EVASION": "low-visibility-rail",
+        "RAIL": "aeps-microatm"
+      },
+      "rationale": "Sealed AND covered by the leave-one-morpheme-out arm below, so it appears in both the easy (combination) and hard (mechanism) holdout tiers -- which makes the gap between the two arms directly readable on one family.",
+      "related_seed": "ATK-U11"
+    },
+    {
+      "cells": [
+        "upi-realtime|synthetic-identity|label-attack|d3"
+      ],
+      "depth": 3,
+      "id": "SEALED-12",
+      "label": "Slow-drip retrain contamination",
+      "n_members": 50,
+      "pattern": {
+        "ACCESS": "synthetic-identity",
+        "EVASION": "label-attack",
+        "RAIL": "upi-pay"
+      },
+      "rationale": "An attack on our own machinery. The frozen canary probe suite is the only immune memory against it, and sealing the family is how we find out whether the canary actually fires.",
+      "related_seed": "ATK-Z2"
+    }
+  ],
+  "frozen_across_evaluation": [
+    "the fidelity discriminator (a versioned out-of-loop auditor, never inside the optimiser)",
+    "the canary probe suite",
+    "the Blind Composer's genome",
+    "this manifest",
+    "the cost matrix",
+    "HARD-BENIGN-12 and HARD-BENIGN-B cohort definitions",
+    "the scoring endpoint exposed to Author-an-Attack (/score-frozen)"
+  ],
+  "loo_compositions_withheld": 684,
+  "loo_evasion_morphemes": "low-visibility-rail",
+  "loo_seeds_affected": [
+    "ATK-U6",
+    "ATK-U11",
+    "ATK-B1"
+  ],
+  "manifest_sha256": "950d31c9fd74e4ebaf2eead7320e0f7f69f2a0457cdb053e5078f4138c9bc48e",
+  "manifest_version": 1,
+  "n_cells": 12,
+  "n_compositions": 603,
+  "n_families": 12,
+  "problems": [],
+  "retrained_per_tick": [
+    "G1 LightGBM",
+    "G3 GRU and G4 RGCN (when in scope)",
+    "the isotonic calibrator",
+    "the conformal calibration set",
+    "the threshold / action lookup table"
+  ],
+  "sealed_seeds": [
+    "ATK-C1",
+    "ATK-C3",
+    "ATK-C4",
+    "ATK-T2",
+    "ATK-T3",
+    "ATK-M2",
+    "ATK-D3",
+    "ATK-U1",
+    "ATK-U3",
+    "ATK-U5",
+    "ATK-U6",
+    "ATK-U11",
+    "ATK-K3",
+    "ATK-G1",
+    "ATK-G4",
+    "ATK-B1",
+    "ATK-X1",
+    "ATK-Z2"
+  ],
+  "share_of_space_withheld": 0.084,
+  "type_legal_total": 15271
+}

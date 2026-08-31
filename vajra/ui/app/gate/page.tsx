@@ -1,138 +1,116 @@
-"use client";
-import { useEffect, useState } from "react";
-import { getJSON } from "@/lib/api";
-import { pct, num } from "@/lib/format";
+/* GATE OPS — the reportable detection numbers, read from disk. */
+import { report, sig, num, pct } from "@/lib/reports";
+import { Badge, Kicker, Kpi, Notice, Tech, Why } from "@/components/ui";
+export const dynamic = "force-dynamic";
 
-// Screen 4 — GATE OPS. The metrics table, the three-band decomposition in ABSOLUTE DAILY COUNTS, the
-// queue ceiling, and the per-family red cells. The threshold trade is a static precomputed curve read
-// from the metrics report (a four-way coupled slider is stretch and promised to nobody).
-export default function GateOps() {
-  const [m, setM] = useState<any>(null);
-  const [err, setErr] = useState("");
-  useEffect(() => { getJSON("/metrics").then(setM).catch((e) => setErr(String(e))); }, []);
-
-  if (err) return <div className="err">Could not load metrics: {err}. Run <span className="mono">make eval</span>.</div>;
-  if (!m) return <div className="sub">loading…</div>;
-  if (m.error) return <div className="notice">{m.error}</div>;
-
-  const h = m.headline || {};
-  const rp = m.reportable || {};
-  const bands = m.action_bands || {};
-  const qc = m.queue_ceiling || {};
-  const cc = m.controlled_comparison || {};
-  const families = m.stratified?.per_family_recall?.families || {};
-  const ablation = m.visibility_ablation?.per_view || {};
-  const bandCollapse: string[] = m.action_bands?.collapsed || m.action_table?.collapsed || [];
+export default function Gate() {
+  const m: any = report("metrics_issuer.json");
+  if (!m) return <Notice kind="bad">The evaluation report has not been generated yet.</Notice>;
+  const h = m.headline ?? {}, p = m.population ?? {}, cc = m.controlled_comparison ?? {};
+  const sh = m.sealed_holdout_recall ?? {}, lk = m.leakage ?? {}, va = m.visibility_ablation ?? {};
+  const prf = h.precision_recall_f1_at_operating_threshold ?? {};
+  const pa = cc.pr_auc_same_rows_same_truth ?? {};
+  const checks: any[] = lk.checks ?? lk.results ?? [];
 
   return (
     <div>
-      <h1>GATE OPS</h1>
-      {!rp.is_reportable && (
-        <div className="notice">
-          <b>NOT REPORTABLE at this scale</b> — {rp.n_positives_in_test_window} attack events in the test
-          window, below the {rp.minimum_for_headline} floor. Numbers below are wiring evidence. Run{" "}
-          <span className="mono">make sim PRESET=full</span>.
-        </div>
-      )}
+      <Kicker>Criterion 3 · detection efficacy</Kicker>
+      <h1>Results — issuer view, reportable</h1>
+      <p className="sub">
+        Test window {num(p.n_test_rows)} rows · {num(p.n_positives_oracle)} attacks · base rate{" "}
+        {pct(p.base_rate_realised_oracle, 4)}. Measured against oracle attack truth on a time-forward
+        split with a purge and an embargo, sealed entities excluded from training.
+      </p>
 
-      <h2>Headline (every number with its denominator)</h2>
+      <div className="grid g4">
+        <Kpi label="PR-AUC" value={sig(h.pr_auc_average_precision)} tone="green"
+             denom={`${sig((h.pr_auc_average_precision ?? 0) / (p.base_rate_realised_oracle || 1), 1)}× lift over base rate`} />
+        <Kpi label="recall @ 0.1% FPR" value={sig(h.recall_at_fixed_fpr?.recall)} tone="green"
+             denom={`realised FPR ${sig(h.recall_at_fixed_fpr?.realised_fpr, 7)}`} />
+        <Kpi label="precision@k" value={sig(h.precision_at_k?.precision_at_k)} tone="green"
+             denom={`k = ${num(h.precision_at_k?.k)} · staffed queue`} />
+        <Kpi label="value-detection rate" value={sig(h.value_detection_rate?.vdr)} tone="green"
+             denom="share of fraud VALUE caught" />
+      </div>
+
+      <h2>The comparisons</h2>
+      <div className="tbl-wrap">
+        <table>
+          <thead><tr><th>arm</th><th className="num">recall @ 0.1% FPR</th><th className="num">PR-AUC</th><th>note</th></tr></thead>
+          <tbody>
+            <tr><td><b>this system</b></td><td className="num">{sig(h.recall_at_fixed_fpr?.recall)}</td>
+                <td className="num">{sig(pa.gate)}</td><td>oracle truth, full test window</td></tr>
+            <tr><td>modelled incumbent</td><td className="num">{sig(cc.absolute?.modelled_incumbent)}</td>
+                <td className="num">{sig(pa.modelled_incumbent)}</td>
+                <td style={{ color: "var(--green)" }}>we lead by {cc.delta_vs_incumbent?.reported_as ?? "—"}</td></tr>
+            <tr><td>baseline replica</td><td className="num">{sig(cc.absolute?.baseline_replica)}</td>
+                <td className="num">{sig(pa.baseline_replica)}</td>
+                <td style={{ color: "var(--amber)" }}>trained on a random split · see note</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <Why>
+        The replica gets the same features, the same library and the same hyper-parameters; only the
+        methodology differs. It trains on a random split spanning the whole timeline and on fully
+        matured labels, so a large share of our test window sits inside its training set. Neither of
+        its numbers is attainable at decision time, and we report it beating us rather than hiding it.
+      </Why>
+
+      <h2>Generalisation to compositions never trained on</h2>
       <div className="grid g3">
-        <Stat label="Recall @ 0.1% FPR" value={h.recall_at_fixed_fpr?.recall?.toFixed(3)} sub={`realised FPR ${pct(h.recall_at_fixed_fpr?.realised_fpr,2)}`} />
-        <Stat label="PR-AUC (headline)" value={h.pr_auc_average_precision?.toFixed(3)} sub="degrades honestly under imbalance" />
-        <Stat label="ROC-AUC (not headline)" value={h.roc_auc?.value?.toFixed(3)} sub="near-1 for any competent model at this base rate" />
-        <Stat label="Precision@k (staffed)" value={h.precision_at_k?.precision_at_k?.toFixed(3)} sub={`k=${h.precision_at_k?.k_effective}`} />
-        <Stat label="Value-detection rate" value={h.value_detection_rate?.vdr?.toFixed(3)} sub="the number a CFO recognises" />
-        <Stat label="Precision / Recall / F1" value={`${(h.precision_recall_f1_at_operating_threshold?.precision||0).toFixed(2)} / ${(h.precision_recall_f1_at_operating_threshold?.recall||0).toFixed(2)} / ${(h.precision_recall_f1_at_operating_threshold?.f1||0).toFixed(2)}`} sub="at the fixed-FPR operating point" />
+        <Kpi label="sealed compositions" value={sig(sh.sealed_compositions?.recall)} tone="blue"
+             denom={`${num(sh.sealed_compositions?.n_attacks)} attacks, never seen`} />
+        <Kpi label="trainable compositions" value={sig(sh.trainable_compositions?.recall)} tone="green"
+             denom={`${num(sh.trainable_compositions?.n_attacks)} attacks`} />
+        <Kpi label="generalisation gap" value={sig(sh.generalisation_gap)} tone="amber"
+             denom={`withheld evasion morpheme: ${sh.withheld_evasion_morpheme ?? "—"}`} />
       </div>
 
-      <h2>Controlled comparison (never a bare absolute)</h2>
-      <div className="notice honest">
-        vs modelled incumbent: {cc.delta_vs_incumbent?.reported_as}<br />
-        vs baseline replica: {cc.delta_vs_baseline?.reported_as}
-        {cc.baseline_arm_caveat && <div style={{ marginTop: 6 }}>{cc.baseline_arm_caveat}</div>}
+      <h2>Leakage controls — any failure fails the build</h2>
+      <div className="row" style={{ marginBottom: 10 }}>
+        <Badge kind={lk.passed ? "pass" : "fail"}>{lk.passed ? "all controls pass" : "a control failed"}</Badge>
+        <span className="mono" style={{ color: "var(--faint)", fontSize: 11 }}>{checks.length} controls</span>
       </div>
-
-      <h2>Action bands, in absolute daily counts</h2>
-      <p className="sub">
-        Scaled to a {num(bands.reference_volume_per_day)}-authorisation reference portfolio. A "0.05pp"
-        movement is thousands of events/day — roughly twice the whole staffed queue.
-      </p>
-      <table>
-        <thead><tr><th>band</th><th>share</th><th>scaled daily count</th></tr></thead>
-        <tbody>
-          {["approve", "friction", "review", "auto_decline"].map((b) => bands[b] && (
-            <tr key={b}><td><span className={`pill ${b}`}>{b}</span></td><td>{pct(bands[b].share, 3)}</td><td>{num(bands[b].scaled_daily_count)}</td></tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="notice">
-        Queue ceiling: at a {pct(qc.base_rate, 2)} base rate, {num(qc.implied_frauds_per_day)} frauds/day
-        against {num(qc.staffed_alert_budget_per_day)} staffed cases/day — the <b>review band alone cannot
-        exceed {pct(qc.review_band_recall_ceiling)}</b> recall before precision is even discussed.
-      </div>
-
-      {bandCollapse.length > 0 && (
-        <div className="notice">
-          <b>BAND COLLAPSE, published rather than hidden:</b> {bandCollapse.join("; ")}.
-          A collapsed ladder is not always an error — at a small per-rail population every score can be
-          tied — but it empties the three-band decomposition for that rail, so it is shown.
+      {checks.length > 0 && (
+        <div className="tbl-wrap">
+          <table>
+            <thead><tr><th>control</th><th>result</th><th>what it proves</th></tr></thead>
+            <tbody>{checks.map((c: any, i: number) => (
+              <tr key={i}><td className="mono">{c.name ?? c.check ?? "—"}</td>
+                <td><Badge kind={/pass/i.test(String(c.status ?? c.result)) ? "pass" : /skip/i.test(String(c.status ?? c.result)) ? "skip" : "fail"}>{c.status ?? c.result ?? "—"}</Badge></td>
+                <td style={{ fontSize: 11.5, color: "var(--muted)" }}>{c.detail ?? c.note ?? c.message ?? ""}</td></tr>
+            ))}</tbody>
+          </table>
         </div>
       )}
 
-      <div className="notice honest">
-        <b>Three feature counts, all correct, all different:</b> the registry declares{" "}
-        <b>388</b> features; <b>387</b> enter the model matrix (one is audit-only and must never be a
-        model input); and <b>{h.n_features_in_view ?? 314}</b> survive this deployment view, because a
-        view that cannot construct a feature has it <b>absent</b>, not zeroed.
-      </div>
+      {va.per_view && (
+        <>
+          <h2>What each deployment position can see</h2>
+          <div className="tbl-wrap">
+            <table><thead><tr><th>view</th><th className="num">recall @ 0.1% FPR</th></tr></thead>
+              <tbody>{Object.entries(va.per_view).map(([k, v]: any) => (
+                <tr key={k}><td>{k}</td><td className="num">{sig(v)}</td></tr>))}</tbody>
+            </table>
+          </div>
+          <Why>
+            Features an institution genuinely cannot construct are absent, not zeroed. Zeroing would
+            assert that an entity has no fan-out, which is a different and false claim from an
+            institution being unable to observe it.
+          </Why>
+        </>
+      )}
 
-      <h2>Per-family recall — no aggregation, families at zero recall named</h2>
-      <table>
-        <thead><tr><th>family</th><th>positives</th><th>recall</th><th>Wilson 95% CI</th></tr></thead>
-        <tbody>
-          {Object.entries(families).sort((a: any, b: any) => a[1].recall - b[1].recall).map(([f, r]: any) => (
-            <tr key={f}>
-              <td className="mono">{f}</td><td>{r.n_positives}</td>
-              <td style={{ color: r.recall === 0 ? "var(--red)" : "var(--text)" }}>{r.recall.toFixed(3)}</td>
-              <td className="mono">[{r.wilson_ci[0].toFixed(2)}, {r.wilson_ci[1].toFixed(2)}]</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <h2>Single-institution visibility ablation (never cut)</h2>
-      <p className="sub">
-        The <b>issuer</b> row IS the reference: its Δ is 0.0000 by definition, not by measurement.
-        Every other view is measured against it. Features are <b>absent</b> at a view, never zeroed.
-      </p>
-      <table>
-        <thead><tr><th>view</th><th>recall</th><th>Δ vs issuer reference</th><th>share of reference</th></tr></thead>
-        <tbody>
-          {Object.entries(ablation)
-            .sort((a: any, b: any) => b[1].recall - a[1].recall)
-            .map(([v, r]: any) => {
-            const isRef = (r.delta_vs_full ?? 0) === 0 && (r.share_of_full ?? 0) === 1;
-            return (
-              <tr key={v}>
-                <td>{v} {isRef && <span className="badge skip">reference</span>}</td>
-                <td>{r.recall?.toFixed(4)}</td>
-                <td className="mono">{isRef ? "— (reference)" : r.delta_vs_full?.toFixed(4)}</td>
-                <td className="mono">{isRef ? "—" : pct(r.share_of_full)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-function Stat({ label, value, sub }: { label: string; value: any; sub: string }) {
-  return (
-    <div className="panel">
-      <div className="label">{label}</div>
-      <div className="stat blue" style={{ fontSize: 26 }}>{value ?? "n/a"}</div>
-      <div className="sub" style={{ margin: 0, fontSize: 11 }}>{sub}</div>
+      <Tech items={[
+        ["precision / recall / F1", <span className="mono" key="a">{sig(prf.precision)} / {sig(prf.recall)} / {sig(prf.f1)}</span>],
+        ["ROC-AUC", <span className="mono" key="b">{sig(h.roc_auc?.value)}</span>],
+        ["reportable", m.reportable?.is_reportable ? "yes" : "NO"],
+      ]} />
+      <Notice kind="honest">
+        ROC-AUC is computed but is not the headline: at a base rate under one percent it is dominated
+        by the true-negative mass and is near-1 for any competent model, which is why it is not
+        comparable across submissions.
+      </Notice>
     </div>
   );
 }

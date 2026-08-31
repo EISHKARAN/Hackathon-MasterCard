@@ -1,0 +1,76 @@
+{
+  "cells_with_multiple_seeds": {
+    "card-auth|stolen-credential|oracle-probing|d2": [
+      "ATK-C3",
+      "ATK-P2"
+    ],
+    "card-auth|stolen-credential|trust-inheritance|d2": [
+      "ATK-C4",
+      "ATK-T3"
+    ],
+    "card-auth|stolen-credential|velocity-splitting|d2": [
+      "ATK-C2",
+      "ATK-P3"
+    ]
+  },
+  "depth_mismatch": [],
+  "illegal": [],
+  "n_atk_ids": 51,
+  "n_cells": 48,
+  "n_dagger": 9,
+  "n_double_dagger": 12,
+  "n_excluded_from_scoring": 12,
+  "n_legal": 51,
+  "n_seeds": 51,
+  "n_tier_b": 5,
+  "n_verify_markers": 11,
+  "n_with_3_resolved_sigs": 47,
+  "provenance": "hand-authored, SELF-REVIEWED against docs/SEED_CHECKLIST.md. No outside practitioner has reviewed these. Nothing in this repo says practitioner-reviewed.",
+  "signature_policy": "The admission criterion is >= 3 RESOLVED signatures (a canonical schema field or a registry feature). Design-only observables stay in the taxonomy, are badged in the UI, and do NOT count -- see grammar/signatures.yaml.",
+  "under_signed": [
+    {
+      "id": "ATK-D2",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 1
+    },
+    {
+      "id": "ATK-K2",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 1
+    },
+    {
+      "id": "ATK-V3",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 1
+    },
+    {
+      "id": "ATK-Z4",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 0
+    }
+  ],
+  "under_signed_but_correctly_excluded": [
+    {
+      "id": "ATK-D2",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 1
+    },
+    {
+      "id": "ATK-K2",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 1
+    },
+    {
+      "id": "ATK-V3",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 1
+    },
+    {
+      "id": "ATK-Z4",
+      "marked_excluded_from_scoring": true,
+      "n_resolved": 0
+    }
+  ],
+  "under_signed_unmarked": [],
+  "unresolved_signatures": []
+}

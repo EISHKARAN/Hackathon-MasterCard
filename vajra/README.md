@@ -35,6 +35,18 @@ cd vajra
 make venv          # creates .venv and installs requirements.txt (no GPU, no compiler needed)
 ```
 
+`make ui` / `make demo` need Node >= 18.17 for `next dev`. The official Node >= 18 linux-x64 builds are
+linked against glibc >= 2.28, so on Amazon Linux 2 they abort with `GLIBC_2.28 not found` even after
+`nvm install`. `scripts/ui.sh` therefore picks the first Node >= 18.17 that actually *runs* here (PATH,
+then `./.node`, then any nvm version) and provisions conda-forge nodejs into `./.node` if none does.
+
+`make venv` picks its backend from the host. On macOS arm64 and on Linux with glibc >= 2.28 it is a
+plain `venv` + `pip`. On older Linux (Amazon Linux 2 is glibc 2.26) the current numpy / lightgbm /
+duckdb wheels are `manylinux_2_28` only, so pip would try to build from source and fail on the system
+GCC; there it installs the same versions from conda-forge instead, which needs `conda` or `mamba` on
+PATH ([Miniforge](https://github.com/conda-forge/miniforge)). Either way you end up with
+`./.venv/bin/python`. Force a backend with `VAJRA_ENV_BACKEND=venv make venv` or `=conda`.
+
 Optional near-line models (GRU/RGCN), the Treelite export and the CTGAN F2 control:
 `pip install -r requirements-optional.txt`. **Everything below runs green and honest without them** —
 each consumer records a visible `SKIPPED-DEPENDENCY-ABSENT` rather than crashing.

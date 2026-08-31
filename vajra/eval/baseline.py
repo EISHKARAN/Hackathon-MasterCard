@@ -66,6 +66,7 @@ class BaselineReplica:
     n_test_random: int = 0
     n_test_clean: int = 0
     contamination_share: float = 0.0
+
     #: Boolean mask ALIGNED TO OUR TEST WINDOW's row order, true where the replica never trained.
     #:
     #: WHY THIS IS EXPOSED. Without it there is no way to score BOTH arms on the same uncontaminated
