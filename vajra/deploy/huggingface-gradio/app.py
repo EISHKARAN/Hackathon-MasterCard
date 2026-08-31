@@ -23,6 +23,7 @@ import path is sufficient.
 from __future__ import annotations
 
 import pathlib
+import shutil
 import subprocess
 import sys
 
@@ -35,11 +36,16 @@ TREE = CHECKOUT / "vajra"
 #: Only what the scorer opens. Listing paths individually is what keeps the fetch at 145 MB: the model
 #: directory holds eight bundles totalling 628 MB, and the scorer resolves the issuer view to exactly
 #: one of them because the promoted fusion weights are g1 alone.
+#:
+#: DIRECTORIES ONLY. `sparse-checkout set` defaults to cone mode, which rejects a file path outright:
+#: naming `vajra/requirements.txt` here failed the whole checkout with "is not a directory". It is also
+#: unnecessary, because cone mode already includes the loose files sitting in each listed path's parent
+#: directories, so everything directly inside `vajra/` arrives by virtue of `vajra/api` being listed.
 SPARSE = [
     "vajra/api", "vajra/archive", "vajra/attack", "vajra/bench", "vajra/config", "vajra/core",
     "vajra/eval", "vajra/features", "vajra/fidelity", "vajra/gate", "vajra/generator_b",
     "vajra/governance", "vajra/grammar", "vajra/loop", "vajra/scripts", "vajra/sim",
-    "vajra/bundles", "vajra/reports", "vajra/requirements.txt",
+    "vajra/bundles", "vajra/reports",
     "vajra/data/models/gate-i_issuer",
 ]
 
@@ -48,6 +54,12 @@ def fetch() -> None:
     if (TREE / "core" / "paths.py").exists():
         print("scorer tree already present, skipping fetch")
         return
+    # A checkout that exists without that file is a PARTIAL one: the clone succeeded and the sparse
+    # step then failed, which is exactly what a bad path in SPARSE produces. Left in place it turns the
+    # next attempt into "destination path already exists", a different error that hides the real cause.
+    if CHECKOUT.exists():
+        print("removing an incomplete checkout from a previous attempt")
+        shutil.rmtree(CHECKOUT, ignore_errors=True)
     print(f"fetching {REF} from {REPO} ...")
     subprocess.run(
         ["git", "clone", "--depth", "1", "--filter=blob:none", "--sparse",
