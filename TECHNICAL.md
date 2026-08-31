@@ -1,4 +1,4 @@
-# VAJRA — Technical Document
+# VAJRA: Technical Document
 
 **A closed-loop red-team / blue-team system for GenAI-era payment fraud**
 Mastercard Innovation Challenge 2026 · Global Fintech Fest, Mumbai
@@ -56,7 +56,7 @@ In our training window, **2.50%** of rows carry any visible label at all. This i
 our simulation; it is the defining constraint of the real problem. A model trained as though labels
 were available is a model evaluated on information it will not have on the day.
 
-The naive handling — treat every unlabelled row as legitimate — is worse than useless. It teaches
+The naive handling, treating every unlabelled row as legitimate, is worse than useless. It teaches
 the model that *absence of a complaint is evidence of innocence*, which is precisely false for the
 fraud that succeeds.
 
@@ -65,7 +65,7 @@ fraud that succeeds.
 You cannot collect a labelled dataset of attacks that have not happened yet. Any detector trained
 only on historical fraud is, by construction, calibrated to last year's attack distribution.
 
-The standard response is to enumerate scenarios — twenty or thirty named attack types — and test
+The standard response is to enumerate scenarios (twenty or thirty named attack types) and test
 against them. This produces a number that is uninformative about the case that matters: the attack
 composed differently from anything in the list.
 
@@ -84,7 +84,7 @@ That is the system described below.
 
 ---
 
-## 2. Scope — what is and is not claimed
+## 2. Scope: what is and is not claimed
 
 Stating this early, because the strongest claims in this document depend on the weakest ones being
 disowned.
@@ -176,19 +176,19 @@ Cross-product: 8 × 7 × 12 × 8 × 7 × 5 = **188,160** raw strings.
 ### 4.2 Typing, and why most strings are illegal
 
 Most of those 188,160 strings describe events that cannot physically occur. A pairwise compatibility
-relation over slot values rejects them, leaving **15,271 type-legal compositions** — a pruning rate
+relation over slot values rejects them, leaving **15,271 type-legal compositions**: a pruning rate
 of 91.9%, with **172,889** strings rejected.
 
 The rejections are not filtering for plausibility; they are type errors. Two worked examples:
 
 - A monetisation step that names a beneficiary account is illegal on a rail that terminates in
-  physical cash at an assisted withdrawal point. There is no beneficiary leg to name — the cash
+  physical cash at an assisted withdrawal point. There is no beneficiary leg to name: the cash
   leaves the system at the counter.
 - An evasion technique that depends on a step-up authentication challenge is illegal on a rail that
   has no challenge in its message flow.
 
 Rejection is *explanatory*: the compiler returns which pairwise constraint failed, not a boolean.
-This matters operationally — in the interactive demo, an illegal composition produces a sentence
+This matters operationally: in the interactive demo, an illegal composition produces a sentence
 explaining why that combination cannot exist on that rail, which is more informative than a
 generator that silently declines to emit.
 
@@ -213,7 +213,7 @@ composes. **54 reason codes** form the fixed vocabulary in which any decision mu
 ### 4.5 The honest bound on novelty
 
 What the system generates is *novel composition within a fixed grammar*. A composition the model has
-never seen is genuinely new to the model — that is what §14.3 measures — but it is not an attack
+never seen is genuinely new to the model, which is what §14.3 measures, but it is not an attack
 category outside the six slots.
 
 This bound is stated here, restated on the interactive screen where a reviewer composes an attack,
@@ -247,7 +247,7 @@ cause, which is more useful to a reviewer than a coverage claim with no denomina
 | level | mechanism | what it decides |
 |---|---|---|
 | curriculum | quality-diversity archive | *which region* of the attack space to attack next |
-| campaign | Watkins Q(λ) over a campaign MDP | *how a campaign unfolds* — escalate, persist, or abandon |
+| campaign | Watkins Q(λ) over a campaign MDP | *how a campaign unfolds*: escalate, persist, or abandon |
 | family selection | Thompson sampling over seed families | *which family* to draw from, under uncertainty |
 
 The archive is the curriculum, and this is the sentence that matters: **cells where the defence
@@ -256,7 +256,7 @@ what makes the loop adversarial rather than merely iterative.
 
 ### 5.3 The generative model as a variation operator
 
-A language model proposes variations — **once per tick, never once per transaction.**
+A language model proposes variations, and does so **once per tick, never once per transaction.**
 
 This placement is deliberate and has three consequences. The run stays seeded and byte-reproducible,
 because the stochastic element is called a bounded number of times at known points. The cost is
@@ -268,7 +268,7 @@ impossible even if it tries.
 
 Each campaign operates under a profit-and-loss budget and must earn its continuation. An attacker
 whose attempts are being declined burns budget and abandons; one that is succeeding escalates. This
-is not decoration — it produces the *temporal shape* real fraud campaigns have (probe, escalate,
+is not decoration: it produces the *temporal shape* real fraud campaigns have (probe, escalate,
 exit) rather than a uniform stream of attempts, and that shape is itself a detectable signal, so
 generating it correctly matters for fidelity.
 
@@ -288,7 +288,7 @@ generating it correctly matters for fidelity.
 ### 6.2 Message flows and lifecycle
 
 Each rail is modelled at the message level, not as a single row per transaction. A card e-commerce
-purchase produces an authorisation, then a presentment, then possibly a chargeback — each a separate
+purchase produces an authorisation, then a presentment, then possibly a chargeback, each a separate
 event with its own timestamp, and each subject to ordering constraints (§7).
 
 This matters because much of the detectable signal in real fraud is *in the relationship between
@@ -316,8 +316,8 @@ selection effect that policy creates would be invisible and uncorrectable.
 ### 6.5 Base-rate control
 
 The attack base rate is not assumed; it is driven onto target by a controller. Before control, the
-realised rate diverged from configuration by up to **4.1×**. After control, divergence is **1.38×**
-— realised 0.69% against a configured 0.50%.
+realised rate diverged from configuration by up to **4.1×**. After control, divergence is **1.38×**:
+realised 0.69% against a configured 0.50%.
 
 The trainer then uses the **realised** value, not the configured one. This is not a detail: the
 class-prior correction in §9.1 is parameterised by the true positive rate, and feeding it the
@@ -398,14 +398,14 @@ A detector's inputs depend on where it is installed. We model four positions and
 zero.**
 
 This is a substantive modelling decision. Filling in zero asserts *"this account has no token
-fan-out"* — a factual claim, and usually a false one. Marking it absent asserts *"this institution
+fan-out"*, a factual claim, and usually a false one. Marking it absent asserts *"this institution
 cannot observe this account's token fan-out"*, which is the true claim. Gradient-boosted trees handle
 genuine absence natively through their missing-value branch; they cannot distinguish a real zero from
 an imputed one.
 
 ### 8.4 What this ablation actually shows, including the inconvenient part
 
-**The issuer position is the most informative — not the network position.** We report that, although
+**The issuer position is the most informative, not the network position.** We report that, although
 the opposite result would tell a better story at a Mastercard event.
 
 The defensible claim that follows is different and, we think, stronger: what the network uniquely
@@ -423,7 +423,7 @@ sufficient alone.
 
 ### 9.1 Non-negative positive-unlabelled learning
 
-With 2.50% label visibility, the training data is not positive/negative — it is positive/unlabelled.
+With 2.50% label visibility, the training data is not positive/negative: it is positive/unlabelled.
 Treating unlabelled as negative biases the model toward the fraud that gets *reported*, which is
 systematically the fraud that *failed*.
 
@@ -435,7 +435,7 @@ bounds it.
 ### 9.2 Inverse-propensity reject inference
 
 The incumbent policy already declined some transactions. For those, the counterfactual outcome is
-unobservable — we will never learn what would have happened. Training on the surviving population
+unobservable: we will never learn what would have happened. Training on the surviving population
 only fits a model to *the transactions the old policy allowed*, which is a biased sample of the
 population the new model must score.
 
@@ -451,7 +451,7 @@ optimiser is not pulled toward information that would not have existed.
 ### 9.4 The consequence, stated plainly
 
 **These three corrections make the model's headline number worse and its honesty better.** A model
-trained without them scores higher on any test set that shares their biases — which is exactly what
+trained without them scores higher on any test set that shares their biases, which is exactly what
 happens in §15.2, where a conventional baseline beats us. We consider that comparison the point, not
 an embarrassment, and §15.2 gives the natural experiment that isolates why.
 
@@ -461,22 +461,22 @@ an embarrassment, and §15.2 gives the natural experiment that isolates why.
 
 Four layers. Each has a distinct job and a distinct failure mode.
 
-### 10.1 Layer 0 — structural guards
+### 10.1 Layer 0: structural guards
 
 Refuses what is structurally impossible on the rail: a message sequence that cannot occur, a mandate
 execution outside its band, a field combination the rail does not permit.
 
 This layer has **no model dependency**, which makes it the kill switch: with the model unavailable,
-the system still refuses the impossible. That is a degraded mode, not an outage — a distinction that
+the system still refuses the impossible. That is a degraded mode, not an outage, a distinction that
 matters for a production fraud control, where "the model is down" must not mean "everything is
 approved".
 
-### 10.2 Layer 1 — the supervised channel
+### 10.2 Layer 1: the supervised channel
 
 Gradient-boosted trees over the feature matrix in §8, trained with the corrections in §9. This is
 the workhorse: standalone PR-AUC **0.3505** of the final **0.3512**.
 
-### 10.3 Layer 2 — novelty and confidence
+### 10.3 Layer 2: novelty and confidence
 
 Two mechanisms, answering two different questions.
 
@@ -484,7 +484,7 @@ Two mechanisms, answering two different questions.
 (Mondrian, rather than a single global calibration) so that the confidence claim holds within rail
 and segment, not just on average. Standalone PR-AUC **0.2753**.
 
-**Density estimation (ECOD)** answers *how unusual is this event?* — an unsupervised channel that can
+**Density estimation (ECOD)** answers *how unusual is this event?* It is an unsupervised channel that can
 in principle fire on an attack shape no label has ever described. Standalone PR-AUC **0.0083.**
 
 We report that second number as measured. The density channel is the theoretically appealing route to
@@ -497,7 +497,7 @@ Channels are combined and mapped to a calibrated probability through isotonic re
 one of three action bands (§11).
 
 The combine rule was selected by ablation across eight named arms, not chosen by intuition. That
-ablation found a serious defect in the rule we had been about to ship — §17.1.
+ablation found a serious defect in the rule we had been about to ship (§17.1).
 
 ---
 
@@ -511,7 +511,7 @@ Three ordered strengths of response: **add friction ≤ route to review ≤ decl
 fitted per rail against a cost matrix.
 
 The ordering is enforced structurally. A configuration in which a rail's friction threshold exceeds
-its review threshold is incoherent, and a guard refuses to ship it — which caught a real bug
+its review threshold is incoherent, and a guard refuses to ship it, which caught a real bug
 (§17.2).
 
 ### 11.2 The action is rail-specific because the band is abstract
@@ -527,7 +527,7 @@ The same band means different things on different rails:
 | card clearing and dispute | route to review | route to review |
 | agentic commerce | refuse the mandate | refuse the mandate |
 
-**Look at the clearing row.** You cannot decline a clearing record — the transaction has already
+**Look at the clearing row.** You cannot decline a clearing record: the transaction has already
 happened; the record is a settlement artefact. Both bands therefore map to review. A system that
 emitted "decline" for a clearing record would be emitting an instruction no rail can execute.
 
@@ -537,7 +537,7 @@ decline one execution, because declining one execution leaves the standing autho
 ### 11.3 Reason codes
 
 Every decision carries one of **54 fixed reason codes.** Not free text, not a feature-importance
-vector — a code from a closed vocabulary that an operations team can build a runbook against and an
+vector, but a code from a closed vocabulary that an operations team can build a runbook against and an
 analyst can dispute.
 
 A score with no explanation is not something an issuer can act on, and it is not something a customer
@@ -591,7 +591,7 @@ the **entity** level, not the row level: if an account, device or merchant appea
 family, all of its rows are excluded, including its benign ones.
 
 Row-level sealing would leak. The model would learn the entity's benign behaviour, and at test time
-face an attack by an entity whose baseline it already knows — a materially easier problem than the
+face an attack by an entity whose baseline it already knows, a materially easier problem than the
 one we claim to measure.
 
 Sealed content: **12 whole attack families**, plus a **leave-one-morpheme-out arm** in which one
@@ -602,7 +602,7 @@ withholding a morpheme withholds an entire *technique*, everywhere it appears.
 
 ### 12.3 Truth definition
 
-The headline is measured against **oracle attack truth** — ground truth about which events were
+The headline is measured against **oracle attack truth**: ground truth about which events were
 generated as attacks.
 
 Agreement with the realised late-arriving label channel is a **different question**, and we report it
@@ -610,7 +610,7 @@ separately rather than letting it hide inside the headline: PR-AUC **0.2573** ov
 cases, of which **6,805 (31.3%) were not attacks at all.**
 
 Both numbers are reported. Neither is presented as the other. An earlier version of our evaluation
-used a union of the two truth sources, which made the headline unfalsifiable — a case where our own
+used a union of the two truth sources, which made the headline unfalsifiable, a case where our own
 review found a contradiction and we changed the reported quantity.
 
 ### 12.4 The reportability guard
@@ -639,7 +639,7 @@ are not alerts; they are a backlog.
 
 ---
 
-## 13. Anti-leakage suite — six controls, all gating
+## 13. Anti-leakage suite: six controls, all gating
 
 All six run on every build. Any failure stops the build.
 
@@ -653,14 +653,14 @@ All six run on every build. Any failure stops the build.
 | 6 | leakage linter | no feature name, configuration value or rule string references a held-out family | PASS |
 
 **Control 1 deserves emphasis.** It reads version-control history to prove the holdout was written
-down before the detector was written. This is not a modelling control — it is a control on the team.
+down before the detector was written. This is not a modelling control: it is a control on the team.
 Nobody asks for it, and it is the cheapest available proof that the holdout was not adjusted after
 seeing results.
 
 *A disclosure about where control 1 passes.* Its PASS is recorded in the evidence produced on the
 training host, whose repository carried the fine-grained commit history the check reads. The
 published repository squashes that early development history into a single initial commit, so a
-fresh clone reports control 1 as **SKIPPED-UNVERIFIABLE** rather than PASS — the check refuses to
+fresh clone reports control 1 as **SKIPPED-UNVERIFIABLE** rather than PASS. The check refuses to
 assert an ordering it cannot see, which is the correct behaviour. The other five controls verify
 from the published repository unchanged. We state this rather than let a reviewer re-run the suite
 and find a skip where this table says PASS.
@@ -685,7 +685,7 @@ suite 6/6 PASS. All figures measured.
 | **precision @ k = 641** | **0.9953** | 638 of 641 alerts are real attacks |
 | **value-detection rate** | **0.5517** | share of fraud *value* caught |
 | precision / recall / F1 | 0.6382 / 0.3142 / 0.4211 | at the fitted operating threshold |
-| ROC-AUC | 0.7221 | computed, not the headline — §12.5 |
+| ROC-AUC | 0.7221 | computed, not the headline; see §12.5 |
 
 ### 14.2 How to state precision@k without misleading
 
@@ -695,7 +695,7 @@ nearly everything.** Always paired with recall 0.3142.
 A precision figure quoted alone, at a k the reader cannot see, is the oldest way to mislead with a
 fraud metric. Both numbers are true simultaneously: of what we hand analysts, 99.5% is real fraud; of
 all fraud, we hand them 31%. Those are answers to different questions and both are operationally
-meaningful — the first sets analyst trust, the second sets loss exposure.
+meaningful: the first sets analyst trust, the second sets loss exposure.
 
 ### 14.3 Generalisation to withheld compositions
 
@@ -705,13 +705,13 @@ The question the challenge actually asks.
 |---|---|---|
 | compositions **never** trained on | **7,785** | **0.2507** |
 | compositions trained on | 7,133 | 0.3834 |
-| generalisation gap | — | **0.1327** (65% retained) |
+| generalisation gap | n/a | **0.1327** (65% retained) |
 
 **52.2% of test attacks are compositions the model has never seen.** Withheld: 12 families plus the
 entire low-visibility-rail EVASION morpheme.
 
 Two observations. First, a model trained on a random split **cannot produce this number at all**,
-because it has seen every composition — so this is not a metric on which we can be compared to a
+because it has seen every composition, so this is not a metric on which we can be compared to a
 conventionally-trained model, and that asymmetry is the reason the protocol matters. Second, **the
 gap is the honest cost of generalisation.** A gap of zero would be evidence that the holdout was not
 actually held out.
@@ -729,7 +729,7 @@ Measured on withheld populations only, with every loop-discovered composition ex
 economic figure is not contaminated by the circularity of scoring attacks our own loop found. Both
 figures are **simulator-internal rupees**, labelled as such.
 
-Reported as a pair — value of fraud stopped, and value of good customers declined — because a system
+Reported as a pair (value of fraud stopped, and value of good customers declined) because a system
 that stops nothing and a system that declines everything both look good on a single number. The
 declined figure covers the **automatic-decline band only**; friction and review are priced
 separately, and exist precisely to move volume out of decline.
@@ -747,7 +747,7 @@ ships as a trade-off rather than a headline.
 Runs in shadow over the same stream (§6.4), so the comparison is same-rows, same-truth. Result in
 §14.4.
 
-### 15.2 The baseline replica — which beats us
+### 15.2 The baseline replica, which beats us
 
 We **executed** the conventional approach rather than describing it. Same feature matrix, same
 gradient-boosting library, same hyper-parameters. **Six methodology differences only:**
@@ -767,7 +767,7 @@ On the same rows with the same truth vector:
 | VAJRA, same rows, same truth | **0.3464** | |
 | **delta** | **−0.0704** | **the replica wins** |
 
-The replica's own published-style headline would be ROC-AUC **0.8558** — a *different metric*, not
+The replica's own published-style headline would be ROC-AUC **0.8558**, a *different metric*, not
 comparable to the three PR-AUC figures beside it, and shown separately for exactly that reason.
 
 **Why we show this.** The replica is not a better model; it is a model that was told the answers. It
@@ -785,7 +785,7 @@ measurement of the mechanism, not an argument about it.
 
 An earlier draft compared our 0.3511 against a replica figure of 0.2262. That comparison was
 **invalid** and we withdrew it: the 0.2262 was computed on a different truth vector, over a different
-row subset, in a different window — three mismatches presented as one comparison. It was replaced by
+row subset, in a different window: three mismatches presented as one comparison. It was replaced by
 the same-rows / same-truth block in §15.2, which is the comparison that makes the replica look
 *better*, not worse.
 
@@ -803,7 +803,7 @@ the same-rows / same-truth block in §15.2, which is the comparison that makes t
 | sketch | 0.0044 | **0.3632** |
 | beneficiary | 0.0056 | **0.5000** |
 
-Two of these are broken, and this cheap diagnostic is how we found out — §17.1.
+Two of these are broken, and this cheap diagnostic is how we found out (§17.1).
 
 ### 16.2 Fusion arms
 
@@ -842,19 +842,19 @@ chose to build, and several were in the configuration we would otherwise have su
 
 **Found by:** scoring every channel alone (§16.1).
 
-Two channels were dead. One returned an **identically constant value across all 2,672,910 rows** —
-one distinct value — because the five features it needs are among the 73 an issuer genuinely cannot
+Two channels were dead. One returned an **identically constant value across all 2,672,910 rows** (one
+distinct value) because the five features it needs are among the 73 an issuer genuinely cannot
 observe (§8.3), so at this position it had nothing to compute. The other was **anti-predictive**, at
 ROC-AUC 0.3632: reliably worse than a coin. **Between them they carried 0.22 of the fused score.**
 
 The shipped rank-average fusion scored **0.0842** PR-AUC. The supervised channel alone scored
-**0.3505** — 4.2× higher.
+**0.3505**, 4.2× higher.
 
 **Attribution:** **+0.2673 to the combine rule, +0.0026 to calibration.** This was a design error,
 not a tuning miss.
 
 **Why it was invisible:** a rank average is scale-free, so a channel weighted 0.10 can reorder any two
-rows whose fused ranks lie within 0.10 of each other — and the top-641 rows span a rank gap of
+rows whose fused ranks lie within 0.10 of each other, and the top-641 rows span a rank gap of
 **0.00024**. A constant channel and an inverted channel therefore had authority over exactly the
 region that determines precision@k.
 
@@ -867,14 +867,14 @@ anything. They were dropped rather than shipped as improvements.
 **Found by:** a guard that refuses to ship a collapsed action ladder.
 
 The capacity-driven friction cap interacted with band-ordering enforcement such that, on committing
-the selected fusion arm, two rails collapsed — one carrying 8.07% of volume — mapping their friction
+the selected fusion arm, two rails collapsed, one carrying 8.07% of volume, mapping their friction
 band into decline. That is a rail-wide outage dressed as a threshold.
 
 **Fix:** a second friction pass that computes the share already above the review band and targets the
 cap at the union, then clamps the friction threshold to the review threshold, so friction can never
 be stricter than review.
 
-**On the regression test:** our first two synthetic scenarios both *passed on the old code* — they did
+**On the regression test:** our first two synthetic scenarios both *passed on the old code*: they did
 not reproduce the bug and so proved nothing. Reproducing it required at least five bulk rails plus a
 hot rail at roughly 0.5% volume. A regression test that does not fail against the unfixed code is not
 a regression test, and we rewrote it until it did.
@@ -894,8 +894,8 @@ worse than a missing value, because it reads as a measurement. Fixed.
 
 We reported an artefact exposure of 0.5907, then repeated an external review's figure of 0.949,
 before establishing the correct value of **0.0560**. Both errors had the same cause: measuring on the
-feature's own support rather than on the full population. Recorded here because the error class —
-conditioning a population-level claim on a subpopulation — is one a reviewer should check us for
+feature's own support rather than on the full population. Recorded here because the error class,
+conditioning a population-level claim on a subpopulation, is one a reviewer should check us for
 elsewhere.
 
 ### 17.6 Where our generator flatters us
@@ -903,23 +903,23 @@ elsewhere.
 We ranked every feature by how well it alone separates attacks and went looking for signals that were
 suspiciously strong. Flag threshold: 25% of the headline. **Nothing exceeds 21.1%.** Two disclosures:
 
-**Session duration** — standalone recall **0.0662**, bounded at **21.1%** of the headline on 12.66% of
+**Session duration**: standalone recall **0.0662**, bounded at **21.1%** of the headline on 12.66% of
 rows. Ordinary sessions are drawn |N(6, 4)| minutes; coerced attack sessions |N(145, 70)|. The
 distributions barely touch: benign **maximum 36.5** against attack **5th percentile 33.9**.
 
-The mechanism is real — authorised-push-payment fraud genuinely does involve hour-long coerced
+The mechanism is real: authorised-push-payment fraud genuinely does involve hour-long coerced
 sessions. But a real benign session-duration distribution is heavy-tailed, so the separation here is
 sharper than production would give. **The right fix is generator realism, not deleting a legitimate
 signal because we drew it too cleanly.**
 
-**Token assurance against device age** — ROC-AUC **0.9652**, but on only **2.23%** of rows, worth
+**Token assurance against device age**: ROC-AUC **0.9652**, but on only **2.23%** of rows, worth
 **6.8%** of the headline. Every attacked provisioning draws a uniform device age, and our generator
 **omits the commonest benign case**: a customer adding an existing card to a newly purchased phone.
 
 **And one feature we chose not to build.** Attack cash-out withdrawals are quantised to exactly
 ₹5,000. An amount-collision feature would have topped this chart and fired almost exclusively on
 attacks. **We did not add it**, and recorded that as a decision rather than leaving it as an
-omission — because the signal would have been a property of our generator, not of fraud.
+omission, because the signal would have been a property of our generator, not of fraud.
 
 **Also, pre-empting a likely question:** 8 of the top 25 features have standalone ROC-AUC below 0.5.
 That is expected, not a defect. A tree ensemble uses those features through interactions, and
@@ -938,7 +938,7 @@ to the record that produced it. The reportability guard of §12.4 prevents reduc
 being quoted as results.
 
 Random streams are key-derived per family, so adding a family does not perturb the draws of existing
-ones — verified as control 2 of §13. Without that property, adding one attack family would silently
+ones, verified as control 2 of §13. Without that property, adding one attack family would silently
 change every previously measured number.
 
 **The demo runs against a committed replay bundle.** No training, no network. A live demo that
@@ -962,10 +962,10 @@ happened and how it was identified**, not just the verdict.
 
 ### 19.1 Author-an-attack
 
-A reviewer composes a six-slot attack. The picker is **constrained to type-valid combinations** —
+A reviewer composes a six-slot attack. The picker is **constrained to type-valid combinations**:
 illegal values are shown disabled with the reason, so the type system is visible rather than
 described. The composition then compiles, executes in the simulator, passes the invariant gate, and
-is scored against the **promoted** model — not one retrained for the demo.
+is scored against the **promoted** model, not one retrained for the demo.
 
 What comes back is the walkthrough, in three steps: **did it compile** (with the archive cell it
 occupies and the observable signatures it resolves), **how the attack happened** (events generated,
@@ -982,8 +982,8 @@ The read-only screens render **entirely on the server**, reading committed recor
 They make no client-side data request at all.
 
 This was a rewrite, and the reason is instructive. The original screens fetched through a proxy to a
-local service. That chain has four independent failure modes — the service dying, the runtime
-resolving localhost to IPv6 against an IPv4-only bind, a stale client bundle, and a hydration error —
+local service. That chain has four independent failure modes (the service dying, the runtime
+resolving localhost to IPv6 against an IPv4-only bind, a stale client bundle, and a hydration error),
 and **all four present identically**, as a loading skeleton that never resolves. During preparation we
 spent real time distinguishing between them.
 
@@ -999,16 +999,83 @@ so one undefined statistic renders as an absent field instead of destroying the 
 
 ---
 
-## 20. Judged criteria — where each is addressed
+## 20. What is new here
 
-| criterion | where | headline evidence |
-|---|---|---|
-| diversity of attacks | §4, §5 | 15,271 type-legal compositions; 268 of 380 cells reached, ceiling published |
-| fidelity of simulation | §6, §7 | 126 invariants as build gates; 236 observables resolved, 0 unresolved |
-| detection efficacy | §14 | PR-AUC 0.3512; recall 0.3142 at 0.1% FPR; precision 0.9953 at a staffed k = 641 |
-| novelty / unseen attacks | §12.2, §14.3 | 0.2507 recall on 7,785 attacks of never-trained compositions; 65% retained |
-| real-world feasibility | §8.2, §11 | four deployment positions measured; per-rail action mapping; 54 reason codes; model-free fallback |
-| trustworthiness | §13, §15, §17 | 6/6 leakage controls gating the build; a baseline that beats us, disclosed; five self-found defects |
+### 20.1 An honest statement of what kind of novelty this is
+
+The components are published methods. Quality-diversity archives, Watkins Q(λ), Thompson sampling,
+non-negative PU learning, inverse-propensity reject inference, Mondrian conformal prediction, ECOD
+density estimation and gradient-boosted trees are all prior work, and we cite them as such rather
+than dressing them up. **No new algorithm is claimed.**
+
+What is new is the *system*, and specifically six choices that we have not seen made together. Each
+of them is a choice to make something checkable that is usually asserted, and each has a measured
+consequence somewhere in this document. That is the edge we would defend: not a better estimator,
+but an architecture in which the claims can be falsified.
+
+### 20.2 The six choices
+
+**1. Attacks are a typed language, not a list.** Nearly all work in this space enumerates scenarios,
+twenty or thirty named attack types, and reports performance on them. Here an attack is a sentence in
+a six-slot grammar with a pairwise compatibility relation, giving 15,271 legal compositions out of
+188,160 raw. The type system is not a filter for plausibility; it is a semantic constraint, and it
+makes rejection *explanatory*. Asking for a beneficiary leg on a rail that terminates in physical
+cash returns the constraint that failed, not a boolean. The practical consequence is that novelty
+becomes measurable: a composition can be withheld and then presented, which a scenario list cannot
+do.
+
+**2. The adversary is driven by the defence's measured blind spots.** The quality-diversity archive is
+not a diversity metric computed after the fact; it is the curriculum. Cells where the defence detects
+nothing are sampled more on the next round. This is what makes the loop adversarial rather than
+iterative, and we run it with the return path cut as a control arm so the contribution is compared
+instead of asserted (§16.4).
+
+**3. Rail semantics are build gates, not tests.** 126 invariants stop the build rather than logging a
+warning. The distinction matters under deadline pressure: a test suite whose failures are triaged
+gets its assertions relaxed, whereas relaxing a gate is a visible edit to the gate. These gates
+failed 13,009 times during development and we fixed the generator every time (§7.2). We know of no
+comparable submission where fidelity is a build-time constraint rather than a claim in a write-up.
+
+**4. Label scarcity is the primary design constraint, not an inconvenience.** Only 2.50% of the
+training window carries any visible label. Rather than train on matured labels and report the
+resulting number, three composed corrections address the three distinct biases: PU learning at the
+*realised* class prior, reject inference against the logged incumbent policy, and explicit
+label-maturity weights. **These corrections make our headline worse and our honesty better**, which
+is precisely why §15.2 exists.
+
+**5. Generalisation is measured by construction, not inferred.** Sealing is at the entity level, so an
+account in a withheld family contributes none of its rows, not even its benign ones. Row-level
+sealing would let the model learn an entity's baseline and then face that entity's attack, which is a
+materially easier problem. On top of the twelve withheld families sits a leave-one-morpheme-out arm
+that removes an entire evasion *technique* everywhere it appears. The result is that 52.2% of test
+attacks are compositions never trained on, and **a model trained on a random split cannot produce
+this number at all**, because it has seen every composition. That asymmetry is the point of the
+protocol.
+
+**6. The output is an action, not a score.** Three ordered bands map to what each rail can actually
+execute, which is why a clearing record routes to review in both bands: you cannot decline a
+transaction that has already happened. Every decision carries one of 54 fixed reason codes.
+Abstention is priced rather than treated as free. With no model at all, the structural layer still
+refuses the impossible. Most detection work stops at the score and leaves this to somebody else.
+
+### 20.3 The instruments are the contribution
+
+The clearest evidence that the architecture works is that it caught our own mistakes.
+
+Scoring each channel alone is a cheap diagnostic that almost nobody runs. It showed two dead channels
+holding 0.22 of the fused score, which led to a combiner that was discarding a model **4.2× better**
+than we were reporting, with the improvement attributed **+0.2673 to the combine rule against +0.0026
+to calibration** (§17.1). A band-ordering guard caught a friction cap that could escalate an entire
+rail into automatic declines (§17.2). An artefact audit found and bounded the two places our own
+generator flatters us, and a deliberate decision not to build a third (§17.6).
+
+The same discipline produced three disclosures that cost us: a conventional baseline that beats us by
+0.0704 PR-AUC, published together with the natural experiment isolating why (§15.2); a comparison we
+withdrew as invalid once we noticed it mismatched truth, population and window (§15.3); and a
+magnitude we got wrong twice before getting it right (§17.5).
+
+**A system that cannot find its own defects has not been instrumented, it has been demonstrated.**
+That is the distinction we would want judged.
 
 ---
 
@@ -1030,10 +1097,10 @@ invention of attack categories (§4.5).
 to stay beneath a floor are exactly the ones a single cut-off handles worst. Per-rail thresholds exist
 for the *bands*; the operating threshold used for the headline recall figure is global.
 
-### 21.2 Known-open items — found, not yet fixed
+### 21.2 Known-open items: found, not yet fixed
 
 **The queue-capacity check measures the wrong quantity.** It counts the **review band**, but real
-human workload is set by the **action mapping** — and one rail (card clearing and dispute) maps all
+human workload is set by the **action mapping**, and one rail (card clearing and dispute) maps all
 three bands to review. True load is therefore approximately **0.54% of volume against a 0.0240%
 staffed budget**, roughly 22× over. The check as written does not catch this. Found by us; not fixed
 at submission.
@@ -1139,17 +1206,17 @@ marked.
 | best boosting iteration | 221 of 600 |
 | leakage controls | 6 / 6 PASS |
 
-**Channels alone** — supervised 0.3505 · conformal 0.2753 · density 0.0083 · sketch 0.0044 ·
+**Channels alone**: supervised 0.3505 · conformal 0.2753 · density 0.0083 · sketch 0.0044 ·
 beneficiary 0.0056 (PR-AUC)
 
-**Fusion arms** — equal 0.0317 · about-to-ship 0.0842 · drop-dead 0.1865 · Fisher 0.3264 ·
+**Fusion arms**: equal 0.0317 · about-to-ship 0.0842 · drop-dead 0.1865 · Fisher 0.3264 ·
 90/10 0.3509 · **supervised alone 0.3515 (selected, all four positions)**
 
-**Deployment positions** — issuer 0.3142 (319 features) · network 0.2885 (316) · acquirer 0.2088
+**Deployment positions**: issuer 0.3142 (319 features) · network 0.2885 (316) · acquirer 0.2088
 (212) · payee PSP 0.2075 (191)
 
-**Artefact bounds** — session duration 21.1% of headline on 12.66% support · token assurance vs
+**Artefact bounds**: session duration 21.1% of headline on 12.66% support · token assurance vs
 device age 6.8% on 2.23% support · flag threshold 25% · maximum observed 21.1%
 
-**Known-open** — queue load ≈ 0.54% of volume against a 0.0240% staffed budget · weak-rail feature
+**Known-open**: queue load ≈ 0.54% of volume against a 0.0240% staffed budget · weak-rail feature
 gain +0.0001 PR-AUC
