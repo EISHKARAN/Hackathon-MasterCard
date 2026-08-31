@@ -1,0 +1,12 @@
+# Repository-root ignores. The substantive rules live in vajra/.gitignore, which is where the
+# generated data, model bundles and evidence records are decided on.
+
+.DS_Store
+__pycache__/
+*.pyc
+
+# Microsoft Office lock files. Created whenever the deck is open, never wanted in history.
+~$*
+
+# Deck and document build scratch.
+figures/deck/*.tmp
