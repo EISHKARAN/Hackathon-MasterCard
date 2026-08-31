@@ -3,7 +3,22 @@
 #
 # The scorer is CPU-only: no GPU, no near-line extras. Every optional dependency degrades to a
 # recorded, visible skip rather than a crash, so their absence here is safe.
-gradio>=4.44
+#
+# DO NOT PIN `websockets` HERE. The repository pins `websockets>=13.0` for a tick-stream endpoint the
+# deployed interface never opens. The Space builder injects `gradio[oauth]==4.44.0`, whose client
+# requires `websockets<13.0`, and the two together are unsatisfiable: the build fails at dependency
+# resolution before anything is installed. `uvicorn[standard]` pulls a compatible version on its own.
+#
+# DO NOT LIST `gradio` HERE EITHER. The builder always installs `gradio[oauth]==<sdk_version>` from the
+# README frontmatter. A second constraint here can only ever agree with that pin or contradict it, and
+# contradicting it fails the build.
+#
+# The Space image is Python 3.10, not the 3.13 the repository targets. Checked: no 3.11-or-later syntax
+# anywhere in the scorer's import graph, and every pin below has a cp310 wheel, so nothing compiles
+# from source.
+#
+# `anthropic` is deliberately absent. The composer imports it lazily, behind both an API-key check and
+# an ImportError guard, and the demo path runs from the committed composition cache instead.
 
 numpy>=2.0,<3
 scipy>=1.14
@@ -17,5 +32,4 @@ Jinja2>=3.1
 
 fastapi>=0.115
 uvicorn[standard]>=0.32
-websockets>=13.0
 pydantic>=2.9
