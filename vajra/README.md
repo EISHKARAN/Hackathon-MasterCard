@@ -6,7 +6,7 @@ generates them at message level inside a deterministic simulator, and hardens a 
 (VAJRA GATE) against them — where every closure must prove it caught a **sibling attack it was never
 trained on**.
 
-The full design rationale is in [`../Solution-Design.md`](../Solution-Design.md). This README is how
+The full design rationale, results and limitations are in [`../TECHNICAL.md`](../TECHNICAL.md). This README is how
 you run it.
 
 ---
@@ -17,7 +17,7 @@ you run it.
 |---|---|---|
 | **Identify** | `grammar/` | Attacks are a **typed six-slot composition**, not a list. `make grammar` prints an integer: **15,271 type-legal compositions**, coverage over a **pre-declared feasible denominator** (380 cells), validated by a distinctness test that can lower our own number. |
 | **Generate** | `sim/` | `graph → actors → events → messages → rows` (the inverse of a CTGAN submission). All 12 rails; **F1 invariant gate fails the build** on a structurally impossible message. A three-channel label engine with a modelled analyst, an ε-randomised incumbent policy shadow, entity-level sealed holdout. |
-| **Defend** | `gate/`, `eval/` | G0 invariant guards → G1 LightGBM (388 machine-counted features) → G2 Mondrian conformal abstention, GATE-B beneficiary side, temporal splits, nnPU + reject inference. Metrics are recall @ fixed FPR, PR-AUC, precision@k at staffed capacity — never headline ROC-AUC on a random split. |
+| **Defend** | `gate/`, `eval/` | G0 invariant guards → G1 LightGBM (392 machine-counted features, 319 constructible at the issuer) → G2 Mondrian conformal abstention, GATE-B beneficiary side, temporal splits, nnPU + reject inference. Metrics are recall @ fixed FPR, PR-AUC, precision@k at staffed capacity — never headline ROC-AUC on a random split. |
 | **The loop** | `archive/`, `attack/`, `loop/` | A **hierarchical reinforcement learner** (MAP-Elites curriculum → Q(λ) campaign MDP → Thompson bandit) drives an LLM Composer to attack where the detector is weak; FORGE retrains and **withholds a one-morpheme-different sibling**. |
 
 The reinforcement loop and the paper grounding for every model choice are documented in
