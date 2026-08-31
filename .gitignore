@@ -1,6 +1,31 @@
 # Repository-root ignores. The substantive rules live in vajra/.gitignore, which is where the
 # generated data, model bundles and evidence records are decided on.
 
+# =========================================================================================
+# MAIN IS PUBLIC. These paths are deliberately absent from this branch and from its history.
+#
+# They are working material, not deliverables: the deck's source and figures, the internal
+# research notes, the design and fix logs, and the challenge brief itself. They live on `beta`,
+# which carries the full history.
+#
+# The rule exists because the working tree may still hold them after a branch switch, and a
+# `git add -A` on this branch would put them back into a public commit. Listing them here makes
+# that impossible rather than merely unlikely. Files already tracked on `beta` are unaffected —
+# git ignores only untracked paths — so this costs that branch nothing.
+#
+# The two root-level deliverables that DO belong here are the technical document and the deck
+# itself, both intentionally not listed.
+# =========================================================================================
+DECK.md
+FIXES.md
+Hackathon.md
+Solution-Design.md
+research/
+figures/
+make_charts.py
+make_deck.py
+.claude/
+
 .DS_Store
 __pycache__/
 *.pyc
