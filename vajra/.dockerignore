@@ -1,0 +1,48 @@
+# What must NOT enter the image, and why.
+#
+# The repository is roughly 4 GB on disk and the useful image is around 1 GB. Almost the whole
+# difference is generated data that the service never opens. Without this file `COPY . .` ships all of
+# it, and the build is slow, the push is slow, and every deployment pays for it.
+
+# ---- toolchains: rebuilt inside the image, never copied ---------------------------------
+.venv
+.node
+ui/node_modules
+ui/.next
+ui/out
+ui/reports
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+.git
+.gitignore
+.DS_Store
+
+# `ui/out` is excluded on purpose even though it is committed. Stage 1 rebuilds it from source, so
+# copying the committed one in would risk shipping a stale export that silently disagrees with the
+# records in the same image.
+# `ui/reports` is the staging copy the build reads; stage 1 recreates it from `reports/`.
+
+# ---- generated data: excluded, with ONE exception --------------------------------------
+# The event stream is ~1.1 GB and the fusion component caches are ~216 MB each. Both regenerate from
+# committed configuration and the service never reads either, so they stay out.
+#
+# The model directory holds EIGHT bundles totalling ~628 MB, and the service loads exactly one of them:
+# the issuer view for the issuer-side persona. Shipping the other seven would add half a gigabyte to
+# serve requests nothing makes, because the interface only ever asks for the issuer view.
+#
+# The `.prefusion-g1_only` bundles are excluded twice over, and that is deliberate: they carry the
+# defective fusion weights measured at 0.0842 against 0.3515 for the corrected combiner. An image that
+# could load one would silently serve scores four times worse than everything reported.
+#
+# To serve another deployment position, add its bundle here explicitly. Do not widen this to a glob:
+# `gate-i_*` also matches `gate-i_issuer.prefusion-g1_only`.
+data/**
+!data/models/gate-i_issuer/**
+
+# ---- documentation and logs -------------------------------------------------------------
+*.log
+deploy/
+docs/
+tests/
