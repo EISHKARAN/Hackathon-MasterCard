@@ -657,6 +657,14 @@ down before the detector was written. This is not a modelling control — it is 
 Nobody asks for it, and it is the cheapest available proof that the holdout was not adjusted after
 seeing results.
 
+*A disclosure about where control 1 passes.* Its PASS is recorded in the evidence produced on the
+training host, whose repository carried the fine-grained commit history the check reads. The
+published repository squashes that early development history into a single initial commit, so a
+fresh clone reports control 1 as **SKIPPED-UNVERIFIABLE** rather than PASS — the check refuses to
+assert an ordering it cannot see, which is the correct behaviour. The other five controls verify
+from the published repository unchanged. We state this rather than let a reviewer re-run the suite
+and find a skip where this table says PASS.
+
 Control 5 covers a leak that is easy to miss and easy to make: fitting a quantile edge or a cohort
 baseline on the full timeline leaks distributional information about the test window into a feature
 definition, without any row crossing the split.
