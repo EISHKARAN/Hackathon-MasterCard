@@ -1,0 +1,21 @@
+# Scorer runtime for the Space. Mirrors the repository's core requirements, minus the test and
+# report-rendering tooling the API never imports, plus Gradio for the Space itself.
+#
+# The scorer is CPU-only: no GPU, no near-line extras. Every optional dependency degrades to a
+# recorded, visible skip rather than a crash, so their absence here is safe.
+gradio>=4.44
+
+numpy>=2.0,<3
+scipy>=1.14
+pyarrow>=17.0
+polars>=1.9,<2
+duckdb>=1.1
+lightgbm>=4.5
+scikit-learn>=1.5
+PyYAML>=6.0
+Jinja2>=3.1
+
+fastapi>=0.115
+uvicorn[standard]>=0.32
+websockets>=13.0
+pydantic>=2.9
