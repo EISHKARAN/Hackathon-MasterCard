@@ -84,7 +84,7 @@ def create_app():  # noqa: ANN201
         return {"ok": True, "frozen_model_version": frozen_version()}
 
     # ---- the six screens' data layer -------------------------------------------------
-    @app.get("/api/money")
+    @app.get("/vajra/money")
     def money() -> Any:
         return _report("money.json")
 
