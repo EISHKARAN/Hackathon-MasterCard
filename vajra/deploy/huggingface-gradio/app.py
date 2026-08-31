@@ -54,7 +54,7 @@ SPARSE = [
     "vajra/api", "vajra/archive", "vajra/attack", "vajra/bench", "vajra/config", "vajra/core",
     "vajra/eval", "vajra/features", "vajra/fidelity", "vajra/gate", "vajra/generator_b",
     "vajra/governance", "vajra/grammar", "vajra/loop", "vajra/scripts", "vajra/sim",
-    "vajra/bundles", "vajra/reports",
+    "vajra/bundles", "vajra/reports", "vajra/ui/out",
     "vajra/data/models/gate-i_issuer",
 ]
 

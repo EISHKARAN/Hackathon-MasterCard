@@ -6,7 +6,9 @@ import { report, num, pct } from "@/lib/reports";
 import { ArchScene } from "@/components/ArchScene";
 import { AuthorRunner } from "@/components/AuthorRunner";
 import { Kicker, Kpi, Panel, Pipeline, Why } from "@/components/ui";
-export const dynamic = "force-dynamic";
+// Rendered at BUILD time. The records are committed artefacts of a finished run, not live data,
+// so a snapshot is correct here and lets the whole prototype ship as one service.
+export const dynamic = "force-static";
 
 const STAGES = [
   { t: "compose", d: "six typed slots", tone: "red" as const },

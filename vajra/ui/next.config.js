@@ -1,32 +1,36 @@
 /** @type {import('next').NextConfig} */
 
-// The scorer's base URL. Locally and under compose it is a local service; when deployed it is the
-// hosted scorer. Set NEXT_PUBLIC_API_BASE in the deployment's environment.
-//
-// 127.0.0.1 rather than localhost, deliberately. Node 18+ resolves `localhost` to ::1 first, and the
-// scorer binds IPv4, so `localhost` intermittently produced connection failures that looked like the
-// service being down.
-const API = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8000";
-
 module.exports = {
   reactStrictMode: true,
 
-  async rewrites() {
-    return [{ source: "/api/:path*", destination: `${API}/api/:path*` }];
-  },
+  // A STATIC EXPORT, so the whole prototype is ONE service.
+  //
+  // The interface used to need its own Node server, which meant deploying two things and keeping a
+  // proxy between them pointed at whichever host the other one landed on. Exporting to plain files
+  // removes the second service entirely: the scorer serves these files itself, and there is no Node
+  // process at runtime at all.
+  //
+  // WHAT THIS COSTS. The five evidence screens are rendered at BUILD time rather than per request, so
+  // they are a snapshot of the records as they stood when the build ran. That is the right trade here,
+  // because the records are committed artefacts of a finished pipeline run rather than live data. The
+  // consequence worth remembering: re-running the pipeline means rebuilding the interface, or the
+  // screens keep showing the previous run's numbers.
+  //
+  // WHAT IT DOES NOT COST. Authoring an attack still works. That screen's picker is a client component
+  // calling the scorer at a relative path, and under one service that path is the same origin, so it
+  // needs no proxy and no cross-origin configuration.
+  output: "export",
 
-  experimental: {
-    // CARRIES THE EVIDENCE INTO THE SERVERLESS BUNDLE.
-    //
-    // The screens read their JSON with a path computed at runtime, so Next's static tracing cannot
-    // discover those files: it sees `fs.readFileSync(someVariable)` and has nothing to follow. The
-    // build therefore succeeds, deploys, and then every screen renders its absent-artefact fallback,
-    // which reads as a broken pipeline rather than a missing include.
-    //
-    // This directive is the designed escape hatch. The staged directory is produced by the prebuild
-    // step; the two mechanisms are useless apart.
-    outputFileTracingIncludes: {
-      "/**": ["./reports/**"],
-    },
-  },
+  // Emits `gate/index.html` rather than `gate.html`, which is what lets a plain static file server
+  // resolve `/gate` by looking for a directory index. Without it every screen except the home page
+  // returns 404 once served by something other than Next.
+  trailingSlash: true,
+
+  // NO `rewrites` BLOCK, and no output-tracing block either. Static export supports neither, and
+  // neither is needed any more. The rewrite existed only to bridge two separate services. The tracing
+  // directive existed to carry the evidence records into a serverless bundle; with an export the
+  // records are read at build time and their VALUES are baked into the HTML, so nothing needs to
+  // travel to a runtime that no longer exists.
+  //
+  // The prebuild staging step still matters: it is what puts the records where the build can read them.
 };

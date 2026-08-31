@@ -1,7 +1,9 @@
 /* ARCHIVE — grammar space and quality-diversity coverage. */
 import { report, num, pct } from "@/lib/reports";
 import { Kicker, Kpi, Notice, Tech, Why } from "@/components/ui";
-export const dynamic = "force-dynamic";
+// Rendered at BUILD time. The records are committed artefacts of a finished run, not live data,
+// so a snapshot is correct here and lets the whole prototype ship as one service.
+export const dynamic = "force-static";
 
 export default function Archive() {
   const g: any = report("grammar_census.json");

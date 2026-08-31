@@ -75,3 +75,16 @@ reports/_tmp_*.json
 # Staged by the interface prebuild step from the committed evidence. Generated, never committed:
 # a second copy of the records in history would be pure duplication.
 ui/reports/
+
+# ---- the interface's static export: COMMITTED, deliberately ------------------------------
+# `ui/out` is generated, and generated output normally stays out of history. It is committed here for
+# one reason: it is what lets the whole prototype deploy as a SINGLE service with no Node runtime. The
+# scorer serves these files directly, so a host needs Python and nothing else.
+#
+# The cost is that it must be rebuilt whenever the evidence records change, because the screens are
+# rendered at build time and carry the records' values inside the markup. Rebuild with
+# `cd ui && npm run build`.
+#
+# `ui/reports` stays ignored: it is the staging copy the build reads, and the values it holds are
+# already inside the exported markup.
+!ui/out/

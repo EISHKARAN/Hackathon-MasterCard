@@ -1,7 +1,9 @@
 /* FIDELITY — the invariant gate and what it refuses to emit. */
 import { report, num, pct } from "@/lib/reports";
 import { Kicker, Kpi, Notice, Panel, Tech, Why } from "@/components/ui";
-export const dynamic = "force-dynamic";
+// Rendered at BUILD time. The records are committed artefacts of a finished run, not live data,
+// so a snapshot is correct here and lets the whole prototype ship as one service.
+export const dynamic = "force-static";
 
 export default function Fidelity() {
   const f: any = report("fidelity.json");

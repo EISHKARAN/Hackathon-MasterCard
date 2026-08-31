@@ -1,7 +1,9 @@
 /* GATE OPS — the reportable detection numbers, read from disk. */
 import { report, sig, num, pct } from "@/lib/reports";
 import { Badge, Kicker, Kpi, Notice, Tech, Why } from "@/components/ui";
-export const dynamic = "force-dynamic";
+// Rendered at BUILD time. The records are committed artefacts of a finished run, not live data,
+// so a snapshot is correct here and lets the whole prototype ship as one service.
+export const dynamic = "force-static";
 
 export default function Gate() {
   const m: any = report("metrics_issuer.json");
