@@ -1,0 +1,7 @@
+{
+  "n_features": 319,
+  "n_train": 809571,
+  "raw_mean": 237.48089690664804,
+  "raw_std": 83.65765268509905,
+  "calibrated": true
+}

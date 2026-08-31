@@ -22,20 +22,38 @@ __pycache__/
 # The event stream is ~1.1 GB and the fusion component caches are ~216 MB each. Both regenerate
 # from committed configuration, so they stay out.
 #
-# `data/models/gate-i_issuer/` is the exception. It is the CURRENT PROMOTED bundle, and it is what
-# the live composer scores against — the service resolves the issuer view to exactly this directory.
-# Committing it means the demo works on a fresh clone with no training step and no external
-# download. The other fifteen bundles exist to support the deployment-position ablation, whose
-# results are already in the committed evidence records, so they are regenerable and excluded.
+# The EIGHT CURRENT model bundles are the exception — four deployment positions × two personas.
+# Committing them means the demo scores on a fresh clone with no training step and no external
+# download, and every position the ablation reports can actually be served rather than only cited.
+#
+# TWO GROUPS ARE DELIBERATELY EXCLUDED, and the distinction is not cosmetic:
+#
+#   *  `*.prefusion-g1_only` are PRE-REFIT snapshots. They carry the defective fusion weights — the
+#      configuration measured at 0.0842 against 0.3515 for the corrected one. A service that loaded
+#      one would silently serve scores four times worse than everything we report. They are kept out
+#      so that cannot happen by accident.
+#   *  `models.backup-*` is a backup of a superseded run, and is excluded by the `data/*` rule below
+#      since it sits directly under the data directory.
+#
+# THE BUNDLES ARE LISTED INDIVIDUALLY, NOT GLOBBED, ON PURPOSE. A pattern like `!data/models/gate-i_*`
+# also matches `gate-i_issuer.prefusion-g1_only`, which would pull the defective bundles straight
+# back in. Explicitness is the safety property here — if a new position is added, add a line.
 #
 # NOTE ON THE NEGATION SYNTAX: git cannot re-include a path whose parent directory is excluded, so
-# `data/` is NOT excluded as a directory. Its contents are excluded level by level and the one
-# wanted path is re-included at each level. Changing this to a plain `data/` would silently drop
-# the model bundle.
+# `data/` is NOT excluded as a directory. Its contents are excluded level by level and the wanted
+# paths are re-included at each level. Changing this to a plain `data/` would silently drop every
+# model bundle.
 data/*
 !data/models/
 data/models/*
 !data/models/gate-i_issuer/
+!data/models/gate-i_network/
+!data/models/gate-i_acquirer/
+!data/models/gate-i_payee_psp/
+!data/models/gate-b_issuer/
+!data/models/gate-b_network/
+!data/models/gate-b_acquirer/
+!data/models/gate-b_payee_psp/
 
 # ---- evidence records: COMMITTED ---------------------------------------------------------
 # These were previously ignored. They are now committed, for two reasons. They are the artefacts

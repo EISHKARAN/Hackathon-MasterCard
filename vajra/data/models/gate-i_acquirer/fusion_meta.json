@@ -1,0 +1,25 @@
+{
+  "weights": {
+    "g1": 1.0,
+    "g2_conformal": 0.0,
+    "g2_density": 0.0,
+    "sketch": 0.0,
+    "gate_b": 0.0
+  },
+  "components": [
+    "g1",
+    "g2_conformal",
+    "g2_density",
+    "gate_b",
+    "sketch"
+  ],
+  "use_max_rule": false,
+  "tail_transform": false,
+  "tail_eps": 0.001,
+  "n_fit_rows": 812580,
+  "calibrator": {
+    "fitted": true,
+    "n_fit": 25505,
+    "fit_prevalence": 0.11797686728092531
+  }
+}

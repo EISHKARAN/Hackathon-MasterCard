@@ -1,0 +1,324 @@
+{
+  "fitted_on_scale": "fused_calibrated",
+  "fitted_on_population": "stats/calibration window at operating prevalence (fusion arm=g1_only) (n=812580)",
+  "global_thresholds": {
+    "review": 0.2859491329655539,
+    "friction": 0.11973996479754873,
+    "decline": 0.29171908460228274
+  },
+  "per_rail": {
+    "a2a-credit-transfer": {
+      "review": 0.2859491329655539,
+      "friction": 0.11923025632825557,
+      "decline": 0.29171908460228274
+    },
+    "aeps-microatm": {
+      "review": 0.2859491329655539,
+      "friction": 0.1190453716070296,
+      "decline": 0.29171908460228274
+    },
+    "agentic-commerce": {
+      "review": 0.2859491329655539,
+      "friction": 0.12464892324760045,
+      "decline": 0.29171908460228274
+    },
+    "card-clearing-dispute": {
+      "review": 0.2859491329655539,
+      "friction": 0.15682585236215918,
+      "decline": 0.29171908460228274
+    },
+    "card-cnp-3ds": {
+      "review": 0.2859491329655539,
+      "friction": 0.11619526900235079,
+      "decline": 0.29171908460228274
+    },
+    "card-cnp-keyed": {
+      "review": 0.2859491329655539,
+      "friction": 0.1397809392429995,
+      "decline": 0.29171908460228274
+    },
+    "card-cp-emv": {
+      "review": 0.2859491329655539,
+      "friction": 0.12466033324205339,
+      "decline": 0.29171908460228274
+    },
+    "card-token-provisioning": {
+      "review": 0.2859491329655539,
+      "friction": 0.10153394430868319,
+      "decline": 0.29171908460228274
+    },
+    "upi-autopay-mandate": {
+      "review": 0.2859491329655539,
+      "friction": 0.10108324348887397,
+      "decline": 0.29171908460228274
+    },
+    "upi-collect": {
+      "review": 0.2859491329655539,
+      "friction": 0.11932792210740517,
+      "decline": 0.29171908460228274
+    },
+    "upi-lite-offline": {
+      "review": 0.2859491329655539,
+      "friction": 0.1201520074876923,
+      "decline": 0.29171908460228274
+    },
+    "upi-pay": {
+      "review": 0.2859491329655539,
+      "friction": 0.12334291772867388,
+      "decline": 0.29171908460228274
+    }
+  },
+  "capacity_report": {
+    "realised_share": 0.00794260257451574,
+    "budget_share": 0.007942626202958478,
+    "n": 812580,
+    "n_alerts": 6454,
+    "constraint": "staffed alert budget (config/ops.yaml)",
+    "declined_share_excluded_from_budget": 0.007702626202958478,
+    "target_tail_share": 0.007942626202958478,
+    "realised_review_band_share": 0.00023997637155726204,
+    "realised_review_band_note": "The REVIEW BAND is [t_review, t_decline). The budget is spent on the band, not on the whole tail, because rows at or above t_decline are declined rather than queued."
+  },
+  "friction_report": {
+    "per_rail": {
+      "a2a-credit-transfer": {
+        "realised_share": 0.026677390486763257,
+        "budget_share": 0.026683507595409904,
+        "n": 88277,
+        "n_alerts": 2355,
+        "friction_cap": 0.02,
+        "share_at_or_above_review_excluded_from_cap": 0.006683507595409903,
+        "target_tail_share": 0.026683507595409904,
+        "realised_friction_band_share": 0.019993882891353353,
+        "clamped_to_review": false
+      },
+      "aeps-microatm": {
+        "realised_share": 0.009991097042239588,
+        "budget_share": 0.01,
+        "n": 10109,
+        "n_alerts": 101,
+        "friction_cap": 0.01,
+        "share_at_or_above_review_excluded_from_cap": 0.0,
+        "target_tail_share": 0.01,
+        "realised_friction_band_share": 0.009991097042239588,
+        "clamped_to_review": false
+      },
+      "agentic-commerce": {
+        "realised_share": 0.06229418221734358,
+        "budget_share": 0.06238199780461032,
+        "n": 3644,
+        "n_alerts": 227,
+        "friction_cap": 0.03,
+        "share_at_or_above_review_excluded_from_cap": 0.03238199780461032,
+        "target_tail_share": 0.06238199780461032,
+        "realised_friction_band_share": 0.02991218441273326,
+        "clamped_to_review": false
+      },
+      "card-clearing-dispute": {
+        "realised_share": 0.05763895240708558,
+        "budget_share": 0.05765358699960364,
+        "n": 65598,
+        "n_alerts": 3781,
+        "friction_cap": 0.02,
+        "share_at_or_above_review_excluded_from_cap": 0.037653586999603646,
+        "target_tail_share": 0.05765358699960364,
+        "realised_friction_band_share": 0.019985365407481935,
+        "clamped_to_review": false
+      },
+      "card-cnp-3ds": {
+        "realised_share": 0.06594626290548888,
+        "budget_share": 0.06594751942367699,
+        "n": 47751,
+        "n_alerts": 3149,
+        "friction_cap": 0.06,
+        "share_at_or_above_review_excluded_from_cap": 0.005947519423676991,
+        "target_tail_share": 0.06594751942367699,
+        "realised_friction_band_share": 0.059998743481811896,
+        "clamped_to_review": false
+      },
+      "card-cnp-keyed": {
+        "realised_share": 0.11090420028967515,
+        "budget_share": 0.11094144423753362,
+        "n": 24165,
+        "n_alerts": 2680,
+        "friction_cap": 0.06,
+        "share_at_or_above_review_excluded_from_cap": 0.05094144423753362,
+        "target_tail_share": 0.11094144423753362,
+        "realised_friction_band_share": 0.059962756052141526,
+        "clamped_to_review": false
+      },
+      "card-cp-emv": {
+        "realised_share": 0.01577295749834838,
+        "budget_share": 0.015780665051750714,
+        "n": 36328,
+        "n_alerts": 573,
+        "friction_cap": 0.01,
+        "share_at_or_above_review_excluded_from_cap": 0.005780665051750716,
+        "target_tail_share": 0.015780665051750714,
+        "realised_friction_band_share": 0.009992292446597665,
+        "clamped_to_review": false
+      },
+      "card-token-provisioning": {
+        "realised_share": 0.06199329046687168,
+        "budget_share": 0.06201565557729941,
+        "n": 14308,
+        "n_alerts": 887,
+        "friction_cap": 0.04,
+        "share_at_or_above_review_excluded_from_cap": 0.02201565557729941,
+        "target_tail_share": 0.06201565557729941,
+        "realised_friction_band_share": 0.03997763488957227,
+        "clamped_to_review": false
+      },
+      "upi-autopay-mandate": {
+        "realised_share": 0.012675659084498863,
+        "budget_share": 0.012679475055165663,
+        "n": 120546,
+        "n_alerts": 1528,
+        "friction_cap": 0.01,
+        "share_at_or_above_review_excluded_from_cap": 0.002679475055165663,
+        "target_tail_share": 0.012679475055165663,
+        "realised_friction_band_share": 0.0099961840293332,
+        "clamped_to_review": false
+      },
+      "upi-collect": {
+        "realised_share": 0.017012363339123326,
+        "budget_share": 0.017026497735090768,
+        "n": 58722,
+        "n_alerts": 999,
+        "friction_cap": 0.015,
+        "share_at_or_above_review_excluded_from_cap": 0.002026497735090767,
+        "target_tail_share": 0.017026497735090768,
+        "realised_friction_band_share": 0.01498586560403256,
+        "clamped_to_review": false
+      },
+      "upi-lite-offline": {
+        "realised_share": 0.003983773410741614,
+        "budget_share": 0.004,
+        "n": 41167,
+        "n_alerts": 164,
+        "friction_cap": 0.004,
+        "share_at_or_above_review_excluded_from_cap": 0.0,
+        "target_tail_share": 0.004,
+        "realised_friction_band_share": 0.003983773410741614,
+        "clamped_to_review": false
+      },
+      "upi-pay": {
+        "realised_share": 0.010627059427417086,
+        "budget_share": 0.010629443809713045,
+        "n": 301965,
+        "n_alerts": 3209,
+        "friction_cap": 0.008,
+        "share_at_or_above_review_excluded_from_cap": 0.002629443809713046,
+        "target_tail_share": 0.010629443809713045,
+        "realised_friction_band_share": 0.007997615617704039,
+        "clamped_to_review": false
+      }
+    },
+    "provisional_pass": {
+      "a2a-credit-transfer": {
+        "realised_share": 0.019993882891353353,
+        "budget_share": 0.02,
+        "n": 88277,
+        "n_alerts": 1765,
+        "friction_cap": 0.02
+      },
+      "aeps-microatm": {
+        "realised_share": 0.009991097042239588,
+        "budget_share": 0.01,
+        "n": 10109,
+        "n_alerts": 101,
+        "friction_cap": 0.01
+      },
+      "agentic-commerce": {
+        "realised_share": 0.02991218441273326,
+        "budget_share": 0.03,
+        "n": 3644,
+        "n_alerts": 109,
+        "friction_cap": 0.03
+      },
+      "card-clearing-dispute": {
+        "realised_share": 0.019985365407481935,
+        "budget_share": 0.02,
+        "n": 65598,
+        "n_alerts": 1311,
+        "friction_cap": 0.02
+      },
+      "card-cnp-3ds": {
+        "realised_share": 0.059998743481811896,
+        "budget_share": 0.06,
+        "n": 47751,
+        "n_alerts": 2865,
+        "friction_cap": 0.06
+      },
+      "card-cnp-keyed": {
+        "realised_share": 0.059962756052141526,
+        "budget_share": 0.06,
+        "n": 24165,
+        "n_alerts": 1449,
+        "friction_cap": 0.06
+      },
+      "card-cp-emv": {
+        "realised_share": 0.009992292446597665,
+        "budget_share": 0.01,
+        "n": 36328,
+        "n_alerts": 363,
+        "friction_cap": 0.01
+      },
+      "card-token-provisioning": {
+        "realised_share": 0.03997763488957227,
+        "budget_share": 0.04,
+        "n": 14308,
+        "n_alerts": 572,
+        "friction_cap": 0.04
+      },
+      "upi-autopay-mandate": {
+        "realised_share": 0.0099961840293332,
+        "budget_share": 0.01,
+        "n": 120546,
+        "n_alerts": 1205,
+        "friction_cap": 0.01
+      },
+      "upi-collect": {
+        "realised_share": 0.01498586560403256,
+        "budget_share": 0.015,
+        "n": 58722,
+        "n_alerts": 880,
+        "friction_cap": 0.015
+      },
+      "upi-lite-offline": {
+        "realised_share": 0.003983773410741614,
+        "budget_share": 0.004,
+        "n": 41167,
+        "n_alerts": 164,
+        "friction_cap": 0.004
+      },
+      "upi-pay": {
+        "realised_share": 0.007997615617704039,
+        "budget_share": 0.008,
+        "n": 301965,
+        "n_alerts": 2415,
+        "friction_cap": 0.008
+      }
+    },
+    "constraint": "per-rail friction cap spent on the BAND [t_friction, t_review), not on the whole rail tail, then clamped to t_review so the cap can never escalate a rail"
+  },
+  "decline_report": {
+    "constraint": "total cost minimisation subject to t_decline >= t_friction",
+    "chosen_threshold": 0.29171908460228274,
+    "total_cost_at_choice": 7902263.0664697,
+    "n_candidates": 40,
+    "cost_terms": "chargeback loss + handling + interchange forgone + friction abandonment + review cost + THE LIFETIME COST OF A FALSE DECLINE, which is the term most models omit and the term an issuer cares about most."
+  },
+  "band_pinning": {
+    "friction": "per-rail friction cap (BROADEST band, lowest threshold)",
+    "review": "staffed alert budget, spent on the band [t_review, t_decline)",
+    "decline": "cost minimisation, floored at friction (narrowest, highest)",
+    "ordering": "t_friction <= t_review <= t_decline, enforced",
+    "why": "Each band is pinned by the constraint that governs it. Deriving all three from one quantile collapses them into a single threshold and empties the three-band decomposition the metrics table requires."
+  },
+  "band_distinctness": {
+    "any_collapsed": false,
+    "collapsed": [],
+    "note": "A collapsed band empties part of the three-band decomposition. Reported rather than silently tolerated."
+  }
+}
