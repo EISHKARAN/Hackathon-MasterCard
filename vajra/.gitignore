@@ -71,3 +71,7 @@ reports/_tmp_*.json
 # attack/cache/  the composed-attack cache, part of the reproducible run
 # grammar/ config/ docs/  the specification the whole system is generated from
 !bundles/
+
+# Staged by the interface prebuild step from the committed evidence. Generated, never committed:
+# a second copy of the records in history would be pure duplication.
+ui/reports/

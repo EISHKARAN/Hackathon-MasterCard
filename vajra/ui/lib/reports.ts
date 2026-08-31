@@ -10,7 +10,29 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const ROOT = path.resolve(process.cwd(), "..");
+/**
+ * WHERE THE EVIDENCE LIVES, in priority order.
+ *
+ *   1.  `<cwd>/reports`      a copy made INSIDE the deployed tree by the prebuild step. This is the
+ *                            only candidate that survives serverless bundling, where the repository
+ *                            root is not on the filesystem at request time.
+ *   2.  `$VAJRA_ROOT/...`    an explicit override, for containers that mount the evidence somewhere
+ *                            of their own choosing rather than beside the interface.
+ *   3.  `<cwd>/../...`       the repository layout, which is what a local checkout and `make demo`
+ *                            both have.
+ *
+ * Candidate 1 exists because of a specific failure: the deployed interface is built with the
+ * interface directory as its root, so `..` is the container root and holds no evidence at all. The
+ * screens would then render their absent-artefact fallback on every page, which looks like a broken
+ * pipeline rather than a misconfigured path.
+ */
+const ENV_ROOT = process.env.VAJRA_ROOT;
+const SEARCH_ROOTS = [
+  path.join(process.cwd(), "reports"),
+  ...(ENV_ROOT ? [path.join(ENV_ROOT, "reports"), path.join(ENV_ROOT, "bundles", "replay")] : []),
+  path.resolve(process.cwd(), "..", "reports"),
+  path.resolve(process.cwd(), "..", "bundles", "replay"),
+];
 
 /**
  * Python's json module emits bare NaN / Infinity, which are NOT valid JSON and which JSON.parse
@@ -25,7 +47,8 @@ function sanitise(s: string): string {
 }
 
 export function report<T = any>(name: string): T | null {
-  for (const p of [path.join(ROOT, "reports", name), path.join(ROOT, "bundles", "replay", name)]) {
+  for (const dir of SEARCH_ROOTS) {
+    const p = path.join(dir, name);
     try {
       if (fs.existsSync(p)) return JSON.parse(sanitise(fs.readFileSync(p, "utf8"))) as T;
     } catch { /* fall through to the next candidate */ }
@@ -37,9 +60,10 @@ export function report<T = any>(name: string): T | null {
 export function inventory(): Array<{ name: string; ok: boolean; bytes: number }> {
   return ["money.json", "metrics_issuer.json", "loop_report.json", "archive_report.json",
           "fidelity.json", "grammar_census.json", "train_report_issuer.json"].map((n) => {
-    const p = path.join(ROOT, "reports", n);
     let bytes = 0, ok = false;
-    try { const s = fs.statSync(p); bytes = s.size; ok = true; } catch { /* absent */ }
+    for (const dir of SEARCH_ROOTS) {
+      try { bytes = fs.statSync(path.join(dir, n)).size; ok = true; break; } catch { /* next */ }
+    }
     return { name: n.replace(".json", ""), ok, bytes };
   });
 }
